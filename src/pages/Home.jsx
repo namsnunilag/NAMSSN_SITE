@@ -5,10 +5,10 @@ import { ChevronLeft, ChevronRight, ArrowRight, Trophy, Users, BookOpen, Star } 
 // ── Hero slideshow images ───────────────────────────────────────────────────
 // Drop your images in public/images/hero/ and list them here
 const SLIDES = [
-  { src: '/images/hero/excos.jpg',  caption: 'NAMSSN UNILAG Executives 2024/2025' },
-  { src: '/images/hero/ind.jpg',    caption: 'Independence Day Celebration' },
-  { src: '/images/hero/HOD.jpg',    caption: 'With Our Head of Department' },
-  { src: '/images/hero/deans.jpg',  caption: "Dean's Games 2024" },
+  { src: '/images/events/exco.jpg',  caption: 'NAMSSN UNILAG Executives 2024/2025' },
+  { src: '/images/events/ind.jpg',   caption: 'INAUGURATION TO OFFICE' },
+  { src: '/images/events/HOD.jpg',   caption: 'HOD GAMES' },
+  { src: '/images/events/deans.jpg', caption: "Dean's Games 2025" },
 ]
 
 // ── Floating math symbols ───────────────────────────────────────────────────
@@ -132,7 +132,7 @@ export default function Home() {
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
           {/* Logo */}
           <img
-            src="/images/logo.png"
+            src="/logo.png"
             alt="NAMSSN Logo"
             className="w-24 h-24 object-contain mb-5 drop-shadow-2xl"
             onError={e => { e.currentTarget.style.display = 'none' }}

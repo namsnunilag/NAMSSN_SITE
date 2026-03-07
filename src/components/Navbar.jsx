@@ -37,7 +37,7 @@ export default function Navbar() {
           <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
             {!logoFailed ? (
               <img
-                src="/images/logo.png"
+                src="/logo.png"
                 alt="NAMSSN logo"
                 className="h-10 w-10 object-contain rounded-full"
                 onError={() => setLogoFailed(true)}

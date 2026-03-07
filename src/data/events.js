@@ -10,7 +10,7 @@ export const upcomingEvents = [
     time: '9:00 AM',
     location: 'Faculty of Science Auditorium, UNILAG',
     category: 'Competition',
-    image: '/images/events/decagon.jpg',
+    image: '/images/events/dec.jpg',
     shortDescription: 'Annual inter-departmental mathematics competition open to all science students.',
     fullDescription: `DECAGON is NAMSSN UNILAG's flagship annual mathematics competition. It brings together the brightest mathematical minds from across the university to compete in a series of challenging problems covering algebra, calculus, statistics, and mathematical reasoning. The competition promotes academic excellence and friendly rivalry among departments.`,
     highlights: [
@@ -30,7 +30,7 @@ export const upcomingEvents = [
     time: '10:00 AM',
     location: 'UNILAG Sports Complex',
     category: 'Sports',
-    image: '/images/events/deans-games.jpg',
+    image: '/images/events/deans.jpg',
     shortDescription: 'Inter-departmental sports competition fostering unity and healthy competition.',
     fullDescription: `The Dean's Games is an annual sporting event organized by the Faculty of Physical and Earth Sciences. NAMSSN UNILAG participates and competes in a range of sporting activities including football, basketball, table tennis, and track events. It's a time for bonding, fun, and displaying our competitive spirit beyond academics.`,
     highlights: [
@@ -50,7 +50,7 @@ export const upcomingEvents = [
     time: '11:00 AM',
     location: 'Mathematics Department Seminar Room',
     category: 'Academic',
-    image: '/images/events/symposium.jpg',
+    image: '/images/events/SYM.jpg',
     shortDescription: 'Student research presentations and guest lectures from industry professionals.',
     fullDescription: `The Annual Symposium provides a platform for students to present their research projects and hear from distinguished alumni and industry professionals working in mathematics, data science, finance, and related fields. This is an invaluable networking and learning opportunity for all mathematical sciences students.`,
     highlights: [
@@ -73,7 +73,7 @@ export const pastEvents = [
     time: '9:00 AM',
     location: 'UNILAG Sports Complex',
     category: 'Sports',
-    image: '/images/events/hod-games.jpg',
+    image: '/images/events/HOD.jpg',
     shortDescription: 'Annual HOD sports competition bringing together students and staff.',
     fullDescription: `The HOD Games 2024 was a fantastic event that brought together students and staff of the Mathematics Department for a day of friendly sporting competition. Events included football, volleyball, and relay races.`,
     highlights: [
@@ -92,7 +92,7 @@ export const pastEvents = [
     time: '10:00 AM',
     location: 'Mathematics Department, UNILAG',
     category: 'Orientation',
-    image: '/images/events/orientation.jpg',
+    image: '/images/events/fo.jpg',
     shortDescription: 'Welcome event for new mathematical sciences students.',
     fullDescription: `The Freshers Orientation 2024 welcomed new students to the Department of Mathematics and to NAMSSN UNILAG. Students learned about department resources, NAMSSN activities, and got to meet their senior colleagues and executives.`,
     highlights: [
@@ -112,7 +112,7 @@ export const pastEvents = [
     time: '1:00 PM',
     location: 'Computer Science Lab, UNILAG',
     category: 'Workshop',
-    image: '/images/events/datamatics.jpg',
+    image: '/images/events/tem.png',
     shortDescription: 'Hands-on data analysis and Python programming workshop.',
     fullDescription: `DataMatics was a full-day hands-on workshop introducing students to data analysis using Python and Excel. Participants learned data cleaning, visualization, and basic statistical analysis with real-world datasets.`,
     highlights: [
