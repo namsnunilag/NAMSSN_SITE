@@ -4,16 +4,10 @@ import { useState } from 'react'
 // Update names, titles, images as needed
 const patrons = [
   {
-    name: 'Dr. Patience A. Adetunji',
-    role: 'Course Adviser',
-    image: '/images/executives/course-adviser.jpg',
-    initials: 'PA',
-  },
-  {
-    name: 'Professor Abiala',  // ← update with full name
-    role: 'Head of Department',
-    image: '/images/executives/hod.jpg',
-    initials: 'HOD',
+    name: 'Professor Folasade Ogunsola',
+    role: 'Vice Chancellor, University of Lagos',
+    image: '/images/executives/vc.jpg',
+    initials: 'FO',
   },
   {
     name: 'Professor Olayinka Taiwo Asekun',
@@ -22,28 +16,34 @@ const patrons = [
     initials: 'OA',
   },
   {
-    name: 'Professor Folasade Ogunsola',
-    role: 'Vice Chancellor, University of Lagos',
-    image: '/images/executives/vc.jpg',
-    initials: 'FO',
+    name: 'Professor Abiala',
+    role: 'Head of Department',
+    image: '/images/executives/hod.jpg',
+    initials: 'HOD',
+  },
+  {
+    name: 'Dr. Patience A. Adetunji',
+    role: 'Staff Adviser',
+    image: '/images/executives/course-adviser.jpg',
+    initials: 'PA',
   },
 ]
 
 // ── Student Executives ───────────────────────────────────────────────────────
 // Update names and image filenames as needed
 const executives = [
-  { name: 'Oludare Samuel Oladapo',  role: 'President',                  image: '/images/executives/president.jpg',  initials: 'OO' },
-  { name: 'Add Name Here',           role: 'Vice President',             image: '/images/executives/vp.jpg',          initials: 'VP' },
-  { name: 'Add Name Here',           role: 'General Secretary',          image: '/images/executives/gs.jpg',          initials: 'GS' },
-  { name: 'Damilola Gold Akesinro',  role: 'Asst. General Secretary',   image: '/images/executives/ags.jpg',          initials: 'AG' },
-  { name: 'Add Name Here',           role: 'Public Relations Officer',   image: '/images/executives/pro.jpg',          initials: 'PR' },
-  { name: 'Add Name Here',           role: 'Financial Secretary',        image: '/images/executives/fin.jpg',          initials: 'FS' },
-  { name: 'Add Name Here',           role: 'Treasurer',                  image: '/images/executives/treasurer.jpg',    initials: 'TR' },
-  { name: 'Add Name Here',           role: 'Social Director',            image: '/images/executives/social.jpg',       initials: 'SD' },
-  { name: 'Add Name Here',           role: 'Welfare Director',           image: '/images/executives/welfare.jpg',      initials: 'WD' },
-  { name: 'Add Name Here',           role: 'Sports Director',            image: '/images/executives/sport.jpg',        initials: 'SP' },
-  { name: 'Add Name Here',           role: 'Academic Director',          image: '/images/executives/academic.jpg',     initials: 'AD' },
-  { name: 'Add Name Here',           role: 'Library Rep',                image: '/images/executives/library.jpg',      initials: 'LR' },
+  { name: 'Oludare Samuel Oladapo',          role: 'President',                image: '/images/executives/president.jpg',  initials: 'OO' },
+  { name: 'Amure McDonald Oluwatunmibewo',   role: 'Vice President',           image: '/images/executives/vp.jpg',          initials: 'AM' },
+  { name: 'Chukwuma Miran-Ambrose',          role: 'General Secretary',        image: '/images/executives/gs.jpg',          initials: 'CM' },
+  { name: 'Akesinro Damilola Gold',          role: 'Asst. General Secretary',  image: '/images/executives/ags.jpg',          initials: 'AG' },
+  { name: 'Olowolayemo Temiloluwa Mercy',    role: 'Public Relations Officer', image: '/images/executives/pro.jpg',          initials: 'OT' },
+  { name: 'Adesanya Racheal Teniola',        role: 'Financial Secretary',      image: '/images/executives/fin.jpg',          initials: 'AR' },
+  { name: 'Oguntuga Demilade Gabriel',       role: 'Treasurer',                image: '/images/executives/treasurer.jpg',    initials: 'OD' },
+  { name: 'Salami Malik Demola',             role: 'Social Secretary',         image: '/images/executives/social.jpg',       initials: 'SM' },
+  { name: 'Azeezat Abdulazeez Temitope',    role: 'Welfare Director',         image: '/images/executives/welfare.jpg',      initials: 'AA' },
+  { name: 'George Ademola Samuel',           role: 'Sports Secretary',         image: '/images/executives/sport.jpg',        initials: 'GA' },
+  { name: 'Adebisi Oluwaseye Christopher',   role: 'Director of Studies',      image: '/images/executives/academic.jpg',     initials: 'AO' },
+  { name: 'Aderibigbe Michael Oloruntomiwa', role: 'Librarian',                image: '/images/executives/library.jpg',      initials: 'AM' },
 ]
 
 function PatronCard({ patron }) {

@@ -143,7 +143,8 @@ export default function Home() {
           </p>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4">
-            <span className="bg-gradient-to-r from-white via-brand-blueLight to-brand-yellow bg-clip-text text-transparent">
+            Welcome to{' '}
+            <span className="bg-gradient-to-r from-brand-yellow via-brand-orange to-brand-yellow bg-clip-text text-transparent">
               NAMSSN
             </span>
             <br />
@@ -152,21 +153,21 @@ export default function Home() {
 
           <p className="text-gray-200 text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
             National Association of Mathematical Sciences Students of Nigerian Universities —
-            empowering the next generation of mathematical minds.
+            empowering the next generation of mathematical minds at the University of Lagos.
           </p>
 
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/events"
+              to="/about"
               className="bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white font-bold px-7 py-3 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
-              Upcoming Events
+              Learn More
             </Link>
             <Link
-              to="/about"
+              to="/events"
               className="border-2 border-white text-white hover:bg-white hover:text-brand-blueDark font-bold px-7 py-3 rounded-full transition-all duration-200"
             >
-              Learn More
+              See Events
             </Link>
           </div>
 
@@ -254,30 +255,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── DECAGON SPOTLIGHT ─────────────────────────────────────────────── */}
+      {/* ── ABOUT US ──────────────────────────────────────────────────────── */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="bg-gradient-to-br from-brand-blueDark to-brand-blue rounded-3xl overflow-hidden">
-            <div className="flex flex-col md:flex-row items-center gap-8 p-8 md:p-12">
-              <div className="flex-1 text-white">
-                <span className="inline-block bg-brand-orange text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
-                  Flagship Event
-                </span>
-                <h2 className="text-3xl md:text-4xl font-black mb-4">DECAGON 2025</h2>
-                <p className="text-blue-100 leading-relaxed mb-6">
-                  The biggest mathematics competition on campus. Test your skills, win prizes,
-                  and represent your department with pride.
-                </p>
-                <Link
-                  to="/events/1"
-                  className="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white font-bold px-6 py-3 rounded-full transition-all duration-200"
-                >
-                  Register Now <ArrowRight size={16} />
-                </Link>
-              </div>
-              <div className="text-white/10 text-[10rem] font-black select-none leading-none hidden md:block">
-                ∑
-              </div>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="h-72 md:h-[400px] rounded-2xl overflow-hidden shadow-xl bg-brand-blue/10">
+              <img
+                src="/images/events/exco.jpg"
+                alt="NAMSSN UNILAG"
+                className="w-full h-full object-cover"
+                onError={e => { e.currentTarget.style.display = 'none' }}
+              />
+            </div>
+            <div>
+              <span className="inline-block bg-brand-orange/10 text-brand-orange text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+                About Us
+              </span>
+              <h2 className="text-3xl font-bold text-brand-blueDark mb-4">Who We Are</h2>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                NAMSSN (National Association of Mathematical Sciences Students of Nigerian Universities)
+                UNILAG Chapter is the student body representing all mathematical sciences students at the
+                University of Lagos, affiliated with the national NAMSSN body across Nigeria.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                From our flagship DECAGON competition to social events and workshops, we are dedicated
+                to building the next generation of mathematical leaders who will make an impact in
+                Nigeria and beyond.
+              </p>
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 bg-brand-blueDark hover:bg-brand-blue text-white font-bold px-6 py-3 rounded-full transition-all duration-200"
+              >
+                Read More <ArrowRight size={16} />
+              </Link>
             </div>
           </div>
         </div>
