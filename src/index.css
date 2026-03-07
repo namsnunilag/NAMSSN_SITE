@@ -27,6 +27,7 @@
 .math-symbol {
   animation: floatUp var(--dur, 12s) linear infinite, drift var(--drift, 8s) ease-in-out infinite;
   animation-delay: var(--delay, 0s);
+  animation-fill-mode: backwards;
 }
 
 /* ── Hero sine wave ────────────────────────────────────────── */
