@@ -5,8 +5,8 @@ import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react'
 // Add your photos to public/images/gallery/ and list them here
 const photos = [
   { src: '/images/gallery/exco.jpg',  caption: 'NAMSSN UNILAG Executives 2024/2025', category: 'Executives' },
-  { src: '/images/gallery/pres.jpg',  caption: 'President Address',                  category: 'Executives' },
-  { src: '/images/gallery/ind.jpg',   caption: 'Independence Day Celebration',        category: 'Events'     },
+  { src: '/images/gallery/pres.jpg',  caption: 'President',                  category: 'Executives' },
+  { src: '/images/gallery/ind.jpg',   caption: 'Induction Ceremony',        category: 'Events'     },
   // Add more photos here:
   // { src: '/images/gallery/your-photo.jpg', caption: 'Caption', category: 'Events' },
 ]

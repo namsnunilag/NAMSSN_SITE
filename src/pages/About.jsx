@@ -12,7 +12,7 @@ function AboutImage() {
   }
   return (
     <img
-      src="/images/events/exco.jpg"
+      src="/images/events/excos.jpg"
       alt="NAMSSN UNILAG Executive team"
       className="w-full h-full object-cover rounded-2xl shadow-xl"
       onError={() => setFailed(true)}
@@ -78,11 +78,6 @@ export default function About() {
               academic growth, professional networking, and a sense of community. Through our
               events, competitions, and welfare initiatives, we strive to create an environment
               where every student can thrive.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              From our flagship DECAGON competition to our social events and workshops, NAMSSN
-              UNILAG is dedicated to building the next generation of mathematical leaders who will
-              make an impact in Nigeria and globally.
             </p>
           </div>
         </div>

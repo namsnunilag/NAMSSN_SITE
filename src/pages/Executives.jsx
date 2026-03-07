@@ -17,14 +17,14 @@ const patrons = [
   },
   {
     name: 'Professor Abiala',
-    role: 'Head of Department',
-    image: '/images/executives/hod.jpg',
+    role: 'Head of Department, Matheamatics',
+    image: '/images/executives/hd.jpg',
     initials: 'HOD',
   },
   {
     name: 'Dr. Patience A. Adetunji',
-    role: 'Staff Adviser',
-    image: '/images/executives/course-adviser.jpg',
+    role: 'Staff Adviser, Department of Mathematics',
+    image: '/images/executives/ca.jpg',
     initials: 'PA',
   },
 ]

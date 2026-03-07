@@ -40,7 +40,7 @@ export const upcomingEvents = [
       'Social networking opportunity',
     ],
     registrationStatus: 'coming-soon',
-    registrationDate: 'March 25, 2025',
+    registrationDate: null,
     registrationLink: null,
   },
   {
@@ -60,7 +60,7 @@ export const upcomingEvents = [
       'Q&A sessions with professionals',
     ],
     registrationStatus: 'coming-soon',
-    registrationDate: 'May 1, 2025',
+    registrationDate: null,
     registrationLink: null,
   },
 ]
