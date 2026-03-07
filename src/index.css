@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white text-gray-800 font-sans;
+  }
+}
+
+/* ── Floating math symbols ─────────────────────────────────── */
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+  10%  { opacity: 0.25; }
+  90%  { opacity: 0.15; }
+  100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes drift {
+  0%, 100% { margin-left: 0; }
+  50%       { margin-left: 40px; }
+}
+
+.math-symbol {
+  animation: floatUp var(--dur, 12s) linear infinite, drift var(--drift, 8s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ── Hero sine wave ────────────────────────────────────────── */
+@keyframes sineWave {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.hero-sine {
+  animation: sineWave 6s linear infinite;
+}
+
+/* ── Progress bar ──────────────────────────────────────────── */
+@keyframes progressBar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
