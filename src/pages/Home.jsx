@@ -253,7 +253,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="h-72 md:h-[400px] rounded-2xl overflow-hidden shadow-xl bg-brand-blue/10">
               <img
-                src="/images/events/exco.jpg"
+                src="/images/events/excos.jpg"
                 alt="NAMSSN UNILAG"
                 className="w-full h-full object-cover"
                 onError={e => { e.currentTarget.style.display = 'none' }}
