@@ -4,11 +4,22 @@ import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react'
 // ── Gallery photos ────────────────────────────────────────────────────────
 // Add your photos to public/images/gallery/ and list them here
 const photos = [
-  { src: '/images/gallery/exco.jpg',  caption: 'NAMSSN UNILAG Executives 2024/2025', category: 'Executives' },
-  { src: '/images/gallery/pres.jpg',  caption: 'President',                  category: 'Executives' },
-  { src: '/images/gallery/ind.jpg',   caption: 'Induction Ceremony',        category: 'Events'     },
-  // Add more photos here:
-  // { src: '/images/gallery/your-photo.jpg', caption: 'Caption', category: 'Events' },
+  { src: '/images/gallery/exco.jpg',      caption: 'Executives',            category: 'Executives' },
+  { src: '/images/gallery/excos.jpg',     caption: 'Executives',            category: 'Executives' },
+  { src: '/images/gallery/pres.jpg',      caption: 'President',             category: 'Executives' },
+  { src: '/images/gallery/HOD.jpg',       caption: 'HOD Games',             category: 'Events'     },
+  { src: '/images/gallery/deans.jpg',     caption: "Dean's Games",          category: 'Events'     },
+  { src: '/images/gallery/dec.jpg',       caption: 'DECAGON',               category: 'Events'     },
+  { src: '/images/gallery/SYM.jpg',       caption: 'Symposium',             category: 'Events'     },
+  { src: '/images/gallery/ind.jpg',       caption: 'Independence Day',      category: 'Events'     },
+  { src: '/images/gallery/signout.jpg',   caption: 'Sign Out',              category: 'Events'     },
+  { src: '/images/gallery/synergist.jpg', caption: 'Synergist',             category: 'Events'     },
+  { src: '/images/gallery/lasu.jpg',      caption: 'LASU',                  category: 'Events'     },
+  { src: '/images/gallery/all.jpg',       caption: 'Group Photo',           category: 'Events'     },
+  { src: '/images/gallery/crowd.jpg',     caption: 'Event',                 category: 'Events'     },
+  { src: '/images/gallery/fo.jpg',        caption: 'Event',                 category: 'Events'     },
+  { src: '/images/gallery/WID.png',       caption: 'Event',                 category: 'Events'     },
+  { src: '/images/gallery/tem.png',       caption: 'Event',                 category: 'Events'     },
 ]
 
 const CATEGORIES = ['All', ...Array.from(new Set(photos.map(p => p.category)))]
@@ -42,10 +53,6 @@ function GalleryTile({ photo, onClick }) {
         </div>
       )}
 
-      {/* Caption */}
-      <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-200">
-        <p className="text-white text-xs font-medium line-clamp-2">{photo.caption}</p>
-      </div>
     </button>
   )
 }
@@ -92,7 +99,6 @@ function Lightbox({ photo, onClose, onPrev, onNext }) {
             ∑
           </div>
         )}
-        <p className="text-white/80 text-sm text-center mt-3">{photo.caption}</p>
       </div>
 
       <button

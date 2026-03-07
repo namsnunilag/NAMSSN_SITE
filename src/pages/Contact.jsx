@@ -17,8 +17,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'namssn.unilag@gmail.com', // ← replace with your actual email
-    href: 'mailto:namssn.unilag@gmail.com',
+    value: 'namsnunilag9@gmail.com',
+    href: 'mailto:namsnunilag9@gmail.com',
   },
   {
     icon: Phone,
