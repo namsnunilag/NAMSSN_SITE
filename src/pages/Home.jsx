@@ -5,10 +5,10 @@ import { ChevronLeft, ChevronRight, ArrowRight, Trophy, Users, BookOpen, Star } 
 // ── Hero slideshow images ───────────────────────────────────────────────────
 // Drop your images in public/images/hero/ and list them here
 const SLIDES = [
-  { src: '/images/events/exco.jpg',  caption: 'NAMSSN UNILAG Executives 2024/2025' },
-  { src: '/images/events/ind.jpg',   caption: 'INAUGURATION TO OFFICE' },
-  { src: '/images/events/HOD.jpg',   caption: 'HOD GAMES' },
-  { src: '/images/events/deans.jpg', caption: "Dean's Games 2025" },
+  { src: '/images/hero/exco.jpg',  caption: 'NAMSSN UNILAG Executives 2024/2025' },
+  { src: '/images/hero/ind.jpg',   caption: 'INAUGURATION TO OFFICE' },
+  { src: '/images/hero/HOD.jpg',   caption: 'HOD GAMES' },
+  { src: '/images/hero/deans.jpg', caption: "Dean's Games 2025" },
 ]
 
 // ── Floating math symbols ───────────────────────────────────────────────────
