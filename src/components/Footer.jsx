@@ -2,12 +2,20 @@ import { Link } from 'react-router-dom'
 import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react'
 
 const navLinks = [
-  { to: '/',           label: 'Home' },
-  { to: '/about',      label: 'About' },
-  { to: '/events',     label: 'Events' },
-  { to: '/executives', label: 'Executives' },
-  { to: '/gallery',    label: 'Gallery' },
-  { to: '/contact',    label: 'Contact' },
+  { to: '/',            label: 'Home' },
+  { to: '/about',       label: 'About' },
+  { to: '/events',      label: 'Events' },
+  { to: '/executives',  label: 'Executives' },
+  { to: '/gallery',     label: 'Gallery' },
+  { to: '/contact',     label: 'Contact' },
+]
+
+const exploreLinks = [
+  { to: '/newsletter',  label: 'Newsletter' },
+  { to: '/academics',   label: 'Academics' },
+  { to: '/resources',   label: 'Student Resources' },
+  { to: '/community',   label: 'Community' },
+  { to: '/merchandise', label: 'Merchandise' },
 ]
 
 const socials = [
@@ -20,7 +28,7 @@ export default function Footer() {
   return (
     <footer className="bg-brand-blueDark text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
 
           {/* Brand */}
           <div>
@@ -50,6 +58,20 @@ export default function Footer() {
             <h4 className="font-semibold text-sm uppercase tracking-wider text-brand-blueLight mb-3">Quick Links</h4>
             <ul className="space-y-2">
               {navLinks.map(({ to, label }) => (
+                <li key={to}>
+                  <Link to={to} className="text-gray-300 hover:text-brand-orange text-sm transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Explore */}
+          <div>
+            <h4 className="font-semibold text-sm uppercase tracking-wider text-brand-blueLight mb-3">Explore</h4>
+            <ul className="space-y-2">
+              {exploreLinks.map(({ to, label }) => (
                 <li key={to}>
                   <Link to={to} className="text-gray-300 hover:text-brand-orange text-sm transition-colors">
                     {label}

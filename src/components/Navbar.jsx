@@ -3,11 +3,11 @@ import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { Menu, X, ChevronDown } from 'lucide-react'
 
 const links = [
-  { to: '/',           label: 'Home' },
-  { to: '/about',      label: 'About' },
-  { to: '/events',     label: 'Events' },
-  { to: '/gallery',    label: 'Gallery' },
-  { to: '/contact',    label: 'Contact' },
+  { to: '/',        label: 'Home' },
+  { to: '/about',   label: 'About' },
+  { to: '/events',  label: 'Events' },
+  { to: '/gallery', label: 'Gallery' },
+  { to: '/contact', label: 'Contact' },
 ]
 
 const execDropdown = [
@@ -16,13 +16,23 @@ const execDropdown = [
   { tab: 'executives', label: 'Student Executives' },
 ]
 
+const exploreDropdown = [
+  { to: '/newsletter',  label: 'Newsletter' },
+  { to: '/academics',   label: 'Academics' },
+  { to: '/resources',   label: 'Student Resources' },
+  { to: '/community',   label: 'Community' },
+  { to: '/merchandise', label: 'Merchandise' },
+]
+
 export default function Navbar() {
-  const [open, setOpen]           = useState(false)
-  const [scrolled, setScrolled]   = useState(false)
+  const [open, setOpen]             = useState(false)
+  const [scrolled, setScrolled]     = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
-  const [dropOpen, setDropOpen]   = useState(false)
-  const dropRef                   = useRef(null)
-  const navigate                  = useNavigate()
+  const [dropOpen, setDropOpen]     = useState(false)
+  const [exploreOpen, setExploreOpen] = useState(false)
+  const dropRef                     = useRef(null)
+  const exploreRef                  = useRef(null)
+  const navigate                    = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -30,12 +40,11 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handler = (e) => {
-      if (dropRef.current && !dropRef.current.contains(e.target)) {
-        setDropOpen(false)
-      }
+      if (dropRef.current && !dropRef.current.contains(e.target)) setDropOpen(false)
+      if (exploreRef.current && !exploreRef.current.contains(e.target)) setExploreOpen(false)
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
@@ -49,6 +58,9 @@ export default function Navbar() {
 
   const activeClass   = 'text-brand-orange font-semibold'
   const inactiveClass = 'text-white hover:text-brand-blueLight transition-colors duration-200'
+
+  const exploreRoutes = exploreDropdown.map(x => x.to)
+  const exploreActive = exploreRoutes.some(r => window.location.pathname === r)
 
   return (
     <header
@@ -80,7 +92,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-5">
             {links.map(({ to, label }) => (
               <NavLink
                 key={to}
@@ -92,14 +104,49 @@ export default function Navbar() {
               </NavLink>
             ))}
 
+            {/* Explore dropdown */}
+            <div className="relative" ref={exploreRef}>
+              <button
+                onClick={() => { setExploreOpen(o => !o); setDropOpen(false) }}
+                className={`flex items-center gap-1 transition-colors duration-200 ${
+                  exploreActive ? activeClass : inactiveClass
+                }`}
+              >
+                Explore
+                <ChevronDown
+                  size={15}
+                  className={`transition-transform duration-200 ${exploreOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+
+              {exploreOpen && (
+                <div className="absolute top-full right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                  {exploreDropdown.map(({ to, label }) => (
+                    <NavLink
+                      key={to}
+                      to={to}
+                      onClick={() => setExploreOpen(false)}
+                      className={({ isActive }) =>
+                        `block px-4 py-3 text-sm font-medium transition-colors ${
+                          isActive
+                            ? 'bg-brand-orange/10 text-brand-orange'
+                            : 'text-gray-700 hover:bg-brand-blue/5 hover:text-brand-blue'
+                        }`
+                      }
+                    >
+                      {label}
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Executives dropdown */}
             <div className="relative" ref={dropRef}>
               <button
-                onClick={() => setDropOpen(o => !o)}
+                onClick={() => { setDropOpen(o => !o); setExploreOpen(false) }}
                 className={`flex items-center gap-1 transition-colors duration-200 ${
-                  window.location.pathname === '/executives'
-                    ? activeClass
-                    : inactiveClass
+                  window.location.pathname === '/executives' ? activeClass : inactiveClass
                 }`}
               >
                 Executives
@@ -138,7 +185,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <nav className="md:hidden bg-brand-blueDark border-t border-brand-blue/30 px-4 pb-4 pt-2">
+        <nav className="md:hidden bg-brand-blueDark border-t border-brand-blue/30 px-4 pb-4 pt-2 max-h-[80vh] overflow-y-auto">
           {links.map(({ to, label }) => (
             <NavLink
               key={to}
@@ -157,11 +204,30 @@ export default function Navbar() {
             </NavLink>
           ))}
 
+          {/* Mobile Explore links */}
+          <div className="border-t border-brand-blue/30 mt-2 pt-2">
+            <p className="text-brand-blueLight text-xs font-semibold uppercase tracking-wider px-3 mb-1">Explore</p>
+            {exploreDropdown.map(({ to, label }) => (
+              <NavLink
+                key={to}
+                to={to}
+                onClick={() => setOpen(false)}
+                className={({ isActive }) =>
+                  `block py-2 px-3 rounded-md text-sm font-medium mb-1 ${
+                    isActive
+                      ? 'bg-brand-orange/20 text-brand-orange'
+                      : 'text-white hover:bg-brand-blue/40 hover:text-brand-blueLight'
+                  }`
+                }
+              >
+                {label}
+              </NavLink>
+            ))}
+          </div>
+
           {/* Mobile executives sub-links */}
           <div className="border-t border-brand-blue/30 mt-2 pt-2">
-            <p className="text-brand-blueLight text-xs font-semibold uppercase tracking-wider px-3 mb-1">
-              Executives
-            </p>
+            <p className="text-brand-blueLight text-xs font-semibold uppercase tracking-wider px-3 mb-1">Executives</p>
             {execDropdown.map(({ tab, label }) => (
               <button
                 key={tab}

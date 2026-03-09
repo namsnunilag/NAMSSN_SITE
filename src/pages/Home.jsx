@@ -41,10 +41,14 @@ const STATS = [
 ]
 
 const QUICK_LINKS = [
-  { to: '/about',      label: 'About NAMSSN',   desc: 'Our mission, vision & history' },
-  { to: '/events',     label: 'Upcoming Events', desc: 'DECAGON, Dean\'s Games & more' },
-  { to: '/executives', label: 'Meet the Excos',  desc: 'Your 2024/2025 executive team' },
-  { to: '/gallery',    label: 'Photo Gallery',   desc: 'Memories from our events' },
+  { to: '/about',       label: 'About NAMSSN',    desc: 'Our mission, vision & history' },
+  { to: '/events',      label: 'Upcoming Events',  desc: 'DECAGON, Dean\'s Games & more' },
+  { to: '/academics',   label: 'Academics',        desc: 'Materials, past questions & timetable' },
+  { to: '/resources',   label: 'Student Resources', desc: 'CGPA calc, scholarships & jobs' },
+  { to: '/newsletter',  label: 'Newsletter',        desc: 'Weekly NAMSSN digest' },
+  { to: '/community',   label: 'Community',         desc: 'Articles & alumni showcase' },
+  { to: '/merchandise', label: 'Merchandise',       desc: 'Get your official NAMSSN gear' },
+  { to: '/gallery',     label: 'Photo Gallery',     desc: 'Memories from our events' },
 ]
 
 export default function Home() {
@@ -227,7 +231,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-brand-blueDark text-center mb-2">Explore NAMSSN</h2>
           <p className="text-gray-500 text-center mb-10">Everything you need in one place</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-5">
             {QUICK_LINKS.map(({ to, label, desc }) => (
               <Link
                 key={to}
