@@ -77,7 +77,7 @@ export default function Contact() {
   return (
     <>
       {/* ── PAGE HERO ───────────────────────────────────────────────────── */}
-      <section className="bg-brand-blueDark pt-28 pb-16">
+      <section className="bg-brand-blueDark pt-12 pb-16">
         <div className="section-container text-center">
           <p className="hero-anim hero-anim-1 text-brand-orange font-semibold text-sm uppercase tracking-widest mb-3">
             Get In Touch

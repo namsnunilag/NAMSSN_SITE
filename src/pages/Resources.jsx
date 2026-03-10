@@ -392,7 +392,7 @@ export default function Resources() {
   const [activeTab, setActiveTab] = useState('cgpa')
 
   return (
-    <div className="pt-16">
+    <div>
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">

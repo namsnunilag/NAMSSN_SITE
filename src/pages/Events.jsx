@@ -80,7 +80,7 @@ import { useState } from 'react'
 export default function Events() {
   usePageTitle('Events')
   return (
-    <div className="pt-16">
+    <div>
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">

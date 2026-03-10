@@ -64,7 +64,7 @@ export default function Navbar({ onToggleDark, isDark }) {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={`w-full transition-all duration-300 ${
         scrolled ? 'bg-brand-blueDark shadow-lg' : 'bg-brand-blueDark/95 backdrop-blur-sm'
       }`}
     >

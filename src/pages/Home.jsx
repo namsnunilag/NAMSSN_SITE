@@ -76,7 +76,7 @@ export default function Home() {
   const next = () => goTo((current + 1) % SLIDES.length)
 
   return (
-    <div className="pt-16">
+    <div>
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section className="relative h-screen min-h-[600px] overflow-hidden bg-brand-blueDark">

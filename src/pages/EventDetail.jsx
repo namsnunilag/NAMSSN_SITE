@@ -145,7 +145,7 @@ export default function EventDetail() {
   }
 
   return (
-    <div className="pt-16">
+    <div>
 
       {/* Hero */}
       <section className="relative h-72 md:h-96 overflow-hidden bg-brand-blueDark">

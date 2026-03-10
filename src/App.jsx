@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { useState, useEffect, createContext, useContext } from 'react'
+import { useState, useEffect, useRef, createContext, useContext } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AnnouncementBanner from './components/AnnouncementBanner'
@@ -58,14 +58,27 @@ export default function App() {
 
   const toggle = () => setIsDark(d => !d)
 
+  const headerRef = useRef(null)
+  useEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+    const update = () => document.documentElement.style.setProperty('--header-h', `${el.offsetHeight}px`)
+    update()
+    const obs = new ResizeObserver(update)
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
     <ThemeContext.Provider value={{ isDark, toggle }}>
       <BrowserRouter>
         <ScrollToTop />
         <div className="flex flex-col min-h-screen">
-          <AnnouncementBanner />
-          <Navbar onToggleDark={toggle} isDark={isDark} />
-          <main className="flex-grow">
+          <div ref={headerRef} className="fixed top-0 inset-x-0 z-50">
+            <AnnouncementBanner />
+            <Navbar onToggleDark={toggle} isDark={isDark} />
+          </div>
+          <main className="flex-grow" style={{ paddingTop: 'var(--header-h, 64px)' }}>
             <Routes>
               <Route path="/"             element={<Home />} />
               <Route path="/about"        element={<About />} />

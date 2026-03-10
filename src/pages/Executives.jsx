@@ -160,7 +160,7 @@ export default function Executives() {
   const setTab = (t) => setSearchParams({ tab: t })
 
   return (
-    <div className="pt-16">
+    <div>
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-16 px-4 text-center">
