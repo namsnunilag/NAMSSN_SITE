@@ -8,7 +8,6 @@ import About from './pages/About'
 import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
 import Executives from './pages/Executives'
-import Gallery from './pages/Gallery'
 import Contact from './pages/Contact'
 import Newsletter from './pages/Newsletter'
 import Academics from './pages/Academics'
@@ -58,7 +57,6 @@ export default function App() {
               <Route path="/events"       element={<Events />} />
               <Route path="/events/:id"   element={<EventDetail />} />
               <Route path="/executives"   element={<Executives />} />
-              <Route path="/gallery"      element={<Gallery />} />
               <Route path="/contact"      element={<Contact />} />
               <Route path="/newsletter"   element={<Newsletter />} />
               <Route path="/academics"    element={<Academics />} />
