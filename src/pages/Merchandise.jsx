@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ShoppingBag, ShoppingCart, Mail, MessageCircle } from 'lucide-react'
+import { ShoppingBag, ShoppingCart, MessageCircle } from 'lucide-react'
 import { merchandise } from '../data/merchandise'
 
 function MerchCard({ item }) {
@@ -58,22 +58,14 @@ function MerchCard({ item }) {
         )}
 
         {item.available && (
-          <div className="mt-4 flex gap-2">
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
-            >
-              <MessageCircle size={14} /> WhatsApp
-            </a>
-            <a
-              href={mailLink}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
-            >
-              <Mail size={14} /> Email
-            </a>
-          </div>
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold py-2 rounded-xl transition-colors"
+          >
+            <MessageCircle size={14} /> Order Now
+          </a>
         )}
       </div>
     </div>
