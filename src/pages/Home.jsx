@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import usePageTitle from '../hooks/usePageTitle'
-import { ChevronLeft, ChevronRight, ArrowRight, Trophy, Users, BookOpen, Star, Zap, Heart, Globe, GraduationCap } from 'lucide-react'
+import { ArrowRight, Trophy, Users, BookOpen, Star, Zap, Heart, Globe, GraduationCap } from 'lucide-react'
 
 // ── Hero slideshow images ───────────────────────────────────────────────────
 // Drop your images in public/images/hero/ and list them here
@@ -181,22 +181,6 @@ export default function Home() {
             {SLIDES[current].caption}
           </p>
         </div>
-
-        {/* Arrows */}
-        <button
-          onClick={prev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-brand-orange text-white p-2 rounded-full transition-colors"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <button
-          onClick={next}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-brand-orange text-white p-2 rounded-full transition-colors"
-          aria-label="Next slide"
-        >
-          <ChevronRight size={20} />
-        </button>
 
         {/* Dots */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
