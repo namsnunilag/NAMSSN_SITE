@@ -42,7 +42,6 @@ const photos = [
   { src: '/images/gallery/events/signout.jpg',    caption: 'Sign Out',     category: 'Events' },
   { src: '/images/gallery/events/synergist.jpg',  caption: 'Synergist',    category: 'Events' },
   { src: '/images/gallery/events/lasu.jpg',       caption: 'LASU',         category: 'Events' },
-  { src: '/images/gallery/events/all.jpg',        caption: 'Group Photo',  category: 'Events' },
   { src: '/images/gallery/events/crowd.jpg',      caption: 'Event',        category: 'Events' },
   { src: '/images/gallery/events/fo.jpg',         caption: 'Event',        category: 'Events' },
   { src: '/images/gallery/events/WID.png',        caption: 'Event',        category: 'Events' },
