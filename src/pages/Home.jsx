@@ -270,7 +270,7 @@ export default function Home() {
               </span>
               <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white mb-4">Who We Are</h2>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                NAMSSN (National Association of Mathematical Sciences Students of Nigerian Universities)
+                NAMSSN (National Association of Mathematical Sciences Students of Nigeria)
                 UNILAG Chapter is the student body representing all mathematical sciences students at the
                 University of Lagos, affiliated with the national NAMSSN body across Nigeria.
               </p>
