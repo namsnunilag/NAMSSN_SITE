@@ -14,62 +14,6 @@ const TABS = [
 const GRADE_POINTS = { A: 5.0, B: 4.0, C: 3.0, D: 2.0, E: 1.0, F: 0.0 }
 const GRADES = Object.keys(GRADE_POINTS)
 
-function GPACalculator() {
-  const [courses, setCourses] = useState([{ id: 1, name: '', units: 3, grade: 'A' }])
-
-  const addCourse = () => setCourses(c => [...c, { id: Date.now(), name: '', units: 3, grade: 'A' }])
-  const removeCourse = (id) => setCourses(c => c.filter(x => x.id !== id))
-  const update = (id, field, value) => setCourses(c => c.map(x => x.id === id ? { ...x, [field]: value } : x))
-
-  const totalUnits  = courses.reduce((s, c) => s + Number(c.units), 0)
-  const totalPoints = courses.reduce((s, c) => s + Number(c.units) * (GRADE_POINTS[c.grade] ?? 0), 0)
-  const gpa = totalUnits > 0 ? (totalPoints / totalUnits).toFixed(2) : '0.00'
-
-  const classification =
-    gpa >= 4.5 ? { label: 'First Class',         color: 'text-green-600'  } :
-    gpa >= 3.5 ? { label: 'Second Class Upper',   color: 'text-blue-600'   } :
-    gpa >= 2.4 ? { label: 'Second Class Lower',   color: 'text-yellow-600' } :
-    gpa >= 1.5 ? { label: 'Third Class',          color: 'text-orange-600' } :
-                 { label: 'Pass / Below',          color: 'text-red-500'    }
-
-  return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-      <div className="p-6 space-y-3">
-        <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-1">
-          <div className="col-span-5">Course (optional)</div>
-          <div className="col-span-3">Units</div>
-          <div className="col-span-3">Grade</div>
-          <div className="col-span-1" />
-        </div>
-        {courses.map(course => (
-          <div key={course.id} className="grid grid-cols-12 gap-2 items-center">
-            <input type="text" placeholder="e.g. MTH 201" value={course.name} onChange={e => update(course.id, 'name', e.target.value)} className="col-span-5 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" />
-            <input type="number" min={1} max={6} value={course.units} onChange={e => update(course.id, 'units', Math.min(6, Math.max(1, Number(e.target.value))))} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-blue/30" />
-            <select value={course.grade} onChange={e => update(course.id, 'grade', e.target.value)} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
-              {GRADES.map(g => <option key={g} value={g}>{g} ({GRADE_POINTS[g].toFixed(1)})</option>)}
-            </select>
-            <button onClick={() => removeCourse(course.id)} disabled={courses.length === 1} className="col-span-1 flex items-center justify-center text-gray-300 hover:text-red-500 disabled:opacity-20 transition-colors"><Trash2 size={15} /></button>
-          </div>
-        ))}
-        <button onClick={addCourse} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 dark:border-gray-600 hover:border-brand-orange text-gray-400 dark:text-gray-500 hover:text-brand-orange rounded-xl py-3 text-sm font-semibold transition-colors">
-          <Plus size={15} /> Add Course
-        </button>
-      </div>
-      <div className="border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6 flex items-center justify-between">
-        <div>
-          <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold mb-1">{totalUnits} Total Units</p>
-          <p className={`text-lg font-bold ${classification.color}`}>{classification.label}</p>
-        </div>
-        <div className="text-right">
-          <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold mb-1">GPA</p>
-          <p className="text-4xl font-black text-brand-blueDark dark:text-white">{gpa}<span className="text-lg text-gray-400 dark:text-gray-500">/5.0</span></p>
-        </div>
-      </div>
-      <GradeReference />
-    </div>
-  )
-}
-
 function FeasibilityChecker() {
   const [form, setForm] = useState({ currentCGPA: '', unitsDone: '', targetCGPA: '', unitsSem1: '', unitsSem2: '' })
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
@@ -281,7 +225,9 @@ function CGPACalc() {
         {courses.map(course => (
           <div key={course.id} className="grid grid-cols-12 gap-2 items-center">
             <input type="text" placeholder="e.g. MTH 301" value={course.name} onChange={e => update(course.id, 'name', e.target.value)} className="col-span-5 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" />
-            <input type="number" min={1} max={6} value={course.units} onChange={e => update(course.id, 'units', Math.min(6, Math.max(1, Number(e.target.value))))} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-blue/30" />
+            <select value={course.units} onChange={e => update(course.id, 'units', Number(e.target.value))} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
+              {[1,2,3,4,5,6].map(u => <option key={u} value={u}>{u}</option>)}
+            </select>
             <select value={course.grade} onChange={e => update(course.id, 'grade', e.target.value)} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
               {GRADES.map(g => <option key={g} value={g}>{g} ({GRADE_POINTS[g].toFixed(1)})</option>)}
             </select>
@@ -318,12 +264,11 @@ function CGPACalc() {
 }
 
 function CGPACalculator() {
-  const [mode, setMode] = useState('cgpa') // 'cgpa' | 'gpa' | 'feasibility'
+  const [mode, setMode] = useState('cgpa') // 'cgpa' | 'feasibility'
 
   const headers = {
-    cgpa:        { title: 'CGPA Calculator',          sub: 'Compute your cumulative GPA including this semester' },
-    gpa:         { title: 'GPA Calculator',            sub: 'Nigerian University 5.0 grading scale' },
-    feasibility: { title: 'CGPA Feasibility Checker',  sub: 'Find out if your target CGPA is achievable' },
+    cgpa:        { title: 'CGPA Calculator',         sub: 'Compute your cumulative GPA including this semester' },
+    feasibility: { title: 'CGPA Feasibility Checker', sub: 'Find out if your target CGPA is achievable' },
   }
 
   return (
@@ -332,7 +277,6 @@ function CGPACalculator() {
       <div className="flex rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-1 mb-6 shadow-sm">
         {[
           { id: 'cgpa',        icon: GraduationCap, label: 'CGPA' },
-          { id: 'gpa',         icon: Calculator,    label: 'GPA' },
           { id: 'feasibility', icon: Target,         label: 'Target?' },
         ].map(({ id, icon: Icon, label }) => (
           <button
@@ -352,7 +296,6 @@ function CGPACalculator() {
       </div>
 
       {mode === 'cgpa'        && <CGPACalc />}
-      {mode === 'gpa'         && <GPACalculator />}
       {mode === 'feasibility' && <FeasibilityChecker />}
     </div>
   )

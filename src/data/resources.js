@@ -7,7 +7,7 @@ export const scholarships = [
     badge: 'Undergraduate',
     deadline: '',
     description: 'Open to 100–400 level students in STEM and social science fields at accredited Nigerian universities. Minimum CGPA of 3.5/5.0 required.',
-    link: 'https://www.mtnfoundation.ng/programmes/mtn-foundation-scholarship-scheme/',
+    link: 'https://www.mtn.ng/foundation/mtn-scholarships/',
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const scholarships = [
     badge: 'Undergraduate',
     deadline: '',
     description: 'Competitive scholarship for students studying science, engineering, mathematics, and technology in Nigerian universities.',
-    link: 'https://scholarship.nnpcgroup.com',
+    link: 'https://csr-ngscholarship.totalenergies.com/',
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ export const scholarships = [
     badge: 'Undergraduate',
     deadline: '',
     description: 'Offered by Chevron/Texaco, Famfa Oil, and Star Deep Water Petroleum. Open to students in engineering, sciences, and medical fields.',
-    link: 'https://www.agbamischolarship.com',
+    link: 'https://scholastica.ng/schemes/agbami',
   },
   {
     id: 6,
@@ -71,7 +71,7 @@ export const scholarships = [
     badge: 'Undergraduate',
     deadline: '',
     description: 'Supports academically talented yet economically disadvantaged students. Available at select African universities including University of Lagos.',
-    link: 'https://mastercardfdn.org/all/scholars/',
+    link: 'https://mastercardfdn.org/en/what-we-do/our-programs/mastercard-foundation-scholars-program/',
   },
   {
     id: 10,
