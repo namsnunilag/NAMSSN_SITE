@@ -19,9 +19,20 @@ const SEE_MORE_LINKS = {
 
 const photos = [
   // ── Executives ──────────────────────────────────────────────────────────────
-  { src: '/images/gallery/executives/exco.jpg',   caption: 'Executives',   category: 'Executives' },
-  { src: '/images/gallery/executives/excos.jpg',  caption: 'Executives',   category: 'Executives' },
-  { src: '/images/gallery/executives/pres.jpg',   caption: 'President',    category: 'Executives' },
+  { src: '/images/gallery/executives/exco.jpg',      caption: 'Executives',             category: 'Executives' },
+  { src: '/images/gallery/executives/excos.jpg',     caption: 'Executives',             category: 'Executives' },
+  { src: '/images/gallery/executives/president.jpg', caption: 'President',              category: 'Executives' },
+  { src: '/images/gallery/executives/vp.jpg',        caption: 'Vice President',         category: 'Executives' },
+  { src: '/images/gallery/executives/gs.jpg',        caption: 'General Secretary',      category: 'Executives' },
+  { src: '/images/gallery/executives/ags.jpg',       caption: 'Asst. General Secretary',category: 'Executives' },
+  { src: '/images/gallery/executives/treasurer.jpg', caption: 'Treasurer',              category: 'Executives' },
+  { src: '/images/gallery/executives/fin.jpg',       caption: 'Financial Secretary',    category: 'Executives' },
+  { src: '/images/gallery/executives/pro.jpg',       caption: 'PRO',                    category: 'Executives' },
+  { src: '/images/gallery/executives/social.jpg',    caption: 'Social Director',        category: 'Executives' },
+  { src: '/images/gallery/executives/sport.jpg',     caption: 'Sports Director',        category: 'Executives' },
+  { src: '/images/gallery/executives/academic.jpg',  caption: 'Academic Director',      category: 'Executives' },
+  { src: '/images/gallery/executives/welfare.jpg',   caption: 'Welfare Director',       category: 'Executives' },
+  { src: '/images/gallery/executives/library.jpg',   caption: 'Library Director',       category: 'Executives' },
 
   // ── Events ──────────────────────────────────────────────────────────────────
   { src: '/images/gallery/events/deans.jpg',      caption: "Dean's Games", category: 'Events' },
