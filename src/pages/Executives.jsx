@@ -170,12 +170,12 @@ export default function Executives() {
         </p>
 
         {/* Tab buttons */}
-        <div className="hero-anim hero-anim-3 inline-flex bg-white/10 rounded-full p-1 gap-1">
+        <div className="hero-anim hero-anim-3 flex flex-wrap justify-center bg-white/10 rounded-2xl sm:rounded-full p-1 gap-1">
           {Object.entries(TABS).map(([key, { label }]) => (
             <button
               key={key}
               onClick={() => setTab(key)}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+              className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 ${
                 tab === key
                   ? 'bg-brand-orange text-white shadow'
                   : 'text-white/80 hover:text-white'

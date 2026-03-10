@@ -110,7 +110,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-brand-blue/30 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-gray-400 text-xs">
+        <div className="border-t border-brand-blue/30 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-gray-400 text-xs text-center sm:text-left">
           <p>© {new Date().getFullYear()} NAMSSN UNILAG Chapter. All rights reserved.</p>
           <p>Built with ❤️ by NAMSSN UNILAG Web Team</p>
         </div>

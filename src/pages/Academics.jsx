@@ -39,13 +39,13 @@ export default function Academics() {
       </section>
 
       {/* Tabs */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-16 z-30">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky sticky-header z-30">
         <div className="max-w-6xl mx-auto px-4 flex overflow-x-auto gap-1 py-1 scrollbar-hide">
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold rounded-lg whitespace-nowrap transition-colors ${
+              className={`flex items-center gap-1.5 px-3 sm:px-4 py-3 text-xs sm:text-sm font-semibold rounded-lg whitespace-nowrap transition-colors ${
                 activeTab === id
                   ? 'text-brand-orange bg-brand-orange/10'
                   : 'text-gray-500 dark:text-gray-400 hover:text-brand-blueDark dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'

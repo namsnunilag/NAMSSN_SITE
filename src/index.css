@@ -46,6 +46,11 @@
   to   { width: 100%; }
 }
 
+/* ── Sticky below dynamic header ──────────────────────────── */
+.sticky-header {
+  top: var(--header-h, 64px);
+}
+
 /* ── Scroll Reveal ─────────────────────────────────────────── */
 .reveal {
   opacity: 0;

@@ -23,9 +23,9 @@ export default function AnnouncementBanner() {
     <div className={`${cfg.bg} text-white relative z-40`}>
       {a.href ? (
         <a href={a.href} target="_blank" rel="noopener noreferrer" className="block text-white hover:opacity-90 transition-opacity">
-          <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-3">
-            <Icon size={15} className="shrink-0 text-white" />
-            <p className="flex-1 text-sm font-medium text-center leading-snug">{a.message}</p>
+          <div className="max-w-7xl mx-auto px-4 py-2 sm:py-2.5 flex items-start sm:items-center gap-2 sm:gap-3">
+            <Icon size={14} className="shrink-0 text-white mt-0.5 sm:mt-0" />
+            <p className="flex-1 text-xs sm:text-sm font-medium text-center leading-snug">{a.message}</p>
             <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDismissed(d => [...d, a.id]) }} className={`shrink-0 p-1 rounded-full ${cfg.btn} transition-colors`} aria-label="Dismiss">
               <X size={14} />
             </button>

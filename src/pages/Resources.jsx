@@ -216,22 +216,25 @@ function CGPACalc() {
       {/* Current semester courses */}
       <div className="p-6 space-y-3">
         <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">This Semester's Courses</p>
-        <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-1">
+        {/* Column headers — desktop only */}
+        <div className="hidden sm:grid grid-cols-12 gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-1">
           <div className="col-span-5">Course (optional)</div>
           <div className="col-span-3">Units</div>
           <div className="col-span-3">Grade</div>
           <div className="col-span-1" />
         </div>
         {courses.map(course => (
-          <div key={course.id} className="grid grid-cols-12 gap-2 items-center">
-            <input type="text" placeholder="e.g. MTH 301" value={course.name} onChange={e => update(course.id, 'name', e.target.value)} className="col-span-5 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" />
-            <select value={course.units} onChange={e => update(course.id, 'units', Number(e.target.value))} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
-              {[1,2,3,4,5,6].map(u => <option key={u} value={u}>{u}</option>)}
-            </select>
-            <select value={course.grade} onChange={e => update(course.id, 'grade', e.target.value)} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
-              {GRADES.map(g => <option key={g} value={g}>{g} ({GRADE_POINTS[g].toFixed(1)})</option>)}
-            </select>
-            <button onClick={() => removeCourse(course.id)} disabled={courses.length === 1} className="col-span-1 flex items-center justify-center text-gray-300 hover:text-red-500 disabled:opacity-20 transition-colors"><Trash2 size={15} /></button>
+          <div key={course.id} className="flex flex-col gap-2 sm:grid sm:grid-cols-12 sm:items-center">
+            <input type="text" placeholder="Course name (e.g. MTH 301)" value={course.name} onChange={e => update(course.id, 'name', e.target.value)} className="w-full sm:col-span-5 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" />
+            <div className="grid grid-cols-[1fr_2fr_36px] gap-2 sm:contents">
+              <select value={course.units} onChange={e => update(course.id, 'units', Number(e.target.value))} className="sm:col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-2 py-2 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
+                {[1,2,3,4,5,6].map(u => <option key={u} value={u}>{u} unit{u > 1 ? 's' : ''}</option>)}
+              </select>
+              <select value={course.grade} onChange={e => update(course.id, 'grade', e.target.value)} className="sm:col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
+                {GRADES.map(g => <option key={g} value={g}>{g} — {GRADE_POINTS[g].toFixed(1)} pts</option>)}
+              </select>
+              <button onClick={() => removeCourse(course.id)} disabled={courses.length === 1} className="flex items-center justify-center text-gray-300 hover:text-red-500 disabled:opacity-20 transition-colors sm:col-span-1"><Trash2 size={15} /></button>
+            </div>
           </div>
         ))}
         <button onClick={addCourse} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 dark:border-gray-600 hover:border-brand-orange text-gray-400 dark:text-gray-500 hover:text-brand-orange rounded-xl py-3 text-sm font-semibold transition-colors">
@@ -403,13 +406,13 @@ export default function Resources() {
       </section>
 
       {/* Tabs */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-16 z-30">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky sticky-header z-30">
         <div className="max-w-6xl mx-auto px-4 flex overflow-x-auto gap-1 py-1 scrollbar-hide">
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold rounded-lg whitespace-nowrap transition-colors ${
+              className={`flex items-center gap-1.5 px-3 sm:px-4 py-3 text-xs sm:text-sm font-semibold rounded-lg whitespace-nowrap transition-colors ${
                 activeTab === id
                   ? 'text-brand-orange bg-brand-orange/10'
                   : 'text-gray-500 dark:text-gray-400 hover:text-brand-blueDark dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
