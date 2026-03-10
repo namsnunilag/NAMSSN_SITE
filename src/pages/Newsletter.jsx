@@ -105,7 +105,7 @@ export default function Newsletter() {
       </section>
 
       {/* Grid */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
 
           {newsletters.length === 0 ? (
@@ -126,7 +126,7 @@ export default function Newsletter() {
                   <button
                     key={item.id}
                     onClick={() => setOpen(item)}
-                    className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left"
+                    className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left"
                   >
                     {/* Thumbnail — always the front image */}
                     <div className="h-64 bg-brand-blue/10 overflow-hidden relative">
@@ -149,12 +149,12 @@ export default function Newsletter() {
                       <span className="text-xs font-semibold text-brand-orange uppercase tracking-wider">
                         {item.week}
                       </span>
-                      <h3 className="font-bold text-brand-blueDark mt-1 mb-1 group-hover:text-brand-blue transition-colors">
+                      <h3 className="font-bold text-brand-blueDark dark:text-white mt-1 mb-1 group-hover:text-brand-blue transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-gray-400 text-xs mb-2">{item.date}</p>
+                      <p className="text-gray-400 dark:text-gray-500 text-xs mb-2">{item.date}</p>
                       {item.description && (
-                        <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{item.description}</p>
+                        <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed line-clamp-2">{item.description}</p>
                       )}
                       <p className="mt-3 text-brand-orange text-sm font-semibold group-hover:underline">
                         {isMulti ? 'View Full Issue (2 pages) →' : 'View Full Issue →'}

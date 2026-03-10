@@ -18,7 +18,7 @@ function EventCard({ event }) {
   return (
     <Link
       to={`/events/${event.id}`}
-      className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 flex flex-col"
+      className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 flex flex-col"
     >
       {/* Image */}
       <div className="h-48 bg-gradient-to-br from-brand-blue to-brand-blueDark overflow-hidden relative">
@@ -44,13 +44,13 @@ function EventCard({ event }) {
       {/* Content */}
       <div className="p-5 flex flex-col flex-grow">
         <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-bold text-brand-blueDark text-lg group-hover:text-brand-blue transition-colors leading-tight">
+          <h3 className="font-bold text-brand-blueDark dark:text-white text-lg group-hover:text-brand-blue transition-colors leading-tight">
             {event.title}
           </h3>
           <RegistrationBadge status={event.registrationStatus} />
         </div>
-        <p className="text-gray-500 text-sm leading-relaxed mb-4 flex-grow">{event.shortDescription}</p>
-        <div className="space-y-1.5 text-xs text-gray-500">
+        <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4 flex-grow">{event.shortDescription}</p>
+        <div className="space-y-1.5 text-xs text-gray-500 dark:text-gray-400">
           <div className="flex items-center gap-2">
             <Calendar size={12} className="text-brand-orange shrink-0" />
             {event.date}
@@ -64,7 +64,7 @@ function EventCard({ event }) {
             <span className="truncate">{event.location}</span>
           </div>
         </div>
-        <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <span className="text-brand-orange text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
             View Details <ArrowRight size={13} />
           </span>
@@ -89,10 +89,10 @@ export default function Events() {
       </section>
 
       {/* Upcoming */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-brand-blueDark mb-2">Upcoming Events</h2>
-          <p className="text-gray-500 mb-8">Don't miss out — register before spots fill up!</p>
+          <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Upcoming Events</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-8">Don't miss out — register before spots fill up!</p>
           {upcomingEvents.length === 0 ? (
             <p className="text-gray-400 italic">No upcoming events at the moment. Check back soon!</p>
           ) : (
@@ -104,10 +104,10 @@ export default function Events() {
       </section>
 
       {/* Past */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-brand-blueDark mb-2">Past Events</h2>
-          <p className="text-gray-500 mb-8">Relive the memories from our previous events.</p>
+          <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Past Events</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-8">Relive the memories from our previous events.</p>
           {pastEvents.length === 0 ? (
             <p className="text-gray-400 italic">No past events yet.</p>
           ) : (

@@ -71,7 +71,7 @@ const executives = [
 function PatronCard({ patron }) {
   const [failed, setFailed] = useState(false)
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
       <div className="h-52 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
@@ -87,7 +87,7 @@ function PatronCard({ patron }) {
         )}
       </div>
       <div className="p-4 text-center">
-        <h3 className="font-bold text-brand-blueDark text-base">{patron.name}</h3>
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-base">{patron.name}</h3>
         <p className="text-brand-orange text-sm font-medium">{patron.role}</p>
       </div>
     </div>
@@ -97,7 +97,7 @@ function PatronCard({ patron }) {
 function ExecCard({ exec }) {
   const [failed, setFailed] = useState(false)
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
       <div className="h-52 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
@@ -113,7 +113,7 @@ function ExecCard({ exec }) {
         )}
       </div>
       <div className="p-4 text-center">
-        <h3 className="font-bold text-brand-blueDark text-base">{exec.name}</h3>
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-base">{exec.name}</h3>
         <p className="text-brand-orange text-sm font-medium">{exec.role}</p>
       </div>
     </div>
@@ -123,7 +123,7 @@ function ExecCard({ exec }) {
 function LecturerCard({ lecturer }) {
   const [failed, setFailed] = useState(false)
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
       <div className="h-52 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
@@ -139,16 +139,16 @@ function LecturerCard({ lecturer }) {
         )}
       </div>
       <div className="p-4 text-center">
-        <h3 className="font-bold text-brand-blueDark text-base">{lecturer.name}</h3>
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-base">{lecturer.name}</h3>
       </div>
     </div>
   )
 }
 
 const TABS = {
-  patrons:    { label: 'Patrons',            bg: 'bg-gray-50' },
-  lecturers:  { label: 'Lecturers',          bg: 'bg-white'   },
-  executives: { label: 'Student Executives', bg: 'bg-gray-50' },
+  patrons:    { label: 'Patrons',            bg: 'bg-gray-50 dark:bg-gray-900' },
+  lecturers:  { label: 'Lecturers',          bg: 'bg-white dark:bg-gray-800'   },
+  executives: { label: 'Student Executives', bg: 'bg-gray-50 dark:bg-gray-900' },
 }
 
 export default function Executives() {
@@ -191,8 +191,8 @@ export default function Executives() {
 
           {tab === 'patrons' && (
             <>
-              <h2 className="text-2xl font-bold text-brand-blueDark mb-2">Our Patrons</h2>
-              <p className="text-gray-500 mb-8">Distinguished academics who guide and support NAMSSN UNILAG</p>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Our Patrons</h2>
+              <p className="text-gray-500 dark:text-gray-400 mb-8">Distinguished academics who guide and support NAMSSN UNILAG</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {patrons.map((p) => <PatronCard key={p.name} patron={p} />)}
               </div>
@@ -201,8 +201,8 @@ export default function Executives() {
 
           {tab === 'executives' && (
             <>
-              <h2 className="text-2xl font-bold text-brand-blueDark mb-2">Student Executives</h2>
-              <p className="text-gray-500 mb-8">Your elected NAMSSN UNILAG executives for the 2024/2025 session</p>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
+              <p className="text-gray-500 dark:text-gray-400 mb-8">Your elected NAMSSN UNILAG executives for the 2024/2025 session</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {executives.map((e) => <ExecCard key={e.role} exec={e} />)}
               </div>
@@ -211,8 +211,8 @@ export default function Executives() {
 
           {tab === 'lecturers' && (
             <>
-              <h2 className="text-2xl font-bold text-brand-blueDark mb-2">Our Lecturers</h2>
-              <p className="text-gray-500 mb-8">Faculty of the Department of Mathematics, University of Lagos</p>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Our Lecturers</h2>
+              <p className="text-gray-500 dark:text-gray-400 mb-8">Faculty of the Department of Mathematics, University of Lagos</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {lecturers.map((l) => <LecturerCard key={l.name} lecturer={l} />)}
               </div>

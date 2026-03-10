@@ -167,52 +167,52 @@ export default function EventDetail() {
       </section>
 
       {/* Body */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-3 gap-8">
 
           {/* Main content */}
           <div className="md:col-span-2 space-y-6">
 
             {/* Event meta */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="flex items-start gap-3">
                   <Calendar size={18} className="text-brand-orange mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Date</p>
-                    <p className="text-sm font-semibold text-gray-800">{event.date}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold">Date</p>
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{event.date}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Clock size={18} className="text-brand-orange mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Time</p>
-                    <p className="text-sm font-semibold text-gray-800">{event.time}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold">Time</p>
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{event.time}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="text-brand-orange mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Venue</p>
-                    <p className="text-sm font-semibold text-gray-800">{event.location}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold">Venue</p>
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{event.location}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Description */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-bold text-brand-blueDark mb-3">About This Event</h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line">{event.fullDescription}</p>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+              <h2 className="text-xl font-bold text-brand-blueDark dark:text-white mb-3">About This Event</h2>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">{event.fullDescription}</p>
             </div>
 
             {/* Highlights */}
             {event.highlights?.length > 0 && (
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-xl font-bold text-brand-blueDark mb-3">Highlights</h2>
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-blueDark dark:text-white mb-3">Highlights</h2>
                 <ul className="space-y-2">
                   {event.highlights.map((h, i) => (
-                    <li key={i} className="flex items-start gap-2 text-gray-600 text-sm">
+                    <li key={i} className="flex items-start gap-2 text-gray-600 dark:text-gray-300 text-sm">
                       <span className="text-brand-orange font-bold shrink-0">✦</span>
                       {h}
                     </li>
@@ -226,8 +226,8 @@ export default function EventDetail() {
           <div className="space-y-4">
 
             {/* Registration card */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h3 className="font-bold text-brand-blueDark mb-4">Registration</h3>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+              <h3 className="font-bold text-brand-blueDark dark:text-white mb-4">Registration</h3>
 
               {event.registrationStatus === 'open' && event.registrationLink && (
                 <a
@@ -250,7 +250,7 @@ export default function EventDetail() {
               )}
 
               {event.registrationStatus === 'closed' && (
-                <p className="text-gray-500 text-sm text-center py-2">
+                <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-2">
                   Registration for this event has closed.
                 </p>
               )}

@@ -57,7 +57,7 @@ export default function About() {
       </section>
 
       {/* About section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
           <div className="h-80 md:h-[420px]">
             <AboutImage />
@@ -66,14 +66,14 @@ export default function About() {
             <span className="inline-block bg-brand-orange/10 text-brand-orange text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
               Our Story
             </span>
-            <h2 className="text-3xl font-bold text-brand-blueDark mb-4">Who We Are</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white mb-4">Who We Are</h2>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
               NAMSSN (National Association of Mathematical Sciences Students of Nigerian Universities)
               UNILAG Chapter is the student body representing all mathematical sciences students at the
               University of Lagos. We are affiliated with the national body of NAMSSN, which spans
               universities across Nigeria.
             </p>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
               Our chapter brings together students from the Department of Mathematics to foster
               academic growth, professional networking, and a sense of community. Through our
               events, competitions, and welfare initiatives, we strive to create an environment
@@ -84,18 +84,18 @@ export default function About() {
       </section>
 
       {/* Values */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-brand-blueDark text-center mb-2">What Drives Us</h2>
-          <p className="text-gray-500 text-center mb-10">Our mission, vision, and core values</p>
+          <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">What Drives Us</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-center mb-10">Our mission, vision, and core values</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+              <div key={title} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 text-center">
                 <div className="w-12 h-12 bg-brand-blue/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Icon size={22} className="text-brand-blue" />
                 </div>
-                <h3 className="font-bold text-brand-blueDark text-lg mb-2">{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+                <h3 className="font-bold text-brand-blueDark dark:text-white text-lg mb-2">{title}</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>

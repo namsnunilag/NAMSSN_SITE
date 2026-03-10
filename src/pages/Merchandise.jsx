@@ -10,10 +10,10 @@ function MerchCard({ item }) {
   const mailLink    = `mailto:namssn.unilag@gmail.com?subject=Merchandise Order — ${item.name}&body=${encodeURIComponent(orderMessage)}`
 
   return (
-    <div className={`bg-white rounded-2xl overflow-hidden shadow-sm border transition-all duration-200 flex flex-col ${
+    <div className={`bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border transition-all duration-200 flex flex-col ${
       item.available
-        ? 'border-gray-100 hover:shadow-md hover:-translate-y-1'
-        : 'border-gray-100 opacity-60'
+        ? 'border-gray-100 dark:border-gray-700 hover:shadow-md hover:-translate-y-1'
+        : 'border-gray-100 dark:border-gray-700 opacity-60'
     }`}>
       {/* Image */}
       <div className="h-56 bg-brand-blue/10 overflow-hidden relative">
@@ -43,14 +43,14 @@ function MerchCard({ item }) {
 
       {/* Info */}
       <div className="p-5 flex flex-col flex-grow">
-        <h3 className="font-bold text-brand-blueDark text-lg mb-1">{item.name}</h3>
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-lg mb-1">{item.name}</h3>
         <p className="text-brand-orange font-black text-xl mb-2">{item.price}</p>
-        <p className="text-gray-500 text-sm leading-relaxed flex-grow">{item.description}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed flex-grow">{item.description}</p>
 
         {item.sizes?.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1.5">
             {item.sizes.map(s => (
-              <span key={s} className="text-xs border border-gray-200 text-gray-600 px-2 py-0.5 rounded-md font-medium">
+              <span key={s} className="text-xs border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-md font-medium">
                 {s}
               </span>
             ))}
@@ -102,14 +102,14 @@ export default function Merchandise() {
 
       {/* How to order banner */}
       <div className="bg-brand-orange/10 border-b border-brand-orange/20">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2 text-sm text-brand-blueDark">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2 text-sm text-brand-blueDark dark:text-gray-200">
           <ShoppingCart size={16} className="text-brand-orange shrink-0" />
           <span><strong>How to order:</strong> Click WhatsApp or Email on any item, and we'll respond with availability and payment details.</span>
         </div>
       </div>
 
       {/* Content */}
-      <section className="py-12 bg-gray-50 min-h-[60vh]">
+      <section className="py-12 bg-gray-50 dark:bg-gray-900 min-h-[60vh]">
         <div className="max-w-6xl mx-auto px-4">
 
           {/* Category filter */}
@@ -122,7 +122,7 @@ export default function Merchandise() {
                   className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors capitalize ${
                     filter === cat
                       ? 'bg-brand-orange text-white'
-                      : 'bg-white border border-gray-200 text-gray-600 hover:border-brand-orange'
+                      : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-brand-orange'
                   }`}
                 >
                   {cat === 'all' ? 'All Items' : cat}

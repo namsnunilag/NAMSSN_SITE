@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { NavLink, Link, useNavigate } from 'react-router-dom'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X, ChevronDown, Moon, Sun } from 'lucide-react'
 
 const links = [
   { to: '/',        label: 'Home' },
@@ -24,7 +24,7 @@ const exploreDropdown = [
   { to: '/merchandise', label: 'Merchandise' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ onToggleDark, isDark }) {
   const [open, setOpen]             = useState(false)
   const [scrolled, setScrolled]     = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
@@ -120,7 +120,7 @@ export default function Navbar() {
               </button>
 
               {exploreOpen && (
-                <div className="absolute top-full right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                <div className="absolute top-full right-0 mt-2 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50">
                   {exploreDropdown.map(({ to, label }) => (
                     <NavLink
                       key={to}
@@ -130,7 +130,7 @@ export default function Navbar() {
                         `block px-4 py-3 text-sm font-medium transition-colors ${
                           isActive
                             ? 'bg-brand-orange/10 text-brand-orange'
-                            : 'text-gray-700 hover:bg-brand-blue/5 hover:text-brand-blue'
+                            : 'text-gray-700 dark:text-gray-200 hover:bg-brand-blue/5 dark:hover:bg-brand-blue/20 hover:text-brand-blue'
                         }`
                       }
                     >
@@ -157,12 +157,12 @@ export default function Navbar() {
               </button>
 
               {dropOpen && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50">
                   {execDropdown.map(({ tab, label }) => (
                     <button
                       key={tab}
                       onClick={() => goToSection(tab)}
-                      className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-brand-blue/5 hover:text-brand-blue transition-colors font-medium"
+                      className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-brand-blue/5 dark:hover:bg-brand-blue/20 hover:text-brand-blue transition-colors font-medium"
                     >
                       {label}
                     </button>
@@ -171,6 +171,15 @@ export default function Navbar() {
               )}
             </div>
           </nav>
+
+          {/* Dark mode toggle */}
+          <button
+            onClick={onToggleDark}
+            className="p-2 rounded-full text-white hover:bg-brand-blue/50 transition-colors"
+            aria-label="Toggle dark mode"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           {/* Mobile toggle */}
           <button

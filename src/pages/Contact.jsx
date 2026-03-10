@@ -82,24 +82,24 @@ export default function Contact() {
       </section>
 
       {/* ── MAIN SECTION ────────────────────────────────────────────────── */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="section-container">
           <div className="grid lg:grid-cols-3 gap-12">
 
             {/* ── CONTACT FORM ────────────────────────────────────────────── */}
             <div className="lg:col-span-2">
               <div className="card p-8 md:p-10">
-                <h2 className="text-2xl font-display font-bold text-gray-900 mb-6">
+                <h2 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-6">
                   Send Us a Message
                 </h2>
 
                 {submitted ? (
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <CheckCircle2 size={60} className="text-brand-blue mb-4" />
-                    <h3 className="text-xl font-display font-bold text-gray-900 mb-2">
+                    <h3 className="text-xl font-display font-bold text-gray-900 dark:text-white mb-2">
                       Message Sent!
                     </h3>
-                    <p className="text-gray-500 mb-6">
+                    <p className="text-gray-500 dark:text-gray-400 mb-6">
                       Thanks for reaching out. We'll get back to you as soon as possible.
                     </p>
                     <button
@@ -113,7 +113,7 @@ export default function Contact() {
                   <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                           Full Name <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -123,11 +123,11 @@ export default function Contact() {
                           onChange={handleChange}
                           placeholder="Your full name"
                           required
-                          className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
+                          className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg px-4 py-3 text-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                           Email Address <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -137,7 +137,7 @@ export default function Contact() {
                           onChange={handleChange}
                           placeholder="you@example.com"
                           required
-                          className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
+                          className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg px-4 py-3 text-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
                         />
                       </div>
                     </div>
@@ -152,7 +152,7 @@ export default function Contact() {
                         value={form.subject}
                         onChange={handleChange}
                         placeholder="What is this about?"
-                        className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
+                        className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg px-4 py-3 text-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
                       />
                     </div>
 
@@ -167,7 +167,7 @@ export default function Contact() {
                         onChange={handleChange}
                         placeholder="Write your message here…"
                         required
-                        className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition resize-none"
+                        className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg px-4 py-3 text-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition resize-none"
                       />
                     </div>
 
@@ -208,13 +208,13 @@ export default function Contact() {
                     <Icon size={20} className="text-brand-blue" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">{label}</p>
+                    <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1">{label}</p>
                     {href ? (
-                      <a href={href} className="text-gray-700 text-sm hover:text-brand-blue transition-colors">
+                      <a href={href} className="text-gray-700 dark:text-gray-300 text-sm hover:text-brand-blue transition-colors">
                         {value}
                       </a>
                     ) : (
-                      <p className="text-gray-700 text-sm">{value}</p>
+                      <p className="text-gray-700 dark:text-gray-300 text-sm">{value}</p>
                     )}
                   </div>
                 </div>
@@ -222,7 +222,7 @@ export default function Contact() {
 
               {/* Social media */}
               <div className="card p-6">
-                <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-4">
+                <h3 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-4">
                   Follow Us
                 </h3>
                 <div className="space-y-3">
@@ -238,8 +238,8 @@ export default function Contact() {
                         <Icon size={16} className="text-brand-blue group-hover:text-white transition-colors duration-200" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-400">{label}</p>
-                        <p className="text-sm font-semibold text-gray-700 group-hover:text-brand-blue transition-colors">
+                        <p className="text-xs text-gray-400 dark:text-gray-500">{label}</p>
+                        <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 group-hover:text-brand-blue transition-colors">
                           {handle}
                         </p>
                       </div>
@@ -254,7 +254,7 @@ export default function Contact() {
 
       {/* ── GOOGLE MAPS ─────────────────────────────────────────────────── */}
       {/* Replace the src with your actual embedded Google Maps URL for UNILAG */}
-      <section className="h-80 bg-gray-200">
+      <section className="h-80 bg-gray-200 dark:bg-gray-700">
         <iframe
           title="UNILAG Location"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.2!2d3.3964!3d6.5158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8c5e4e3f7d71%3A0x4e6adf58dc52b9e0!2sUniversity%20of%20Lagos!5e0!3m2!1sen!2sng!4v1"

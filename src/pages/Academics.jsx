@@ -38,7 +38,7 @@ export default function Academics() {
       </section>
 
       {/* Tabs */}
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-30">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-16 z-30">
         <div className="max-w-6xl mx-auto px-4 flex overflow-x-auto gap-1 py-1 scrollbar-hide">
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
@@ -47,7 +47,7 @@ export default function Academics() {
               className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold rounded-lg whitespace-nowrap transition-colors ${
                 activeTab === id
                   ? 'text-brand-orange bg-brand-orange/10'
-                  : 'text-gray-500 hover:text-brand-blueDark hover:bg-gray-50'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-brand-blueDark dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
             >
               <Icon size={15} />
@@ -57,13 +57,13 @@ export default function Academics() {
         </div>
       </div>
 
-      <section className="py-12 bg-gray-50 min-h-[60vh]">
+      <section className="py-12 bg-gray-50 dark:bg-gray-900 min-h-[60vh]">
         <div className="max-w-6xl mx-auto px-4">
 
           {/* ── Announcements ── */}
           {activeTab === 'announcements' && (
             <div className="space-y-4">
-              <h2 className="text-2xl font-bold text-brand-blueDark mb-6">Announcements</h2>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Announcements</h2>
               {announcements.length === 0 ? (
                 <EmptyState icon={Megaphone} text="No announcements at the moment. Check back soon." />
               ) : (
@@ -96,18 +96,18 @@ export default function Academics() {
           {/* ── Course Materials ── */}
           {activeTab === 'materials' && (
             <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark mb-6">Course Materials</h2>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Course Materials</h2>
 
               {/* Drive link — shows when set */}
               {courseMaterialsLink && (
-                <div className="bg-white rounded-2xl p-5 shadow-sm border border-brand-blue/20 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-brand-blue/20 dark:border-gray-700 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-xl bg-brand-blue/10 flex items-center justify-center shrink-0">
                       <BookOpen size={18} className="text-brand-blue" />
                     </div>
                     <div>
-                      <p className="font-bold text-brand-blueDark">All Course Materials</p>
-                      <p className="text-gray-400 text-sm">All levels — individual sorting coming soon</p>
+                      <p className="font-bold text-brand-blueDark dark:text-white">All Course Materials</p>
+                      <p className="text-gray-400 dark:text-gray-500 text-sm">All levels — individual sorting coming soon</p>
                     </div>
                   </div>
                   <a
@@ -125,9 +125,9 @@ export default function Academics() {
               {filteredMaterials.length > 0 && (
                 <>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    <button onClick={() => setLevelFilter('all')} className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${levelFilter === 'all' ? 'bg-brand-orange text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-brand-orange'}`}>All Levels</button>
+                    <button onClick={() => setLevelFilter('all')} className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${levelFilter === 'all' ? 'bg-brand-orange text-white' : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-brand-orange'}`}>All Levels</button>
                     {LEVELS.map(l => (
-                      <button key={l} onClick={() => setLevelFilter(l)} className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${levelFilter === l ? 'bg-brand-orange text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-brand-orange'}`}>{l} Level</button>
+                      <button key={l} onClick={() => setLevelFilter(l)} className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${levelFilter === l ? 'bg-brand-orange text-white' : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-brand-orange'}`}>{l} Level</button>
                     ))}
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -147,18 +147,18 @@ export default function Academics() {
           {/* ── Past Questions ── */}
           {activeTab === 'pastq' && (
             <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark mb-6">Past Questions</h2>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Past Questions</h2>
 
               {/* Drive link — shows when set */}
               {pastQuestionsLink && (
-                <div className="bg-white rounded-2xl p-5 shadow-sm border border-brand-blue/20 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-brand-blue/20 dark:border-gray-700 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-xl bg-brand-blue/10 flex items-center justify-center shrink-0">
                       <FileText size={18} className="text-brand-blue" />
                     </div>
                     <div>
-                      <p className="font-bold text-brand-blueDark">All Past Questions</p>
-                      <p className="text-gray-400 text-sm">All courses & levels — individual sorting coming soon</p>
+                      <p className="font-bold text-brand-blueDark dark:text-white">All Past Questions</p>
+                      <p className="text-gray-400 dark:text-gray-500 text-sm">All courses & levels — individual sorting coming soon</p>
                     </div>
                   </div>
                   <a
@@ -190,13 +190,13 @@ export default function Academics() {
           {/* ── Timetable ── */}
           {activeTab === 'timetable' && (
             <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark mb-6">Timetable</h2>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Timetable</h2>
               {!timetable.semester ? (
                 <EmptyState icon={Calendar} text="No timetable uploaded yet. Check back when a new semester begins." />
               ) : (
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-brand-blueDark text-lg">{timetable.semester}</h3>
+                    <h3 className="font-bold text-brand-blueDark dark:text-white text-lg">{timetable.semester}</h3>
                     <div className="flex gap-3">
                       {timetable.pdf && (
                         <a
@@ -229,15 +229,15 @@ export default function Academics() {
 
 function ResourceCard({ icon: Icon, badge, title, subtitle, link, linkLabel, isDownload }) {
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
       <div className="flex items-start gap-3 mb-3">
         <div className="w-10 h-10 rounded-xl bg-brand-blue/10 flex items-center justify-center shrink-0">
           <Icon size={18} className="text-brand-blue" />
         </div>
         <div className="flex-1 min-w-0">
           <span className="text-xs font-semibold text-brand-orange">{badge}</span>
-          <h4 className="font-semibold text-brand-blueDark text-sm leading-snug mt-0.5">{title}</h4>
-          {subtitle && <p className="text-gray-400 text-xs mt-0.5">{subtitle}</p>}
+          <h4 className="font-semibold text-brand-blueDark dark:text-white text-sm leading-snug mt-0.5">{title}</h4>
+          {subtitle && <p className="text-gray-400 dark:text-gray-500 text-xs mt-0.5">{subtitle}</p>}
         </div>
       </div>
       <a

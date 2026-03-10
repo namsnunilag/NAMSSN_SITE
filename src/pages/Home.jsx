@@ -227,21 +227,21 @@ export default function Home() {
       </section>
 
       {/* ── QUICK LINKS ───────────────────────────────────────────────────── */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-brand-blueDark text-center mb-2">Explore NAMSSN</h2>
-          <p className="text-gray-500 text-center mb-10">Everything you need in one place</p>
+          <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">Explore NAMSSN</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-center mb-10">Everything you need in one place</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-5">
             {QUICK_LINKS.map(({ to, label, desc }) => (
               <Link
                 key={to}
                 to={to}
-                className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-md border border-gray-100 hover:border-brand-blue/30 transition-all duration-200 hover:-translate-y-1"
+                className="group bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/30 transition-all duration-200 hover:-translate-y-1"
               >
-                <h3 className="font-bold text-brand-blueDark group-hover:text-brand-blue text-lg mb-1 transition-colors">
+                <h3 className="font-bold text-brand-blueDark dark:text-white group-hover:text-brand-blue text-lg mb-1 transition-colors">
                   {label}
                 </h3>
-                <p className="text-gray-500 text-sm mb-4">{desc}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">{desc}</p>
                 <span className="inline-flex items-center gap-1 text-brand-orange text-sm font-semibold group-hover:gap-2 transition-all">
                   View <ArrowRight size={14} />
                 </span>
@@ -252,7 +252,7 @@ export default function Home() {
       </section>
 
       {/* ── ABOUT US ──────────────────────────────────────────────────────── */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="h-72 md:h-[400px] rounded-2xl overflow-hidden shadow-xl bg-brand-blue/10">
@@ -267,13 +267,13 @@ export default function Home() {
               <span className="inline-block bg-brand-orange/10 text-brand-orange text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
                 About Us
               </span>
-              <h2 className="text-3xl font-bold text-brand-blueDark mb-4">Who We Are</h2>
-              <p className="text-gray-600 leading-relaxed mb-4">
+              <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white mb-4">Who We Are</h2>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                 NAMSSN (National Association of Mathematical Sciences Students of Nigerian Universities)
                 UNILAG Chapter is the student body representing all mathematical sciences students at the
                 University of Lagos, affiliated with the national NAMSSN body across Nigeria.
               </p>
-              <p className="text-gray-600 leading-relaxed mb-6">
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
                 From our flagship DECAGON competition to social events and workshops, we are dedicated
                 to building the next generation of mathematical leaders who will make an impact in
                 Nigeria and beyond.
@@ -290,10 +290,10 @@ export default function Home() {
       </section>
 
       {/* ── WHY JOIN ──────────────────────────────────────────────────────── */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-brand-blueDark text-center mb-2">What NAMSSN Offers You</h2>
-          <p className="text-gray-500 text-center mb-10">More than just a student association</p>
+          <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">What NAMSSN Offers You</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-center mb-10">More than just a student association</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: GraduationCap, title: 'Academic Growth',   desc: 'Access study groups, workshops, and resources to sharpen your mathematical skills.' },
@@ -301,12 +301,12 @@ export default function Home() {
               { icon: Globe,         title: 'Networking',        desc: 'Connect with alumni, industry professionals, and students from across Nigeria.' },
               { icon: Heart,         title: 'Community & Fun',   desc: 'Build lifelong friendships through social events, hangouts, and shared experiences.' },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+              <div key={title} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-200">
                 <div className="w-12 h-12 bg-brand-orange/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Icon size={22} className="text-brand-orange" />
                 </div>
-                <h3 className="font-bold text-brand-blueDark text-base mb-2">{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+                <h3 className="font-bold text-brand-blueDark dark:text-white text-base mb-2">{title}</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -314,10 +314,10 @@ export default function Home() {
       </section>
 
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      <section className="py-16 bg-gray-50 text-center">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900 text-center">
         <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-brand-blueDark mb-4">Be Part of Something Bigger</h2>
-          <p className="text-gray-600 mb-8">
+          <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white mb-4">Be Part of Something Bigger</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-8">
             You're already one of us. Participate in competitions, attend workshops,
             and build lifelong friendships with fellow mathematical sciences students.
           </p>

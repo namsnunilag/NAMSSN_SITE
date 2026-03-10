@@ -6,7 +6,7 @@ function ArticleCard({ article, onClick }) {
   return (
     <button
       onClick={() => onClick(article)}
-      className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left flex flex-col"
+      className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left flex flex-col"
     >
       {article.image && (
         <div className="h-48 bg-brand-blue/10 overflow-hidden">
@@ -28,11 +28,11 @@ function ArticleCard({ article, onClick }) {
             ))}
           </div>
         )}
-        <h3 className="font-bold text-brand-blueDark text-lg group-hover:text-brand-blue transition-colors mb-1 leading-snug">
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-lg group-hover:text-brand-blue transition-colors mb-1 leading-snug">
           {article.title}
         </h3>
-        <p className="text-xs text-gray-400 mb-3">By {article.author} · {article.date}</p>
-        <p className="text-gray-500 text-sm leading-relaxed flex-grow">{article.excerpt}</p>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">By {article.author} · {article.date}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed flex-grow">{article.excerpt}</p>
         <span className="mt-4 inline-flex items-center gap-1 text-brand-orange text-sm font-semibold group-hover:gap-2 transition-all">
           Read More <ArrowRight size={13} />
         </span>
@@ -48,7 +48,7 @@ function ArticleModal({ article, onClose }) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl max-w-2xl w-full my-8 overflow-hidden shadow-2xl"
+        className="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full my-8 overflow-hidden shadow-2xl"
         onClick={e => e.stopPropagation()}
       >
         {article.image && (
@@ -66,13 +66,13 @@ function ArticleModal({ article, onClose }) {
               ))}
             </div>
           )}
-          <h2 className="text-2xl font-black text-brand-blueDark mb-2">{article.title}</h2>
-          <p className="text-sm text-gray-400 mb-6">By {article.author} · {article.date}</p>
-          <div className="text-gray-600 leading-relaxed whitespace-pre-line text-sm">{article.content}</div>
+          <h2 className="text-2xl font-black text-brand-blueDark dark:text-white mb-2">{article.title}</h2>
+          <p className="text-sm text-gray-400 dark:text-gray-500 mb-6">By {article.author} · {article.date}</p>
+          <div className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm">{article.content}</div>
 
           {article.references?.length > 0 && (
-            <div className="mt-8 border-t border-gray-100 pt-6">
-              <h4 className="text-sm font-bold text-brand-blueDark mb-3">Further Reading & References</h4>
+            <div className="mt-8 border-t border-gray-100 dark:border-gray-700 pt-6">
+              <h4 className="text-sm font-bold text-brand-blueDark dark:text-white mb-3">Further Reading & References</h4>
               <ul className="space-y-2">
                 {article.references.map((ref, i) => (
                   <li key={i}>
@@ -117,9 +117,9 @@ export default function Community() {
         </p>
       </section>
 
-      <section className="py-12 bg-gray-50 min-h-[60vh]">
+      <section className="py-12 bg-gray-50 dark:bg-gray-900 min-h-[60vh]">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-brand-blueDark mb-6">Articles & Blog</h2>
+          <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Articles & Blog</h2>
 
           {articles.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">

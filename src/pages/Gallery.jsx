@@ -143,7 +143,7 @@ export default function Gallery() {
       </section>
 
       {/* Filter */}
-      <div className="sticky top-16 z-30 bg-white border-b border-gray-100 shadow-sm">
+      <div className="sticky top-16 z-30 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
           {CATEGORIES.map(cat => (
             <button
@@ -152,7 +152,7 @@ export default function Gallery() {
               className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 activeCategory === cat
                   ? 'bg-brand-orange text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               {cat}
@@ -162,7 +162,7 @@ export default function Gallery() {
       </div>
 
       {/* Grid */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
           {filtered.length === 0 ? (
             <p className="text-gray-400 italic text-center py-20">No photos in this category yet.</p>
@@ -173,7 +173,7 @@ export default function Gallery() {
               ))}
             </div>
           )}
-          <p className="text-center text-gray-400 text-sm mt-10 italic">
+          <p className="text-center text-gray-400 dark:text-gray-500 text-sm mt-10 italic">
             More photos coming soon — follow us on Instagram @namssn_unilag
           </p>
         </div>
