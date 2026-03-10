@@ -166,7 +166,7 @@ export default function Executives() {
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-16 px-4 text-center">
         <h1 className="text-4xl md:text-5xl font-black mb-4">Our Leadership</h1>
         <p className="text-blue-100 max-w-xl mx-auto mb-8">
-          Meet the patrons, lecturers, and student executives of NAMSSN UNILAG 2024/2025.
+          Meet the patrons, lecturers, and student executives of NAMSSN UNILAG 2025/2026.
         </p>
 
         {/* Tab buttons */}
@@ -204,7 +204,7 @@ export default function Executives() {
           {tab === 'executives' && (
             <>
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
-              <p className="text-gray-500 dark:text-gray-400 mb-8">Your elected NAMSSN UNILAG executives for the 2024/2025 session</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-8">Your elected NAMSSN UNILAG executives for the 2025/2026 session</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {executives.map((e) => <ExecCard key={e.role} exec={e} />)}
               </div>
