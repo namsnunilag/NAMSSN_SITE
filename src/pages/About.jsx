@@ -15,7 +15,7 @@ function AboutImage() {
     <img
       src="/images/events/excos.jpg"
       alt="NAMSSN UNILAG Executive team"
-      className="w-full h-full object-cover rounded-2xl shadow-xl"
+      className="w-full h-full object-cover rounded-2xl shadow-xl" loading="lazy"
       onError={() => setFailed(true)}
     />
   )

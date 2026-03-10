@@ -35,7 +35,7 @@ function ArticleThumbnail({ article }) {
         <img
           src={article.image}
           alt={article.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy"
           onError={e => { e.currentTarget.style.display = 'none' }}
         />
       </div>
