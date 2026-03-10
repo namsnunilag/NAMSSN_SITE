@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import usePageTitle from '../hooks/usePageTitle'
 import { ChevronLeft, ChevronRight, ArrowRight, Trophy, Users, BookOpen, Star, Zap, Heart, Globe, GraduationCap } from 'lucide-react'
 
 // ── Hero slideshow images ───────────────────────────────────────────────────
@@ -51,6 +52,7 @@ const QUICK_LINKS = [
 ]
 
 export default function Home() {
+  usePageTitle()
   const [current, setCurrent] = useState(0)
   const intervalRef = useRef(null)
 

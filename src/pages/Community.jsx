@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BookOpen, ArrowRight, X, ExternalLink } from 'lucide-react'
+import usePageTitle from '../hooks/usePageTitle'
 import { articles } from '../data/community'
 
 const TAG_GRADIENTS = {
@@ -144,6 +145,7 @@ function ArticleModal({ article, onClose }) {
 }
 
 export default function Community() {
+  usePageTitle('Community')
   const [openArticle, setOpenArticle] = useState(null)
 
   return (

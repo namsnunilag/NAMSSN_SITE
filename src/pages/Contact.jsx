@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Mail, MapPin, Phone, Facebook, Twitter, Instagram, Linkedin, Send, CheckCircle2 } from 'lucide-react'
+import usePageTitle from '../hooks/usePageTitle'
 
 const socials = [
   // ── Replace '#' hrefs with your actual social media URLs ──────────────
@@ -29,6 +30,7 @@ const contactInfo = [
 ]
 
 export default function Contact() {
+  usePageTitle('Contact Us')
   const [form,      setForm]      = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading,   setLoading]   = useState(false)

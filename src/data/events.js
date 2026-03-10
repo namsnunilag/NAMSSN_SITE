@@ -65,67 +65,7 @@ export const upcomingEvents = [
   },
 ]
 
-export const pastEvents = [
-  {
-    id: 4,
-    title: "HOD Games 2024",
-    date: 'November 20, 2024',
-    time: '9:00 AM',
-    location: 'UNILAG Sports Complex',
-    category: 'Sports',
-    image: '/images/events/HOD.jpg',
-    shortDescription: 'Annual HOD sports competition bringing together students and staff.',
-    fullDescription: `The HOD Games 2024 was a fantastic event that brought together students and staff of the Mathematics Department for a day of friendly sporting competition. Events included football, volleyball, and relay races.`,
-    highlights: [
-      'Student vs staff matches',
-      'Multiple sporting events',
-      'Department unity and bonding',
-    ],
-    registrationStatus: 'closed',
-    registrationDate: null,
-    registrationLink: null,
-  },
-  {
-    id: 5,
-    title: 'Freshers Orientation 2024',
-    date: 'October 5, 2024',
-    time: '10:00 AM',
-    location: 'Mathematics Department, UNILAG',
-    category: 'Orientation',
-    image: '/images/events/fo.jpg',
-    shortDescription: 'Welcome event for new mathematical sciences students.',
-    fullDescription: `The Freshers Orientation 2024 welcomed new students to the Department of Mathematics and to NAMSSN UNILAG. Students learned about department resources, NAMSSN activities, and got to meet their senior colleagues and executives.`,
-    highlights: [
-      'Welcome address from executives',
-      'Department tour',
-      'Meet-and-greet with senior students',
-      'Introduction to NAMSSN activities',
-    ],
-    registrationStatus: 'closed',
-    registrationDate: null,
-    registrationLink: null,
-  },
-  {
-    id: 6,
-    title: 'DataMatics Workshop 2024',
-    date: 'September 14, 2024',
-    time: '1:00 PM',
-    location: 'Computer Science Lab, UNILAG',
-    category: 'Workshop',
-    image: '/images/events/tem.png',
-    shortDescription: 'Hands-on data analysis and Python programming workshop.',
-    fullDescription: `DataMatics was a full-day hands-on workshop introducing students to data analysis using Python and Excel. Participants learned data cleaning, visualization, and basic statistical analysis with real-world datasets.`,
-    highlights: [
-      'Python & Excel for data analysis',
-      'Real-world dataset projects',
-      'Certificates of participation',
-      'Hands-on coding sessions',
-    ],
-    registrationStatus: 'closed',
-    registrationDate: null,
-    registrationLink: null,
-  },
-]
+export const pastEvents = []
 
 export const registrationStatusConfig = {
   'open':        { label: 'Registration Open',   color: 'bg-green-100 text-green-800 border-green-200' },

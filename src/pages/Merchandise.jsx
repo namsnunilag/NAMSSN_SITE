@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ShoppingBag, ShoppingCart, MessageCircle } from 'lucide-react'
+import usePageTitle from '../hooks/usePageTitle'
 import { merchandise } from '../data/merchandise'
 
 function MerchCard({ item }) {
@@ -73,6 +74,7 @@ function MerchCard({ item }) {
 }
 
 export default function Merchandise() {
+  usePageTitle('Merchandise')
   const [filter, setFilter] = useState('all')
 
   const categories = ['all', ...new Set(merchandise.map(m => m.category).filter(Boolean))]

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import usePageTitle from '../hooks/usePageTitle'
 
 // ── Lecturers ────────────────────────────────────────────────────────────────
 // Prof. ABIALA first (HOD), then remaining Profs, then Drs. ADETUNJI in middle.
@@ -152,6 +153,7 @@ const TABS = {
 }
 
 export default function Executives() {
+  usePageTitle('Executives & Lecturers')
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = searchParams.get('tab') || 'patrons'
 

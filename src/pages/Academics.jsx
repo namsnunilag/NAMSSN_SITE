@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Bell, BookOpen, FileText, Calendar, Download, ExternalLink, Megaphone, FlaskConical, Clock } from 'lucide-react'
+import usePageTitle from '../hooks/usePageTitle'
 import { announcements, courseMaterials, courseMaterialsLink, timetable } from '../data/academics'
 
 const TABS = [
@@ -18,6 +19,7 @@ const announcementTypeConfig = {
 const LEVELS = ['100', '200', '300', '400', '500']
 
 export default function Academics() {
+  usePageTitle('Academics')
   const [activeTab, setActiveTab] = useState('announcements')
   const [levelFilter, setLevelFilter] = useState('all')
 

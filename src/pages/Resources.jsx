@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { GraduationCap, Briefcase, BookMarked, Calculator, Plus, Trash2, ExternalLink, ChevronDown, Target } from 'lucide-react'
+import usePageTitle from '../hooks/usePageTitle'
 import { scholarships, internships, jobs, jobPlatforms, handbook } from '../data/resources'
 
 const TABS = [
@@ -438,6 +439,7 @@ function EmptyState({ icon: Icon, text }) {
 }
 
 export default function Resources() {
+  usePageTitle('Student Resources')
   const [activeTab, setActiveTab] = useState('cgpa')
 
   return (

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { X, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react'
+import usePageTitle from '../hooks/usePageTitle'
 import { newsletters } from '../data/newsletters'
 
 // Lightbox for a single newsletter — flips through its pages (images)
@@ -91,6 +92,7 @@ function Lightbox({ newsletter, onClose }) {
 }
 
 export default function Newsletter() {
+  usePageTitle('Newsletter')
   const [open, setOpen] = useState(null) // the newsletter object currently open
 
   return (

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Calendar, MapPin, Clock, ArrowLeft, ExternalLink, Bell, CheckCircle2 } from 'lucide-react'
 import { findEvent, registrationStatusConfig } from '../data/events'
+import usePageTitle from '../hooks/usePageTitle'
 
 // ── Countdown hook ──────────────────────────────────────────────────────────
 function useCountdown(targetDateStr) {
@@ -132,6 +133,7 @@ export default function EventDetail() {
   const { id }   = useParams()
   const navigate = useNavigate()
   const event    = findEvent(id)
+  usePageTitle(event ? event.title : 'Event')
 
   if (!event) {
     return (

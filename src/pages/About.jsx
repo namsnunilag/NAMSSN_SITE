@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Target, Eye, Heart, Award } from 'lucide-react'
+import usePageTitle from '../hooks/usePageTitle'
 
 function AboutImage() {
   const [failed, setFailed] = useState(false)
@@ -44,6 +45,7 @@ const values = [
 ]
 
 export default function About() {
+  usePageTitle('About')
   return (
     <div className="pt-16">
 

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react'
-import { upcomingEvents, pastEvents, registrationStatusConfig } from '../data/events'
+import { upcomingEvents, registrationStatusConfig } from '../data/events'
+import usePageTitle from '../hooks/usePageTitle'
 
 function RegistrationBadge({ status }) {
   const cfg = registrationStatusConfig[status] || registrationStatusConfig['none']
@@ -77,6 +78,7 @@ function EventCard({ event }) {
 import { useState } from 'react'
 
 export default function Events() {
+  usePageTitle('Events')
   return (
     <div className="pt-16">
 
@@ -103,20 +105,6 @@ export default function Events() {
         </div>
       </section>
 
-      {/* Past */}
-      <section className="py-16 bg-white dark:bg-gray-800">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Past Events</h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-8">Relive the memories from our previous events.</p>
-          {pastEvents.length === 0 ? (
-            <p className="text-gray-400 italic">No past events yet.</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {pastEvents.map(e => <EventCard key={e.id} event={e} />)}
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   )
 }
