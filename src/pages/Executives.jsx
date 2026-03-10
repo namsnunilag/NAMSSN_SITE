@@ -214,7 +214,7 @@ export default function Executives() {
           {tab === 'lecturers' && (
             <>
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Our Lecturers</h2>
-              <p className="text-gray-500 dark:text-gray-400 mb-8">Faculty of the Department of Mathematics, University of Lagos</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-8">Department of Mathematics, University of Lagos</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {lecturers.map((l) => <LecturerCard key={l.name} lecturer={l} />)}
               </div>
