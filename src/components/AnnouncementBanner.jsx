@@ -25,7 +25,17 @@ export default function AnnouncementBanner() {
         <Icon size={15} className="shrink-0" />
         <p className="flex-1 text-sm font-medium text-center leading-snug">
           {a.message}
-          {a.link && (
+          {a.href && (
+            <a
+              href={a.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-2 underline font-bold hover:no-underline"
+            >
+              {a.linkText || 'Read More'}
+            </a>
+          )}
+          {a.link && !a.href && (
             <Link
               to={a.link}
               className="ml-2 underline font-bold hover:no-underline"
