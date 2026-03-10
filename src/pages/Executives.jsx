@@ -21,6 +21,7 @@ const lecturers = [
   { name: 'Dr. George O.O',     image: '/images/lecturers/george.jpg',      initials: 'GO' },
   { name: 'Dr. Hamzat A.I',     image: '/images/lecturers/hamzat.jpg',      initials: 'HA' },
   { name: 'Dr. BISHOP S.A',     image: '/images/lecturers/bishop.jpg',      initials: 'BS' },
+  { name: 'Dr. HALLOWED O',     image: '/images/lecturers/Dr O. hallowed.jpg', initials: 'HO' },
 ]
 
 // ── Patrons ─────────────────────────────────────────────────────────────────
