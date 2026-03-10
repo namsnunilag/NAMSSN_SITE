@@ -103,7 +103,7 @@ export default function Home() {
           {SYMBOLS.map((s, i) => (
             <span
               key={i}
-              className="math-symbol absolute bottom-0 text-white/60 select-none"
+              className="math-symbol absolute bottom-0 text-white select-none"
               style={{
                 left: s.left,
                 fontSize: s.size,
