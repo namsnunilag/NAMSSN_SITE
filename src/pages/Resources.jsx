@@ -301,9 +301,15 @@ function CGPACalculator() {
   )
 }
 
-function OpportunityCard({ title, badge, deadline, description, link }) {
+function OpportunityCard({ title, badge, deadline, description, link, logo }) {
+  const [logoFailed, setLogoFailed] = useState(false)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+      {logo && !logoFailed && (
+        <div className="w-12 h-12 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 flex items-center justify-center mb-3 overflow-hidden">
+          <img src={logo} alt={title} loading="lazy" className="w-10 h-10 object-contain" onError={() => setLogoFailed(true)} />
+        </div>
+      )}
       <div className="flex items-start justify-between gap-2 mb-2">
         <h4 className="font-bold text-brand-blueDark dark:text-white leading-snug">{title}</h4>
         {badge && (
@@ -430,7 +436,7 @@ export default function Resources() {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {scholarships.map(s => (
-                    <OpportunityCard key={s.id} title={s.title} badge={s.badge} deadline={s.deadline} description={s.description} link={s.link} />
+                    <OpportunityCard key={s.id} title={s.title} badge={s.badge} deadline={s.deadline} description={s.description} link={s.link} logo={s.logo} />
                   ))}
                 </div>
               )}

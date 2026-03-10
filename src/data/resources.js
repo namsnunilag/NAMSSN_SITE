@@ -8,6 +8,7 @@ export const scholarships = [
     deadline: '',
     description: 'Open to 100–400 level students in STEM and social science fields at accredited Nigerian universities. Minimum CGPA of 3.5/5.0 required.',
     link: 'https://www.mtn.ng/foundation/mtn-scholarships/',
+    logo: 'https://logo.clearbit.com/mtn.com',
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ export const scholarships = [
     deadline: '',
     description: 'Competitive scholarship for students studying science, engineering, mathematics, and technology in Nigerian universities.',
     link: 'https://csr-ngscholarship.totalenergies.com/',
+    logo: 'https://logo.clearbit.com/totalenergies.com',
   },
   {
     id: 7,
@@ -24,6 +26,7 @@ export const scholarships = [
     deadline: '',
     description: 'For students from Niger Delta states (Abia, Akwa Ibom, Bayelsa, Cross River, Delta, Edo, Imo, Ondo, Rivers) studying in Nigeria or abroad.',
     link: 'https://nddc.gov.ng',
+    logo: 'https://www.google.com/s2/favicons?domain=nddc.gov.ng&sz=128',
   },
   {
     id: 8,
@@ -32,6 +35,7 @@ export const scholarships = [
     deadline: '',
     description: 'Merit-based scholarship by the Aliko Dangote Foundation for undergraduate students in Nigerian universities demonstrating academic excellence.',
     link: 'https://www.dangote.com/foundation/',
+    logo: 'https://logo.clearbit.com/dangote.com',
   },
   {
     id: 9,
@@ -40,6 +44,7 @@ export const scholarships = [
     deadline: '',
     description: 'Supports academically talented yet economically disadvantaged students. Available at select African universities including University of Lagos.',
     link: 'https://mastercardfdn.org/en/what-we-do/our-programs/mastercard-foundation-scholars-program/',
+    logo: 'https://logo.clearbit.com/mastercard.com',
   },
   {
     id: 10,
@@ -48,6 +53,7 @@ export const scholarships = [
     deadline: '',
     description: 'Tertiary Education Trust Fund scholarship for postgraduate studies. Available to students in accredited Nigerian institutions.',
     link: 'https://www.tetfund.gov.ng',
+    logo: 'https://www.google.com/s2/favicons?domain=tetfund.gov.ng&sz=128',
   },
 ]
 
