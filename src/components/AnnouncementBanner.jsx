@@ -19,33 +19,28 @@ export default function AnnouncementBanner() {
   const cfg = typeConfig[a.type] || typeConfig.info
   const Icon = cfg.icon
 
-  const inner = (
-    <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-3">
-      <Icon size={15} className="shrink-0" />
-      <p className="flex-1 text-sm font-medium text-center leading-snug text-white">
-        {a.message}
-      </p>
-      <button
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDismissed(d => [...d, a.id]) }}
-        className={`shrink-0 p-1 rounded-full ${cfg.btn} transition-colors`}
-        aria-label="Dismiss announcement"
-      >
-        <X size={14} />
-      </button>
-    </div>
-  )
-
   return (
-    <div className={`${cfg.bg} relative z-40`}>
+    <div className={`${cfg.bg} text-white relative z-40`}>
       {a.href ? (
-        <a href={a.href} target="_blank" rel="noopener noreferrer" className="block hover:opacity-90 transition-opacity">
-          {inner}
+        <a href={a.href} target="_blank" rel="noopener noreferrer" className="block text-white hover:opacity-90 transition-opacity">
+          <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-3">
+            <Icon size={15} className="shrink-0 text-white" />
+            <p className="flex-1 text-sm font-medium text-center leading-snug">{a.message}</p>
+            <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDismissed(d => [...d, a.id]) }} className={`shrink-0 p-1 rounded-full ${cfg.btn} transition-colors`} aria-label="Dismiss">
+              <X size={14} />
+            </button>
+          </div>
         </a>
-      ) : a.link ? (
-        <Link to={a.link} className="block hover:opacity-90 transition-opacity">
-          {inner}
-        </Link>
-      ) : inner}
+      ) : (
+        <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-3">
+          <Icon size={15} className="shrink-0 text-white" />
+          <p className="flex-1 text-sm font-medium text-center leading-snug">{a.message}</p>
+          {a.link && <Link to={a.link} className="text-white underline font-bold text-sm shrink-0">{a.linkText || 'Learn More'}</Link>}
+          <button onClick={() => setDismissed(d => [...d, a.id])} className={`shrink-0 p-1 rounded-full ${cfg.btn} transition-colors`} aria-label="Dismiss">
+            <X size={14} />
+          </button>
+        </div>
+      )}
     </div>
   )
 }
