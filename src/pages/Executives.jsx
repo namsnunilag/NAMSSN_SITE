@@ -9,6 +9,7 @@ const lecturers = [
   { name: 'Prof. Akewe H',       image: '/images/lecturers/akewe.jpg',       initials: 'AH' },
   { name: 'Prof. Olaleru J.O',   image: '/images/lecturers/olaleru.jpg',     initials: 'OJ' },
   { name: 'Prof. OKUNUGA S.A',   image: '/images/lecturers/okunuga.jpg',     initials: 'OS' },
+  { name: 'Prof. MOGBADEMU A.A', image: '/images/lecturers/prof mogbademu.jpg', initials: 'MA' },
   { name: 'Dr. AKINFENWA O.A',  image: '/images/lecturers/akinfenwa.jpg',   initials: 'AO' },
   { name: 'Dr. EHIGIE J.O',     image: '/images/lecturers/ehigie.jpg',      initials: 'EJ' },
   { name: 'Dr. ABOLARINWA A',   image: '/images/lecturers/abolarinwa.jpg',  initials: 'AA' },
@@ -19,7 +20,6 @@ const lecturers = [
   { name: 'Dr. EKE K',          image: '/images/lecturers/eke.jpg',         initials: 'EK' },
   { name: 'Dr. George O.O',     image: '/images/lecturers/george.jpg',      initials: 'GO' },
   { name: 'Dr. Hamzat A.I',     image: '/images/lecturers/hamzat.jpg',      initials: 'HA' },
-  { name: 'Adesanmi Alao Mogbademu', image: '/images/lecturers/prof mogbademu.jpg', initials: 'AAM' },
   { name: 'Dr. Olaoluwa Hallowed Oluwadara', image: '/images/lecturers/Dr O. hallowed.jpg', initials: 'OHO' },
 ]
 
@@ -73,7 +73,7 @@ function PatronCard({ patron }) {
   const [failed, setFailed] = useState(false)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-      <div className="h-52 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
+      <div className="h-64 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
             src={patron.image}
@@ -87,9 +87,9 @@ function PatronCard({ patron }) {
           </div>
         )}
       </div>
-      <div className="p-4 text-center">
-        <h3 className="font-bold text-brand-blueDark dark:text-white text-base">{patron.name}</h3>
-        <p className="text-brand-orange text-sm font-medium">{patron.role}</p>
+      <div className="px-3 py-2 text-center">
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-sm leading-tight">{patron.name}</h3>
+        <p className="text-brand-orange text-xs font-medium mt-0.5">{patron.role}</p>
       </div>
     </div>
   )
@@ -99,7 +99,7 @@ function ExecCard({ exec }) {
   const [failed, setFailed] = useState(false)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-      <div className="h-52 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
+      <div className="h-64 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
             src={exec.image}
@@ -113,9 +113,9 @@ function ExecCard({ exec }) {
           </div>
         )}
       </div>
-      <div className="p-4 text-center">
-        <h3 className="font-bold text-brand-blueDark dark:text-white text-base">{exec.name}</h3>
-        <p className="text-brand-orange text-sm font-medium">{exec.role}</p>
+      <div className="px-3 py-2 text-center">
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-sm leading-tight">{exec.name}</h3>
+        <p className="text-brand-orange text-xs font-medium mt-0.5">{exec.role}</p>
       </div>
     </div>
   )
@@ -125,7 +125,7 @@ function LecturerCard({ lecturer }) {
   const [failed, setFailed] = useState(false)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-      <div className="h-52 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
+      <div className="h-64 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
             src={lecturer.image}
@@ -139,8 +139,8 @@ function LecturerCard({ lecturer }) {
           </div>
         )}
       </div>
-      <div className="p-4 text-center">
-        <h3 className="font-bold text-brand-blueDark dark:text-white text-base">{lecturer.name}</h3>
+      <div className="px-3 py-2 text-center">
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-sm leading-tight">{lecturer.name}</h3>
       </div>
     </div>
   )
