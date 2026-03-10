@@ -153,7 +153,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                         Subject
                       </label>
                       <input
@@ -167,7 +167,7 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                         Message <span className="text-red-500">*</span>
                       </label>
                       <textarea
