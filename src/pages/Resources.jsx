@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { GraduationCap, Briefcase, Building2, BookMarked, Calculator, Plus, Trash2, ExternalLink, ChevronDown, Target } from 'lucide-react'
-import { scholarships, internships, jobs, handbook } from '../data/resources'
+import { scholarships, internships, jobs, jobPlatforms, handbook } from '../data/resources'
 
 const TABS = [
   { id: 'cgpa',         label: 'CGPA Calculator', icon: Calculator },
@@ -277,6 +277,31 @@ function OpportunityCard({ title, badge, deadline, description, link }) {
   )
 }
 
+function PlatformCards() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {jobPlatforms.map(p => (
+        <a
+          key={p.id}
+          href={p.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:-translate-y-0.5 hover:border-brand-blue/30 transition-all duration-200 flex flex-col group"
+        >
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="font-bold text-brand-blueDark dark:text-white group-hover:text-brand-blue transition-colors">{p.name}</h4>
+            <span className="text-xs font-semibold bg-brand-orange/10 text-brand-orange px-2 py-0.5 rounded-full">{p.badge}</span>
+          </div>
+          <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed flex-grow">{p.description}</p>
+          <span className="mt-3 inline-flex items-center gap-1 text-brand-orange text-sm font-semibold group-hover:gap-2 transition-all">
+            Visit Platform <ExternalLink size={12} />
+          </span>
+        </a>
+      ))}
+    </div>
+  )
+}
+
 function EmptyState({ icon: Icon, text }) {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
@@ -344,11 +369,11 @@ export default function Resources() {
 
           {activeTab === 'internships' && (
             <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Internship Opportunities</h2>
-              {internships.length === 0 ? (
-                <EmptyState icon={Building2} text="No internship listings at the moment." />
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Internship Opportunities</h2>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Specific listings will appear here. In the meantime, use these trusted platforms to find internships.</p>
+              <PlatformCards />
+              {internships.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
                   {internships.map(i => (
                     <OpportunityCard key={i.id} title={i.role} badge={i.type} deadline={i.deadline} description={`${i.company} — ${i.description}`} link={i.link} />
                   ))}
@@ -359,11 +384,11 @@ export default function Resources() {
 
           {activeTab === 'jobs' && (
             <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Job Board</h2>
-              {jobs.length === 0 ? (
-                <EmptyState icon={Briefcase} text="No job listings at the moment." />
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Job Board</h2>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Specific listings will appear here. In the meantime, use these trusted platforms to find jobs.</p>
+              <PlatformCards />
+              {jobs.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
                   {jobs.map(j => (
                     <OpportunityCard key={j.id} title={j.role} badge={j.type} description={`${j.company} — ${j.description}`} link={j.link} />
                   ))}

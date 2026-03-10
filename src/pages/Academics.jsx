@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { Bell, BookOpen, FileText, Calendar, Download, ExternalLink, Megaphone, FlaskConical, Clock } from 'lucide-react'
-import { announcements, courseMaterials, courseMaterialsLink, pastQuestions, pastQuestionsLink, timetable } from '../data/academics'
+import { announcements, courseMaterials, courseMaterialsLink, timetable } from '../data/academics'
 
 const TABS = [
   { id: 'announcements', label: 'Announcements',    icon: Megaphone },
   { id: 'materials',     label: 'Course Materials', icon: BookOpen },
-  { id: 'pastq',         label: 'Past Questions',   icon: FileText },
   { id: 'timetable',     label: 'Timetable',        icon: Calendar },
 ]
 
@@ -140,49 +139,6 @@ export default function Academics() {
 
               {!courseMaterialsLink && filteredMaterials.length === 0 && (
                 <EmptyState icon={BookOpen} text="No course materials uploaded yet. Check back soon." />
-              )}
-            </div>
-          )}
-
-          {/* ── Past Questions ── */}
-          {activeTab === 'pastq' && (
-            <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Past Questions</h2>
-
-              {/* Drive link — shows when set */}
-              {pastQuestionsLink && (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-brand-blue/20 dark:border-gray-700 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-brand-blue/10 flex items-center justify-center shrink-0">
-                      <FileText size={18} className="text-brand-blue" />
-                    </div>
-                    <div>
-                      <p className="font-bold text-brand-blueDark dark:text-white">All Past Questions</p>
-                      <p className="text-gray-400 dark:text-gray-500 text-sm">All courses & levels — individual sorting coming soon</p>
-                    </div>
-                  </div>
-                  <a
-                    href={pastQuestionsLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0 inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors"
-                  >
-                    <ExternalLink size={14} /> Open on Drive
-                  </a>
-                </div>
-              )}
-
-              {/* Individual cards (future use) */}
-              {pastQuestions.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {pastQuestions.map(q => (
-                    <ResourceCard key={q.id} icon={FileText} badge={q.year} title={`${q.course} — ${q.semester} Semester`} subtitle={`${q.year} · ${q.semester} Semester`} link={q.link} linkLabel="Download PDF" isDownload />
-                  ))}
-                </div>
-              )}
-
-              {!pastQuestionsLink && pastQuestions.length === 0 && (
-                <EmptyState icon={FileText} text="No past questions uploaded yet. Check back soon." />
               )}
             </div>
           )}

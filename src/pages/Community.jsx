@@ -2,22 +2,62 @@ import { useState } from 'react'
 import { BookOpen, ArrowRight, X, ExternalLink } from 'lucide-react'
 import { articles } from '../data/community'
 
+const TAG_GRADIENTS = {
+  'Number Theory':    'from-violet-600 to-purple-700',
+  'Pure Math':        'from-violet-600 to-purple-700',
+  'Sequences':        'from-emerald-500 to-teal-600',
+  'Nature of Math':   'from-emerald-500 to-teal-600',
+  'Calculus':         'from-blue-500 to-brand-blue',
+  'History of Math':  'from-blue-500 to-brand-blue',
+  'Unsolved Problems':'from-red-500 to-rose-600',
+  'Linear Algebra':   'from-cyan-500 to-blue-600',
+  'Applied Math':     'from-cyan-500 to-blue-600',
+  'Probability':      'from-amber-500 to-orange-500',
+  'Statistics':       'from-amber-500 to-orange-500',
+  'Cryptography':     'from-slate-600 to-gray-700',
+  'Game Theory':      'from-green-500 to-emerald-600',
+  'Topology':         'from-pink-500 to-rose-500',
+  'Academic Writing': 'from-brand-blue to-brand-blueDark',
+  'Research Tips':    'from-brand-blue to-brand-blueDark',
+}
+
+const MATH_SYMBOLS = ['∑', 'π', '∫', '√', 'Δ', '∞', 'θ', 'λ', 'φ', 'Ω']
+
+function ArticleThumbnail({ article }) {
+  const primaryTag = article.tags?.[0]
+  const gradient = TAG_GRADIENTS[primaryTag] || 'from-brand-blue to-brand-blueDark'
+  const symbol = MATH_SYMBOLS[article.id % MATH_SYMBOLS.length]
+
+  if (article.image) {
+    return (
+      <div className="h-44 overflow-hidden">
+        <img
+          src={article.image}
+          alt={article.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          onError={e => { e.currentTarget.style.display = 'none' }}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div className={`h-44 bg-gradient-to-br ${gradient} flex items-center justify-center relative overflow-hidden`}>
+      <span className="text-white/10 text-8xl font-black select-none absolute">{symbol}</span>
+      <div className="relative text-center px-4">
+        <span className="text-white/90 text-4xl font-black">{symbol}</span>
+      </div>
+    </div>
+  )
+}
+
 function ArticleCard({ article, onClick }) {
   return (
     <button
       onClick={() => onClick(article)}
       className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left flex flex-col"
     >
-      {article.image && (
-        <div className="h-48 bg-brand-blue/10 overflow-hidden">
-          <img
-            src={article.image}
-            alt={article.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            onError={e => { e.currentTarget.style.display = 'none' }}
-          />
-        </div>
-      )}
+      <ArticleThumbnail article={article} />
       <div className="p-5 flex flex-col flex-grow">
         {article.tags?.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-2">
@@ -48,7 +88,7 @@ function ArticleModal({ article, onClose }) {
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full my-8 overflow-hidden shadow-2xl"
+        className="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full my-4 overflow-hidden shadow-2xl"
         onClick={e => e.stopPropagation()}
       >
         {article.image && (
@@ -56,7 +96,7 @@ function ArticleModal({ article, onClose }) {
             <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
           </div>
         )}
-        <div className="p-8">
+        <div className="p-5 sm:p-8">
           {article.tags?.length > 0 && (
             <div className="flex flex-wrap gap-1 mb-3">
               {article.tags.map(t => (
@@ -110,9 +150,9 @@ export default function Community() {
     <div className="pt-16">
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-black mb-4">Community</h1>
-        <p className="text-blue-100 max-w-xl mx-auto">
+      <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-16 px-4 text-center">
+        <h1 className="text-3xl md:text-5xl font-black mb-4">Community</h1>
+        <p className="text-blue-100 max-w-xl mx-auto text-sm sm:text-base">
           Read articles and write-ups from NAMSSN members. Stay connected with the NAMSSN family.
         </p>
       </section>

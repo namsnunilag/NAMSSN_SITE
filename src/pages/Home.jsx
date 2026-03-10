@@ -142,11 +142,11 @@ export default function Home() {
             onError={e => { e.currentTarget.style.display = 'none' }}
           />
 
-          <p className="text-brand-blueLight text-sm sm:text-base font-semibold tracking-widest uppercase mb-3">
+          <p className="text-brand-blueLight text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">
             University of Lagos Chapter
           </p>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4 px-2">
             Welcome to{' '}
             <span className="bg-gradient-to-r from-brand-yellow via-brand-orange to-brand-yellow bg-clip-text text-transparent">
               NAMSSN
@@ -155,12 +155,12 @@ export default function Home() {
             <span className="text-white">UNILAG</span>
           </h1>
 
-          <p className="text-gray-200 text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
-            National Association of Mathematical Sciences Students of Nigerian Universities —
-            empowering the next generation of mathematical minds at the University of Lagos.
+          <p className="text-gray-200 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed px-2">
+            National Association of Mathematical Sciences Students of Nigeria.
+            Empowering the next generation of mathematical minds at the University of Lagos.
           </p>
 
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center w-full px-6 sm:px-0 sm:w-auto">
             <Link
               to="/about"
               className="bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white font-bold px-7 py-3 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"

@@ -249,6 +249,121 @@ For mathematics students, game theory is a gateway to operations research, econo
     ],
   },
   {
+    id: 10,
+    title: 'How to Write a Strong Undergraduate Research Paper',
+    author: 'NAMSSN Academic Team',
+    date: 'March 10, 2026',
+    excerpt: 'A practical, no-nonsense guide for mathematics students writing their first research paper or project — from picking a topic to submitting a polished final draft.',
+    image: '',
+    tags: ['Academic Writing', 'Research Tips'],
+    content: `Writing a research paper as an undergraduate can feel intimidating — especially in a rigorous field like mathematics. But the process becomes manageable when you break it into clear stages. Here is a guide designed specifically for mathematics and mathematical sciences students.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. CHOOSE A FOCUSED TOPIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+The most common mistake undergraduates make is choosing a topic that is too broad. "The Applications of Linear Algebra" is not a topic — it is a textbook. A good research topic is specific, answerable, and interesting to you.
+
+Good examples:
+• "An Analysis of the Convergence Properties of the Newton-Raphson Method"
+• "Exploring Graph Colouring and its Applications to Scheduling Problems"
+• "A Review of Bayesian Methods in Clinical Trial Design"
+
+Start with a course you did well in. What topic made you curious? What question did your lecturer not fully answer? That gap is your starting point.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. DO A LITERATURE REVIEW
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Before writing a single word of your paper, you must know what has already been written. Use these resources:
+
+• Google Scholar (scholar.google.com) — free access to millions of papers
+• ResearchGate — researchers often upload full papers here for free
+• arXiv (arxiv.org) — preprints in mathematics and related fields
+• Your university library — ask the librarian for database access
+
+Read at least 8–12 papers in your area. For each one, note: What did they find? What methods did they use? What gaps did they leave? Your paper should build on, extend, or synthesise existing work.
+
+Do not plagiarise. Use citation managers like Zotero or Mendeley to track your sources from the start.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. STRUCTURE YOUR PAPER
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+A standard mathematics/sciences research paper follows this structure:
+
+ABSTRACT (150–250 words)
+A self-contained summary: what you studied, how you studied it, and what you found. Write this last.
+
+INTRODUCTION
+• Background and motivation — why does this topic matter?
+• Statement of the problem or research question
+• Brief overview of what the paper does
+• Outline of sections
+
+LITERATURE REVIEW / BACKGROUND
+Summarise relevant prior work. Show how your paper relates to and extends it.
+
+METHODOLOGY / MAIN BODY
+For a mathematics paper, this is where proofs, derivations, or theoretical analysis go.
+For an applied paper, describe your data, models, and analytical approach.
+Be precise. Every claim needs either a proof or a citation.
+
+RESULTS AND DISCUSSION
+What did you find? What do the results mean? Compare to existing literature.
+
+CONCLUSION
+Summarise findings. State limitations. Suggest directions for future research.
+
+REFERENCES
+Use a consistent citation style. In mathematics, APA and IEEE are both common. Ask your supervisor which one they prefer.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. WRITING TIPS FOR MATHS STUDENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Define every symbol the first time you use it. Do not assume the reader knows your notation.
+• State theorems clearly, then prove them. Never leave a claim unproven unless you cite someone else's proof.
+• Use LaTeX for typesetting if at all possible. It produces professional-quality mathematical notation. Overleaf (overleaf.com) is free and requires no installation.
+• Write in formal but clear English. Avoid slang, but also avoid unnecessarily complex sentences. Say what you mean.
+• Show your working. A reader should be able to follow every step of your reasoning without filling in gaps themselves.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. THE REVISION PROCESS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+First drafts are always bad — for everyone. Do not submit your first draft.
+
+After writing, set the paper aside for at least one day, then re-read it as if you are an examiner seeing it for the first time. Check:
+• Does each paragraph have a clear purpose?
+• Are all mathematical statements precise?
+• Are there any logical gaps in your proofs?
+• Is every source cited?
+
+Get a peer to read it. If they find a section confusing, your examiner will too. Revise until the argument flows clearly from start to finish.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. WORKING WITH YOUR SUPERVISOR
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Your supervisor (project adviser) is not there to write the paper for you — they are there to guide you. Make the most of them:
+
+• Come to meetings with specific questions, not vague confusion
+• Show them drafts early, not just at the end
+• Act on their feedback promptly
+• Email is fine for quick questions — do not wait for the next meeting
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+FINAL ADVICE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Start earlier than you think you need to. Research always takes longer than expected. Give yourself time to get stuck, ask questions, and revise.
+
+Your project is not expected to be groundbreaking — it is expected to show that you can think mathematically, engage with existing literature, and communicate your ideas clearly. That is achievable by every serious student.
+
+Good luck.`,
+    references: [
+      { title: 'How to Write a Mathematics Paper — American Mathematical Society', url: 'https://www.ams.org/publications/authors/AMS-styleguide-journal.pdf' },
+      { title: 'Overleaf — Free LaTeX Editor for Academic Writing', url: 'https://www.overleaf.com' },
+      { title: 'Google Scholar — Free Academic Search Engine', url: 'https://scholar.google.com' },
+      { title: 'Writing a Research Paper — Purdue OWL', url: 'https://owl.purdue.edu/owl/general_writing/the_writing_process/proofreading/index.html' },
+      { title: 'arXiv — Mathematics Preprints', url: 'https://arxiv.org/archive/math' },
+    ],
+  },
+  {
     id: 9,
     title: 'Topology: The Mathematics of Shape Without Distance',
     author: 'Adaeze Obi',

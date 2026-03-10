@@ -92,7 +92,7 @@ export default function Navbar({ onToggleDark, isDark }) {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-5">
+          <nav className="hidden md:flex items-center gap-4 lg:gap-5">
             {links.map(({ to, label }) => (
               <NavLink
                 key={to}

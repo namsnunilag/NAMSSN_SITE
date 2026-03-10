@@ -16,7 +16,7 @@ function MerchCard({ item }) {
         : 'border-gray-100 dark:border-gray-700 opacity-60'
     }`}>
       {/* Image */}
-      <div className="h-72 bg-brand-blue/10 overflow-hidden relative">
+      <div className="h-48 sm:h-72 bg-brand-blue/10 overflow-hidden relative">
         {!imgFailed && item.image ? (
           <img
             src={item.image}
@@ -42,8 +42,8 @@ function MerchCard({ item }) {
       </div>
 
       {/* Info */}
-      <div className="p-5 flex flex-col flex-grow">
-        <h3 className="font-bold text-brand-blueDark dark:text-white text-lg mb-1">{item.name}</h3>
+      <div className="p-3 sm:p-5 flex flex-col flex-grow">
+        <h3 className="font-bold text-brand-blueDark dark:text-white text-sm sm:text-lg mb-1 leading-snug">{item.name}</h3>
         <p className="text-brand-orange font-black text-xl mb-2">{item.price}</p>
         <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed flex-grow">{item.description}</p>
 
@@ -134,7 +134,7 @@ export default function Merchandise() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {filtered.map(item => (
                 <MerchCard key={item.id} item={item} />
               ))}

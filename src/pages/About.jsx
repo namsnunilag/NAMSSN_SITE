@@ -49,8 +49,8 @@ export default function About() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-black mb-4">About NAMSSN UNILAG</h1>
-        <p className="text-blue-100 max-w-2xl mx-auto text-lg">
+        <h1 className="text-3xl md:text-5xl font-black mb-4">About NAMSSN UNILAG</h1>
+        <p className="text-blue-100 max-w-2xl mx-auto text-sm sm:text-lg">
           The National Association of Mathematical Sciences Students of Nigerian Universities —
           University of Lagos Chapter
         </p>
