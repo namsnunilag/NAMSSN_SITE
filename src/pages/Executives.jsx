@@ -73,7 +73,7 @@ function PatronCard({ patron }) {
   const [failed, setFailed] = useState(false)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-      <div className="h-72 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
+      <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
             src={patron.image}
@@ -99,7 +99,7 @@ function ExecCard({ exec }) {
   const [failed, setFailed] = useState(false)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-      <div className="h-72 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
+      <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
             src={exec.image}
@@ -125,7 +125,7 @@ function LecturerCard({ lecturer }) {
   const [failed, setFailed] = useState(false)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-      <div className="h-72 bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
+      <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
             src={lecturer.image}
