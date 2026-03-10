@@ -9,7 +9,6 @@ const lecturers = [
   { name: 'Prof. Akewe H',       image: '/images/lecturers/akewe.jpg',       initials: 'AH' },
   { name: 'Prof. Olaleru J.O',   image: '/images/lecturers/olaleru.jpg',     initials: 'OJ' },
   { name: 'Prof. OKUNUGA S.A',   image: '/images/lecturers/okunuga.jpg',     initials: 'OS' },
-  { name: 'Dr. AKARAWAK E.E',   image: '/images/lecturers/akarawak.jpg',    initials: 'AE' },
   { name: 'Dr. AKINFENWA O.A',  image: '/images/lecturers/akinfenwa.jpg',   initials: 'AO' },
   { name: 'Dr. EHIGIE J.O',     image: '/images/lecturers/ehigie.jpg',      initials: 'EJ' },
   { name: 'Dr. ABOLARINWA A',   image: '/images/lecturers/abolarinwa.jpg',  initials: 'AA' },
@@ -20,8 +19,8 @@ const lecturers = [
   { name: 'Dr. EKE K',          image: '/images/lecturers/eke.jpg',         initials: 'EK' },
   { name: 'Dr. George O.O',     image: '/images/lecturers/george.jpg',      initials: 'GO' },
   { name: 'Dr. Hamzat A.I',     image: '/images/lecturers/hamzat.jpg',      initials: 'HA' },
-  { name: 'Dr. BISHOP S.A',     image: '/images/lecturers/bishop.jpg',      initials: 'BS' },
-  { name: 'Dr. HALLOWED O',     image: '/images/lecturers/Dr O. hallowed.jpg', initials: 'HO' },
+  { name: 'Adesanmi Alao Mogbademu', image: '/images/lecturers/prof mogbademu.jpg', initials: 'AAM' },
+  { name: 'Dr. Olaoluwa Hallowed Oluwadara', image: '/images/lecturers/Dr O. hallowed.jpg', initials: 'OHO' },
 ]
 
 // ── Patrons ─────────────────────────────────────────────────────────────────
