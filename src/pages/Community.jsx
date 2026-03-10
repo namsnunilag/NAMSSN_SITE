@@ -56,7 +56,7 @@ function ArticleCard({ article, onClick }) {
   return (
     <button
       onClick={() => onClick(article)}
-      className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left flex flex-col"
+      className="reveal group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left flex flex-col"
     >
       <ArticleThumbnail article={article} />
       <div className="p-5 flex flex-col flex-grow">
@@ -153,15 +153,15 @@ export default function Community() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-16 px-4 text-center">
-        <h1 className="text-3xl md:text-5xl font-black mb-4">Community</h1>
-        <p className="text-blue-100 max-w-xl mx-auto text-sm sm:text-base">
+        <h1 className="hero-anim hero-anim-1 text-3xl md:text-5xl font-black mb-4">Community</h1>
+        <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto text-sm sm:text-base">
           Read articles and write-ups from NAMSSN members. Stay connected with the NAMSSN family.
         </p>
       </section>
 
       <section className="py-12 bg-gray-50 dark:bg-gray-900 min-h-[60vh]">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Articles & Blog</h2>
+          <h2 className="reveal text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Articles & Blog</h2>
 
           {articles.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">
@@ -173,7 +173,7 @@ export default function Community() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
               {articles.map(a => (
                 <ArticleCard key={a.id} article={a} onClick={setOpenArticle} />
               ))}

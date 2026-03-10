@@ -100,8 +100,8 @@ export default function Newsletter() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-black mb-4">Newsletter</h1>
-        <p className="text-blue-100 max-w-xl mx-auto">
+        <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Newsletter</h1>
+        <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto">
           Stay in the loop with NAMSSN UNILAG's weekly digest — announcements, events, highlights, and more.
         </p>
       </section>
@@ -121,14 +121,14 @@ export default function Newsletter() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
               {newsletters.map((item) => {
                 const isMulti = item.images.length > 1
                 return (
                   <button
                     key={item.id}
                     onClick={() => setOpen(item)}
-                    className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left"
+                    className="reveal group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left"
                   >
                     {/* Thumbnail — always the front image */}
                     <div className="h-64 bg-brand-blue/10 overflow-hidden relative">

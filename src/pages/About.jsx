@@ -51,8 +51,8 @@ export default function About() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
-        <h1 className="text-3xl md:text-5xl font-black mb-4">About NAMSSN UNILAG</h1>
-        <p className="text-blue-100 max-w-2xl mx-auto text-sm sm:text-lg">
+        <h1 className="hero-anim hero-anim-1 text-3xl md:text-5xl font-black mb-4">About NAMSSN UNILAG</h1>
+        <p className="hero-anim hero-anim-2 text-blue-100 max-w-2xl mx-auto text-sm sm:text-lg">
           The National Association of Mathematical Sciences Students of Nigeria —
           University of Lagos Chapter
         </p>
@@ -61,10 +61,10 @@ export default function About() {
       {/* About section */}
       <section className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-          <div className="h-80 md:h-[420px]">
+          <div className="reveal from-left h-80 md:h-[420px]">
             <AboutImage />
           </div>
-          <div>
+          <div className="reveal from-right">
             <span className="inline-block bg-brand-orange/10 text-brand-orange text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
               Our Story
             </span>
@@ -88,11 +88,11 @@ export default function About() {
       {/* Values */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">What Drives Us</h2>
-          <p className="text-gray-500 dark:text-gray-400 text-center mb-10">Our mission, vision, and core values</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <h2 className="reveal text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">What Drives Us</h2>
+          <p className="reveal text-gray-500 dark:text-gray-400 text-center mb-10">Our mission, vision, and core values</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger">
             {values.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 text-center">
+              <div key={title} className="reveal bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 text-center">
                 <div className="w-12 h-12 bg-brand-blue/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Icon size={22} className="text-brand-blue" />
                 </div>
@@ -107,8 +107,8 @@ export default function About() {
       {/* Department info */}
       <section className="py-16 bg-brand-blueDark text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">The Mathematics Department</h2>
-          <p className="text-blue-100 leading-relaxed mb-6 max-w-3xl mx-auto">
+          <h2 className="reveal text-3xl font-bold mb-4">The Mathematics Department</h2>
+          <p className="reveal text-blue-100 leading-relaxed mb-6 max-w-3xl mx-auto">
             The Department of Mathematics at the University of Lagos is one of the oldest and most
             respected mathematics departments in Nigeria. It offers undergraduate and postgraduate
             programmes in Mathematics, Statistics, and related fields, producing graduates who

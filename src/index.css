@@ -46,6 +46,72 @@
   to   { width: 100%; }
 }
 
+/* ── Scroll Reveal ─────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.from-left  { transform: translateX(-52px); }
+.reveal.from-right { transform: translateX(52px); }
+.reveal.pop        { transform: scale(0.88) translateY(12px); }
+.reveal.visible    { opacity: 1; transform: none; }
+
+/* Stagger siblings inside .stagger parent */
+.stagger > .reveal:nth-child(1)  { transition-delay: 0ms; }
+.stagger > .reveal:nth-child(2)  { transition-delay: 80ms; }
+.stagger > .reveal:nth-child(3)  { transition-delay: 160ms; }
+.stagger > .reveal:nth-child(4)  { transition-delay: 240ms; }
+.stagger > .reveal:nth-child(5)  { transition-delay: 320ms; }
+.stagger > .reveal:nth-child(6)  { transition-delay: 400ms; }
+.stagger > .reveal:nth-child(7)  { transition-delay: 480ms; }
+.stagger > .reveal:nth-child(8)  { transition-delay: 560ms; }
+.stagger > .reveal:nth-child(9)  { transition-delay: 640ms; }
+.stagger > .reveal:nth-child(10) { transition-delay: 720ms; }
+.stagger > .reveal:nth-child(11) { transition-delay: 800ms; }
+.stagger > .reveal:nth-child(12) { transition-delay: 880ms; }
+
+/* ── Hero entrance ─────────────────────────────────────────── */
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero-anim   { animation: heroReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.hero-anim-1 { animation-delay: 0.10s; }
+.hero-anim-2 { animation-delay: 0.25s; }
+.hero-anim-3 { animation-delay: 0.40s; }
+.hero-anim-4 { animation-delay: 0.55s; }
+.hero-anim-5 { animation-delay: 0.70s; }
+
+/* ── Tab / content swap ────────────────────────────────────── */
+@keyframes tabReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.tab-reveal { animation: tabReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Items inside tab content auto-animate (no IntersectionObserver needed) */
+.tab-reveal .reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  animation: tabReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.tab-reveal .stagger > .reveal:nth-child(1)  { animation-delay: 0ms; }
+.tab-reveal .stagger > .reveal:nth-child(2)  { animation-delay: 60ms; }
+.tab-reveal .stagger > .reveal:nth-child(3)  { animation-delay: 120ms; }
+.tab-reveal .stagger > .reveal:nth-child(4)  { animation-delay: 180ms; }
+.tab-reveal .stagger > .reveal:nth-child(5)  { animation-delay: 240ms; }
+.tab-reveal .stagger > .reveal:nth-child(6)  { animation-delay: 300ms; }
+.tab-reveal .stagger > .reveal:nth-child(7)  { animation-delay: 360ms; }
+.tab-reveal .stagger > .reveal:nth-child(8)  { animation-delay: 420ms; }
+.tab-reveal .stagger > .reveal:nth-child(9)  { animation-delay: 480ms; }
+.tab-reveal .stagger > .reveal:nth-child(10) { animation-delay: 540ms; }
+.tab-reveal .stagger > .reveal:nth-child(11) { animation-delay: 600ms; }
+.tab-reveal .stagger > .reveal:nth-child(12) { animation-delay: 660ms; }
+
 /* ── Reusable component classes (used by Contact page) ──────── */
 @layer components {
   .section-container {

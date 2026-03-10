@@ -19,7 +19,7 @@ function EventCard({ event }) {
   return (
     <Link
       to={`/events/${event.id}`}
-      className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 flex flex-col"
+      className="reveal group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 flex flex-col"
     >
       {/* Image */}
       <div className="h-48 bg-gradient-to-br from-brand-blue to-brand-blueDark overflow-hidden relative">
@@ -84,8 +84,8 @@ export default function Events() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-black mb-4">Events</h1>
-        <p className="text-blue-100 max-w-xl mx-auto">
+        <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Events</h1>
+        <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto">
           Stay up to date with NAMSSN UNILAG's competitions, workshops, social events, and more.
         </p>
       </section>
@@ -93,12 +93,12 @@ export default function Events() {
       {/* Upcoming */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Upcoming Events</h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-8">Don't miss out — register before spots fill up!</p>
+          <h2 className="reveal text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Upcoming Events</h2>
+          <p className="reveal text-gray-500 dark:text-gray-400 mb-8">Don't miss out — register before spots fill up!</p>
           {upcomingEvents.length === 0 ? (
             <p className="text-gray-400 italic">No upcoming events at the moment. Check back soon!</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
               {upcomingEvents.map(e => <EventCard key={e.id} event={e} />)}
             </div>
           )}

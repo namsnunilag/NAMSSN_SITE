@@ -72,7 +72,7 @@ const executives = [
 function PatronCard({ patron }) {
   const [failed, setFailed] = useState(false)
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+    <div className="reveal bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
       <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
@@ -98,7 +98,7 @@ function PatronCard({ patron }) {
 function ExecCard({ exec }) {
   const [failed, setFailed] = useState(false)
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+    <div className="reveal bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
       <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
@@ -124,7 +124,7 @@ function ExecCard({ exec }) {
 function LecturerCard({ lecturer }) {
   const [failed, setFailed] = useState(false)
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+    <div className="reveal bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
       <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
@@ -164,13 +164,13 @@ export default function Executives() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-16 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-black mb-4">Our Leadership</h1>
-        <p className="text-blue-100 max-w-xl mx-auto mb-8">
+        <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Our Leadership</h1>
+        <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto mb-8">
           Meet the patrons, lecturers, and student executives of NAMSSN UNILAG 2025/2026.
         </p>
 
         {/* Tab buttons */}
-        <div className="inline-flex bg-white/10 rounded-full p-1 gap-1">
+        <div className="hero-anim hero-anim-3 inline-flex bg-white/10 rounded-full p-1 gap-1">
           {Object.entries(TABS).map(([key, { label }]) => (
             <button
               key={key}
@@ -192,33 +192,33 @@ export default function Executives() {
         <div className="max-w-6xl mx-auto px-4">
 
           {tab === 'patrons' && (
-            <>
+            <div key="patrons" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Our Patrons</h2>
               <p className="text-gray-500 dark:text-gray-400 mb-8">Distinguished academics who guide and support NAMSSN UNILAG</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger">
                 {patrons.map((p) => <PatronCard key={p.name} patron={p} />)}
               </div>
-            </>
+            </div>
           )}
 
           {tab === 'executives' && (
-            <>
+            <div key="executives" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
               <p className="text-gray-500 dark:text-gray-400 mb-8">Your elected NAMSSN UNILAG executives for the 2025/2026 session</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 stagger">
                 {executives.map((e) => <ExecCard key={e.role} exec={e} />)}
               </div>
-            </>
+            </div>
           )}
 
           {tab === 'lecturers' && (
-            <>
+            <div key="lecturers" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Our Lecturers</h2>
               <p className="text-gray-500 dark:text-gray-400 mb-8">Department of Mathematics, University of Lagos</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 stagger">
                 {lecturers.map((l) => <LecturerCard key={l.name} lecturer={l} />)}
               </div>
-            </>
+            </div>
           )}
 
         </div>

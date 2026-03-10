@@ -304,7 +304,7 @@ function CGPACalculator() {
 function OpportunityCard({ title, badge, deadline, description, link, logo }) {
   const [logoFailed, setLogoFailed] = useState(false)
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+    <div className="reveal bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
       {logo && !logoFailed && (
         <div className="w-12 h-12 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 flex items-center justify-center mb-3 overflow-hidden">
           <img src={logo} alt={title} loading="lazy" className="w-10 h-10 object-contain" onError={() => setLogoFailed(true)} />
@@ -396,8 +396,8 @@ export default function Resources() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-black mb-4">Student Resources</h1>
-        <p className="text-blue-100 max-w-xl mx-auto">
+        <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Student Resources</h1>
+        <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto">
           Your toolkit for academic and career success — scholarships, internships, jobs, CGPA calculator and more.
         </p>
       </section>
@@ -425,16 +425,20 @@ export default function Resources() {
       <section className="py-12 bg-gray-50 dark:bg-gray-900 min-h-[60vh]">
         <div className="max-w-6xl mx-auto px-4">
 
-          {activeTab === 'cgpa' && <CGPACalculator />}
+          {activeTab === 'cgpa' && (
+            <div key="cgpa" className="tab-reveal">
+              <CGPACalculator />
+            </div>
+          )}
 
           {activeTab === 'scholarships' && (
-            <div>
+            <div key="scholarships" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Scholarships</h2>
               <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Recurring scholarships available to Nigerian university students. Deadlines vary yearly — visit each link for the latest dates.</p>
               {scholarships.length === 0 ? (
                 <EmptyState icon={GraduationCap} text="No scholarships listed yet. Check back soon." />
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
                   {scholarships.map(s => (
                     <OpportunityCard key={s.id} title={s.title} badge={s.badge} deadline={s.deadline} description={s.description} link={s.link} logo={s.logo} />
                   ))}
@@ -444,7 +448,7 @@ export default function Resources() {
           )}
 
           {activeTab === 'jobs' && (
-            <div>
+            <div key="jobs" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Jobs & Internships</h2>
               <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Use these trusted platforms to find jobs and internship opportunities in Nigeria and beyond.</p>
               <PlatformCards />
@@ -462,7 +466,7 @@ export default function Resources() {
           )}
 
           {activeTab === 'handbook' && (
-            <div className="max-w-lg mx-auto">
+            <div key="handbook" className="tab-reveal max-w-lg mx-auto">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Student Handbook</h2>
               <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center">
                 <div className="w-20 h-20 rounded-full bg-brand-blue/10 flex items-center justify-center mx-auto mb-4">

@@ -79,13 +79,13 @@ export default function Contact() {
       {/* ── PAGE HERO ───────────────────────────────────────────────────── */}
       <section className="bg-brand-blueDark pt-28 pb-16">
         <div className="section-container text-center">
-          <p className="text-brand-orange font-semibold text-sm uppercase tracking-widest mb-3">
+          <p className="hero-anim hero-anim-1 text-brand-orange font-semibold text-sm uppercase tracking-widest mb-3">
             Get In Touch
           </p>
-          <h1 className="text-4xl md:text-5xl font-display font-black text-white mb-4">
+          <h1 className="hero-anim hero-anim-2 text-4xl md:text-5xl font-display font-black text-white mb-4">
             Contact Us
           </h1>
-          <p className="text-blue-200 text-lg max-w-2xl mx-auto">
+          <p className="hero-anim hero-anim-3 text-blue-200 text-lg max-w-2xl mx-auto">
             Have questions about NAMSSN UNILAG? We'd love to hear from you.
           </p>
         </div>
@@ -97,7 +97,7 @@ export default function Contact() {
           <div className="grid lg:grid-cols-3 gap-12">
 
             {/* ── CONTACT FORM ────────────────────────────────────────────── */}
-            <div className="lg:col-span-2">
+            <div className="reveal from-left lg:col-span-2">
               <div className="card p-8 md:p-10">
                 <h2 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-6">
                   Send Us a Message
@@ -210,7 +210,7 @@ export default function Contact() {
             </div>
 
             {/* ── CONTACT INFO SIDEBAR ─────────────────────────────────── */}
-            <div className="space-y-6">
+            <div className="reveal from-right space-y-6">
               {/* Info cards */}
               {contactInfo.map(({ icon: Icon, label, value, href }) => (
                 <div key={label} className="card p-6 flex gap-4 items-start">

@@ -139,15 +139,15 @@ export default function Home() {
           <img
             src="/logo.png"
             alt="NAMSSN Logo"
-            className="w-24 h-24 object-contain mb-5 drop-shadow-2xl"
+            className="hero-anim hero-anim-1 w-24 h-24 object-contain mb-5 drop-shadow-2xl"
             onError={e => { e.currentTarget.style.display = 'none' }}
           />
 
-          <p className="text-brand-blueLight text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">
+          <p className="hero-anim hero-anim-2 text-brand-blueLight text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">
             University of Lagos Chapter
           </p>
 
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4 px-2">
+          <h1 className="hero-anim hero-anim-3 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4 px-2">
             Welcome to{' '}
             <span className="bg-gradient-to-r from-brand-yellow via-brand-orange to-brand-yellow bg-clip-text text-transparent">
               NAMSSN
@@ -156,12 +156,12 @@ export default function Home() {
             <span className="text-white">UNILAG</span>
           </h1>
 
-          <p className="text-gray-200 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed px-2">
+          <p className="hero-anim hero-anim-4 text-gray-200 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed px-2">
             National Association of Mathematical Sciences Students of Nigeria.
             Empowering the next generation of mathematical minds at the University of Lagos.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center w-full px-6 sm:px-0 sm:w-auto">
+          <div className="hero-anim hero-anim-5 flex flex-col sm:flex-row gap-3 justify-center w-full px-6 sm:px-0 sm:w-auto">
             <Link
               to="/about"
               className="bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white font-bold px-7 py-3 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
@@ -200,9 +200,9 @@ export default function Home() {
 
       {/* ── STATS BAND ────────────────────────────────────────────────────── */}
       <section className="bg-brand-blue text-white py-10">
-        <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center stagger">
           {STATS.map(({ icon: Icon, value, label }) => (
-            <div key={label} className="flex flex-col items-center gap-2">
+            <div key={label} className="reveal pop flex flex-col items-center gap-2">
               <Icon size={28} className="text-brand-yellow" />
               <span className="text-3xl font-black">{value}</span>
               <span className="text-sm text-blue-200">{label}</span>
@@ -214,14 +214,14 @@ export default function Home() {
       {/* ── QUICK LINKS ───────────────────────────────────────────────────── */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">Explore NAMSSN</h2>
-          <p className="text-gray-500 dark:text-gray-400 text-center mb-10">Everything you need in one place</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-5">
+          <h2 className="reveal text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">Explore NAMSSN</h2>
+          <p className="reveal text-gray-500 dark:text-gray-400 text-center mb-10">Everything you need in one place</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-5 stagger">
             {QUICK_LINKS.map(({ to, label, desc }) => (
               <Link
                 key={to}
                 to={to}
-                className="group bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/30 transition-all duration-200 hover:-translate-y-1"
+                className="reveal group bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/30 transition-all duration-200 hover:-translate-y-1"
               >
                 <h3 className="font-bold text-brand-blueDark dark:text-white group-hover:text-brand-blue text-lg mb-1 transition-colors">
                   {label}
@@ -240,7 +240,7 @@ export default function Home() {
       <section className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="h-72 md:h-[400px] rounded-2xl overflow-hidden shadow-xl bg-brand-blue/10">
+            <div className="reveal from-left h-72 md:h-[400px] rounded-2xl overflow-hidden shadow-xl bg-brand-blue/10">
               <img
                 src="/images/events/excos.jpg"
                 alt="NAMSSN UNILAG"
@@ -248,7 +248,7 @@ export default function Home() {
                 onError={e => { e.currentTarget.style.display = 'none' }}
               />
             </div>
-            <div>
+            <div className="reveal from-right">
               <span className="inline-block bg-brand-orange/10 text-brand-orange text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
                 About Us
               </span>
@@ -277,16 +277,16 @@ export default function Home() {
       {/* ── WHY JOIN ──────────────────────────────────────────────────────── */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">What NAMSSN Offers You</h2>
-          <p className="text-gray-500 dark:text-gray-400 text-center mb-10">More than just a student association</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <h2 className="reveal text-3xl font-bold text-brand-blueDark dark:text-white text-center mb-2">What NAMSSN Offers You</h2>
+          <p className="reveal text-gray-500 dark:text-gray-400 text-center mb-10">More than just a student association</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger">
             {[
               { icon: GraduationCap, title: 'Academic Growth',   desc: 'Access study groups, workshops, and resources to sharpen your mathematical skills.' },
               { icon: Zap,           title: 'Competitions',      desc: 'Represent your department in DECAGON, Dean\'s Games, and other inter-university events.' },
               { icon: Globe,         title: 'Networking',        desc: 'Connect with alumni, industry professionals, and students from across Nigeria.' },
               { icon: Heart,         title: 'Community & Fun',   desc: 'Build lifelong friendships through social events, hangouts, and shared experiences.' },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+              <div key={title} className="reveal bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-200">
                 <div className="w-12 h-12 bg-brand-orange/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Icon size={22} className="text-brand-orange" />
                 </div>
@@ -301,14 +301,14 @@ export default function Home() {
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900 text-center">
         <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white mb-4">Be Part of Something Bigger</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-8">
+          <h2 className="reveal text-3xl font-bold text-brand-blueDark dark:text-white mb-4">Be Part of Something Bigger</h2>
+          <p className="reveal text-gray-600 dark:text-gray-300 mb-8">
             You're already one of us. Participate in competitions, attend workshops,
             and build lifelong friendships with fellow mathematical sciences students.
           </p>
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 bg-brand-blueDark hover:bg-brand-blue text-white font-bold px-8 py-4 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="reveal inline-flex items-center gap-2 bg-brand-blueDark hover:bg-brand-blue text-white font-bold px-8 py-4 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             Contact Us <ArrowRight size={16} />
           </Link>

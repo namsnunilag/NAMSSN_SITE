@@ -11,7 +11,7 @@ function MerchCard({ item }) {
   const mailLink    = `mailto:namsnunilag9@gmail.com?subject=Merchandise Order — ${item.name}&body=${encodeURIComponent(orderMessage)}`
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border transition-all duration-200 flex flex-col ${
+    <div className={`reveal bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border transition-all duration-200 flex flex-col ${
       item.available
         ? 'border-gray-100 dark:border-gray-700 hover:shadow-md hover:-translate-y-1'
         : 'border-gray-100 dark:border-gray-700 opacity-60'
@@ -88,8 +88,8 @@ export default function Merchandise() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-black mb-4">Merchandise</h1>
-        <p className="text-blue-100 max-w-xl mx-auto">
+        <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Merchandise</h1>
+        <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto">
           Rep NAMSSN UNILAG in style. Order your official branded gear today.
         </p>
       </section>
@@ -136,7 +136,7 @@ export default function Merchandise() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 stagger">
               {filtered.map(item => (
                 <MerchCard key={item.id} item={item} />
               ))}

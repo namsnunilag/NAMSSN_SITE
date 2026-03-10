@@ -32,8 +32,8 @@ export default function Academics() {
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-black mb-4">Academics</h1>
-        <p className="text-blue-100 max-w-xl mx-auto">
+        <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Academics</h1>
+        <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto">
           Announcements, course materials, past questions, and timetables — all in one place.
         </p>
       </section>
@@ -63,7 +63,7 @@ export default function Academics() {
 
           {/* ── Announcements ── */}
           {activeTab === 'announcements' && (
-            <div className="space-y-4">
+            <div key="announcements" className="tab-reveal space-y-4">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Announcements</h2>
               {announcements.length === 0 ? (
                 <EmptyState icon={Megaphone} text="No announcements at the moment. Check back soon." />
@@ -96,7 +96,7 @@ export default function Academics() {
 
           {/* ── Course Materials ── */}
           {activeTab === 'materials' && (
-            <div>
+            <div key="materials" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Course Materials</h2>
 
               {/* Drive link — shows when set */}
@@ -147,7 +147,7 @@ export default function Academics() {
 
           {/* ── Timetable ── */}
           {activeTab === 'timetable' && (
-            <div>
+            <div key="timetable" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Timetable</h2>
               {!timetable.semester ? (
                 <EmptyState icon={Calendar} text="No timetable uploaded yet. Check back when a new semester begins." />
