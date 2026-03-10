@@ -209,38 +209,150 @@ function GradeReference() {
   )
 }
 
+function CGPACalc() {
+  const [prev, setPrev] = useState({ cgpa: '', units: '' })
+  const [courses, setCourses] = useState([{ id: 1, name: '', units: 3, grade: 'A' }])
+
+  const addCourse = () => setCourses(c => [...c, { id: Date.now(), name: '', units: 3, grade: 'A' }])
+  const removeCourse = (id) => setCourses(c => c.filter(x => x.id !== id))
+  const update = (id, field, value) => setCourses(c => c.map(x => x.id === id ? { ...x, [field]: value } : x))
+
+  const prevCGPA  = parseFloat(prev.cgpa)
+  const prevUnits = parseFloat(prev.units)
+
+  const semUnits  = courses.reduce((s, c) => s + Number(c.units), 0)
+  const semPoints = courses.reduce((s, c) => s + Number(c.units) * (GRADE_POINTS[c.grade] ?? 0), 0)
+  const semGPA    = semUnits > 0 ? semPoints / semUnits : 0
+
+  const hasPrev   = !isNaN(prevCGPA) && !isNaN(prevUnits) && prevUnits >= 0
+  const totalUnits  = hasPrev ? prevUnits + semUnits : semUnits
+  const totalPoints = hasPrev ? (prevCGPA * prevUnits) + semPoints : semPoints
+  const newCGPA     = totalUnits > 0 ? (totalPoints / totalUnits).toFixed(2) : '0.00'
+  const displayGPA  = semUnits > 0 ? semGPA.toFixed(2) : '0.00'
+
+  const cls = (g) =>
+    g >= 4.5 ? { label: 'First Class',         color: 'text-green-600'  } :
+    g >= 3.5 ? { label: 'Second Class Upper',   color: 'text-blue-600'   } :
+    g >= 2.4 ? { label: 'Second Class Lower',   color: 'text-yellow-600' } :
+    g >= 1.5 ? { label: 'Third Class',          color: 'text-orange-600' } :
+               { label: 'Pass / Below',          color: 'text-red-500'    }
+
+  const cgpaClass = cls(parseFloat(newCGPA))
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+      {/* Previous CGPA inputs */}
+      <div className="p-6 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Previous Academic Record (optional)</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Current CGPA</label>
+            <input
+              type="number" step="0.01" min="0" max="5"
+              placeholder="e.g. 3.50"
+              value={prev.cgpa}
+              onChange={e => setPrev(p => ({ ...p, cgpa: e.target.value }))}
+              className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30"
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Total Units Completed</label>
+            <input
+              type="number" min="0"
+              placeholder="e.g. 60"
+              value={prev.units}
+              onChange={e => setPrev(p => ({ ...p, units: e.target.value }))}
+              className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Current semester courses */}
+      <div className="p-6 space-y-3">
+        <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">This Semester's Courses</p>
+        <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-1">
+          <div className="col-span-5">Course (optional)</div>
+          <div className="col-span-3">Units</div>
+          <div className="col-span-3">Grade</div>
+          <div className="col-span-1" />
+        </div>
+        {courses.map(course => (
+          <div key={course.id} className="grid grid-cols-12 gap-2 items-center">
+            <input type="text" placeholder="e.g. MTH 301" value={course.name} onChange={e => update(course.id, 'name', e.target.value)} className="col-span-5 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30" />
+            <input type="number" min={1} max={6} value={course.units} onChange={e => update(course.id, 'units', Math.min(6, Math.max(1, Number(e.target.value))))} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-blue/30" />
+            <select value={course.grade} onChange={e => update(course.id, 'grade', e.target.value)} className="col-span-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
+              {GRADES.map(g => <option key={g} value={g}>{g} ({GRADE_POINTS[g].toFixed(1)})</option>)}
+            </select>
+            <button onClick={() => removeCourse(course.id)} disabled={courses.length === 1} className="col-span-1 flex items-center justify-center text-gray-300 hover:text-red-500 disabled:opacity-20 transition-colors"><Trash2 size={15} /></button>
+          </div>
+        ))}
+        <button onClick={addCourse} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 dark:border-gray-600 hover:border-brand-orange text-gray-400 dark:text-gray-500 hover:text-brand-orange rounded-xl py-3 text-sm font-semibold transition-colors">
+          <Plus size={15} /> Add Course
+        </button>
+      </div>
+
+      {/* Results */}
+      <div className="border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6">
+        <div className="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold mb-1">Sem GPA</p>
+            <p className="text-2xl font-black text-brand-blueDark dark:text-white">{displayGPA}<span className="text-sm text-gray-400">/5.0</span></p>
+          </div>
+          <div className="border-x border-gray-200 dark:border-gray-700">
+            <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold mb-1">New CGPA</p>
+            <p className="text-3xl font-black text-brand-orange">{newCGPA}<span className="text-sm text-gray-400">/5.0</span></p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold mb-1">Total Units</p>
+            <p className="text-2xl font-black text-brand-blueDark dark:text-white">{totalUnits}</p>
+          </div>
+        </div>
+        <p className={`text-center font-bold mt-3 ${cgpaClass.color}`}>{cgpaClass.label}</p>
+      </div>
+
+      <GradeReference />
+    </div>
+  )
+}
+
 function CGPACalculator() {
-  const [mode, setMode] = useState('calculate') // 'calculate' | 'feasibility'
+  const [mode, setMode] = useState('cgpa') // 'cgpa' | 'gpa' | 'feasibility'
+
+  const headers = {
+    cgpa:        { title: 'CGPA Calculator',          sub: 'Compute your cumulative GPA including this semester' },
+    gpa:         { title: 'GPA Calculator',            sub: 'Nigerian University 5.0 grading scale' },
+    feasibility: { title: 'CGPA Feasibility Checker',  sub: 'Find out if your target CGPA is achievable' },
+  }
 
   return (
     <div className="max-w-2xl mx-auto">
       {/* Mode switcher */}
       <div className="flex rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-1 mb-6 shadow-sm">
-        <button
-          onClick={() => setMode('calculate')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-colors ${mode === 'calculate' ? 'bg-brand-blueDark text-white shadow' : 'text-gray-500 dark:text-gray-400 hover:text-brand-blueDark dark:hover:text-white'}`}
-        >
-          <Calculator size={15} /> Calculate GPA
-        </button>
-        <button
-          onClick={() => setMode('feasibility')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-colors ${mode === 'feasibility' ? 'bg-brand-blueDark text-white shadow' : 'text-gray-500 dark:text-gray-400 hover:text-brand-blueDark dark:hover:text-white'}`}
-        >
-          <Target size={15} /> Is My Target Possible?
-        </button>
+        {[
+          { id: 'cgpa',        icon: GraduationCap, label: 'CGPA' },
+          { id: 'gpa',         icon: Calculator,    label: 'GPA' },
+          { id: 'feasibility', icon: Target,         label: 'Target?' },
+        ].map(({ id, icon: Icon, label }) => (
+          <button
+            key={id}
+            onClick={() => setMode(id)}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-colors ${mode === id ? 'bg-brand-blueDark text-white shadow' : 'text-gray-500 dark:text-gray-400 hover:text-brand-blueDark dark:hover:text-white'}`}
+          >
+            <Icon size={15} /> {label}
+          </button>
+        ))}
       </div>
 
       {/* Header */}
       <div className="bg-gradient-to-r from-brand-blueDark to-brand-blue p-5 text-white rounded-t-2xl">
-        <h3 className="font-bold text-lg mb-0.5">
-          {mode === 'calculate' ? 'GPA Calculator' : 'CGPA Feasibility Checker'}
-        </h3>
-        <p className="text-blue-200 text-sm">
-          {mode === 'calculate' ? 'Nigerian University 5.0 grading scale' : 'Find out if your target CGPA is achievable this semester'}
-        </p>
+        <h3 className="font-bold text-lg mb-0.5">{headers[mode].title}</h3>
+        <p className="text-blue-200 text-sm">{headers[mode].sub}</p>
       </div>
 
-      {mode === 'calculate' ? <GPACalculator /> : <FeasibilityChecker />}
+      {mode === 'cgpa'        && <CGPACalc />}
+      {mode === 'gpa'         && <GPACalculator />}
+      {mode === 'feasibility' && <FeasibilityChecker />}
     </div>
   )
 }
