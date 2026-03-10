@@ -55,9 +55,9 @@ const photos = [
   // Add up to 8: freshers/fo1.jpg, fo2.jpg … fo8.jpg
 ]
 
-const CATEGORY_ORDER = ['All', 'Freshers Orientation', 'HOD Games', 'Executives', 'Events']
+const CATEGORY_ORDER = ['Freshers Orientation', 'HOD Games', 'Executives', 'Events']
 const CATEGORIES = CATEGORY_ORDER.filter(
-  cat => cat === 'All' || photos.some(p => p.category === cat)
+  cat => photos.some(p => p.category === cat)
 )
 
 // Max photos shown per category before "See More"
@@ -160,17 +160,16 @@ function Lightbox({ photo, onClose, onPrev, onNext }) {
 }
 
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState('All')
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0])
   const [lightboxIdx, setLightboxIdx]       = useState(null)
 
-  const allFiltered = activeCategory === 'All'
-    ? photos
-    : photos.filter(p => p.category === activeCategory)
+  const allFiltered = photos.filter(p => p.category === activeCategory)
 
-  // For non-'All' categories, cap at PREVIEW_LIMIT
-  const isCategory  = activeCategory !== 'All'
-  const displayPhotos = isCategory ? allFiltered.slice(0, PREVIEW_LIMIT) : allFiltered
-  const seeMoreLink   = isCategory ? SEE_MORE_LINKS[activeCategory] : null
+  // Cap at PREVIEW_LIMIT only if a "See More" link exists for this category
+  const seeMoreLink   = SEE_MORE_LINKS[activeCategory] || null
+  const displayPhotos = seeMoreLink
+    ? allFiltered.slice(0, PREVIEW_LIMIT)
+    : allFiltered
 
   const openLightbox  = useCallback((idx) => setLightboxIdx(idx), [])
   const closeLightbox = useCallback(() => setLightboxIdx(null), [])
@@ -211,17 +210,15 @@ export default function Gallery() {
       <section className="py-12 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
 
-          {/* Section heading for specific categories */}
-          {isCategory && (
-            <div className="mb-6">
-              <h2 className="text-2xl font-black text-brand-blueDark dark:text-white">{activeCategory}</h2>
-              {seeMoreLink && (
-                <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
-                  Showing up to {PREVIEW_LIMIT} photos — see the full album below.
-                </p>
-              )}
-            </div>
-          )}
+          {/* Section heading */}
+          <div className="mb-6">
+            <h2 className="text-2xl font-black text-brand-blueDark dark:text-white">{activeCategory}</h2>
+            {seeMoreLink && (
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                Showing up to {PREVIEW_LIMIT} photos — see the full album below.
+              </p>
+            )}
+          </div>
 
           {displayPhotos.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">
