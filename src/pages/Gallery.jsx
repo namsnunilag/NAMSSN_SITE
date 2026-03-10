@@ -1,28 +1,57 @@
 import { useState, useCallback, useEffect } from 'react'
-import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ZoomIn, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 
-// ── Gallery photos ────────────────────────────────────────────────────────
-// Add your photos to public/images/gallery/ and list them here
+// ── "See More" links (Google Photos albums) ───────────────────────────────────
+// Fill in each album URL when ready. Leave as '' to hide the button.
+const SEE_MORE_LINKS = {
+  'Freshers Orientation': '',   // e.g. 'https://photos.app.goo.gl/...'
+  'HOD Games':            '',
+  'Executives':           '',
+  'Events':               '',
+}
+
+// ── Gallery photos ────────────────────────────────────────────────────────────
+// Drop images into the matching folder under public/images/gallery/<category-folder>/
+// Executives  → public/images/gallery/executives/
+// Events      → public/images/gallery/events/
+// HOD Games   → public/images/gallery/hod-games/
+// Freshers    → public/images/gallery/freshers/
+
 const photos = [
-  { src: '/images/gallery/exco.jpg',      caption: 'Executives',            category: 'Executives' },
-  { src: '/images/gallery/excos.jpg',     caption: 'Executives',            category: 'Executives' },
-  { src: '/images/gallery/pres.jpg',      caption: 'President',             category: 'Executives' },
-  { src: '/images/gallery/HOD.jpg',       caption: 'HOD Games',             category: 'Events'     },
-  { src: '/images/gallery/deans.jpg',     caption: "Dean's Games",          category: 'Events'     },
-  { src: '/images/gallery/dec.jpg',       caption: 'DECAGON',               category: 'Events'     },
-  { src: '/images/gallery/SYM.jpg',       caption: 'Symposium',             category: 'Events'     },
-  { src: '/images/gallery/ind.jpg',       caption: 'Independence Day',      category: 'Events'     },
-  { src: '/images/gallery/signout.jpg',   caption: 'Sign Out',              category: 'Events'     },
-  { src: '/images/gallery/synergist.jpg', caption: 'Synergist',             category: 'Events'     },
-  { src: '/images/gallery/lasu.jpg',      caption: 'LASU',                  category: 'Events'     },
-  { src: '/images/gallery/all.jpg',       caption: 'Group Photo',           category: 'Events'     },
-  { src: '/images/gallery/crowd.jpg',     caption: 'Event',                 category: 'Events'     },
-  { src: '/images/gallery/fo.jpg',        caption: 'Event',                 category: 'Events'     },
-  { src: '/images/gallery/WID.png',       caption: 'Event',                 category: 'Events'     },
-  { src: '/images/gallery/tem.png',       caption: 'Event',                 category: 'Events'     },
+  // ── Executives ──────────────────────────────────────────────────────────────
+  { src: '/images/gallery/executives/exco.jpg',   caption: 'Executives',   category: 'Executives' },
+  { src: '/images/gallery/executives/excos.jpg',  caption: 'Executives',   category: 'Executives' },
+  { src: '/images/gallery/executives/pres.jpg',   caption: 'President',    category: 'Executives' },
+
+  // ── Events ──────────────────────────────────────────────────────────────────
+  { src: '/images/gallery/events/deans.jpg',      caption: "Dean's Games", category: 'Events' },
+  { src: '/images/gallery/events/dec.jpg',        caption: 'DECAGON',      category: 'Events' },
+  { src: '/images/gallery/events/SYM.jpg',        caption: 'Symposium',    category: 'Events' },
+  { src: '/images/gallery/events/ind.jpg',        caption: 'Independence Day', category: 'Events' },
+  { src: '/images/gallery/events/signout.jpg',    caption: 'Sign Out',     category: 'Events' },
+  { src: '/images/gallery/events/synergist.jpg',  caption: 'Synergist',    category: 'Events' },
+  { src: '/images/gallery/events/lasu.jpg',       caption: 'LASU',         category: 'Events' },
+  { src: '/images/gallery/events/all.jpg',        caption: 'Group Photo',  category: 'Events' },
+  { src: '/images/gallery/events/crowd.jpg',      caption: 'Event',        category: 'Events' },
+  { src: '/images/gallery/events/fo.jpg',         caption: 'Event',        category: 'Events' },
+  { src: '/images/gallery/events/WID.png',        caption: 'Event',        category: 'Events' },
+  { src: '/images/gallery/events/tem.png',        caption: 'Event',        category: 'Events' },
+
+  // ── HOD Games ───────────────────────────────────────────────────────────────
+  { src: '/images/gallery/hod-games/HOD.jpg',     caption: 'HOD Games',    category: 'HOD Games' },
+  // Add more: hod-games/hg2.jpg, hg3.jpg …
+
+  // ── Freshers Orientation ─────────────────────────────────────────────────────
+  // Add up to 8: freshers/fo1.jpg, fo2.jpg … fo8.jpg
 ]
 
-const CATEGORIES = ['All', ...Array.from(new Set(photos.map(p => p.category)))]
+const CATEGORY_ORDER = ['All', 'Freshers Orientation', 'HOD Games', 'Executives', 'Events']
+const CATEGORIES = CATEGORY_ORDER.filter(
+  cat => cat === 'All' || photos.some(p => p.category === cat)
+)
+
+// Max photos shown per category before "See More"
+const PREVIEW_LIMIT = 8
 
 function GalleryTile({ photo, onClick }) {
   const [failed, setFailed] = useState(false)
@@ -46,13 +75,12 @@ function GalleryTile({ photo, onClick }) {
         </div>
       )}
 
-      {/* Overlay */}
+      {/* Hover overlay */}
       {!failed && (
         <div className="absolute inset-0 bg-brand-blueDark/0 group-hover:bg-brand-blueDark/50 transition-all duration-200 flex items-center justify-center">
           <ZoomIn size={28} className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         </div>
       )}
-
     </button>
   )
 }
@@ -63,9 +91,9 @@ function Lightbox({ photo, onClose, onPrev, onNext }) {
   useEffect(() => {
     setFailed(false)
     const handler = (e) => {
-      if (e.key === 'Escape') onClose()
-      if (e.key === 'ArrowLeft')  onPrev()
-      if (e.key === 'ArrowRight') onNext()
+      if (e.key === 'Escape')      onClose()
+      if (e.key === 'ArrowLeft')   onPrev()
+      if (e.key === 'ArrowRight')  onNext()
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
@@ -99,6 +127,9 @@ function Lightbox({ photo, onClose, onPrev, onNext }) {
             ∑
           </div>
         )}
+        {photo.caption && (
+          <p className="text-center text-white/70 text-sm mt-3">{photo.caption}</p>
+        )}
       </div>
 
       <button
@@ -122,14 +153,19 @@ export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [lightboxIdx, setLightboxIdx]       = useState(null)
 
-  const filtered = activeCategory === 'All'
+  const allFiltered = activeCategory === 'All'
     ? photos
     : photos.filter(p => p.category === activeCategory)
 
+  // For non-'All' categories, cap at PREVIEW_LIMIT
+  const isCategory  = activeCategory !== 'All'
+  const displayPhotos = isCategory ? allFiltered.slice(0, PREVIEW_LIMIT) : allFiltered
+  const seeMoreLink   = isCategory ? SEE_MORE_LINKS[activeCategory] : null
+
   const openLightbox  = useCallback((idx) => setLightboxIdx(idx), [])
   const closeLightbox = useCallback(() => setLightboxIdx(null), [])
-  const prevPhoto     = useCallback(() => setLightboxIdx(i => (i - 1 + filtered.length) % filtered.length), [filtered])
-  const nextPhoto     = useCallback(() => setLightboxIdx(i => (i + 1) % filtered.length), [filtered])
+  const prevPhoto     = useCallback(() => setLightboxIdx(i => (i - 1 + displayPhotos.length) % displayPhotos.length), [displayPhotos])
+  const nextPhoto     = useCallback(() => setLightboxIdx(i => (i + 1) % displayPhotos.length), [displayPhotos])
 
   return (
     <div className="pt-16">
@@ -142,13 +178,13 @@ export default function Gallery() {
         </p>
       </section>
 
-      {/* Filter */}
+      {/* Category filter */}
       <div className="sticky top-16 z-30 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
           {CATEGORIES.map(cat => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => { setActiveCategory(cat); setLightboxIdx(null) }}
               className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 activeCategory === cat
                   ? 'bg-brand-orange text-white'
@@ -164,15 +200,48 @@ export default function Gallery() {
       {/* Grid */}
       <section className="py-12 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
-          {filtered.length === 0 ? (
-            <p className="text-gray-400 italic text-center py-20">No photos in this category yet.</p>
+
+          {/* Section heading for specific categories */}
+          {isCategory && (
+            <div className="mb-6">
+              <h2 className="text-2xl font-black text-brand-blueDark dark:text-white">{activeCategory}</h2>
+              {seeMoreLink && (
+                <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                  Showing up to {PREVIEW_LIMIT} photos — see the full album below.
+                </p>
+              )}
+            </div>
+          )}
+
+          {displayPhotos.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <span className="text-6xl font-black text-brand-blue/20 mb-4">∑</span>
+              <p className="text-gray-400 italic">No photos in this category yet.</p>
+              <p className="text-gray-400 text-sm mt-1">Check back soon!</p>
+            </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {filtered.map((photo, i) => (
-                <GalleryTile key={photo.src} photo={photo} onClick={() => openLightbox(i)} />
+              {displayPhotos.map((photo, i) => (
+                <GalleryTile key={photo.src + i} photo={photo} onClick={() => openLightbox(i)} />
               ))}
             </div>
           )}
+
+          {/* See More button */}
+          {isCategory && seeMoreLink && (
+            <div className="mt-8 flex justify-center">
+              <a
+                href={seeMoreLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orange/90 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-sm"
+              >
+                See Full Album
+                <ExternalLink size={16} />
+              </a>
+            </div>
+          )}
+
           <p className="text-center text-gray-400 dark:text-gray-500 text-sm mt-10 italic">
             More photos coming soon — follow us on Instagram @namssn_unilag
           </p>
@@ -182,7 +251,7 @@ export default function Gallery() {
       {/* Lightbox */}
       {lightboxIdx !== null && (
         <Lightbox
-          photo={filtered[lightboxIdx]}
+          photo={displayPhotos[lightboxIdx]}
           onClose={closeLightbox}
           onPrev={prevPhoto}
           onNext={nextPhoto}
