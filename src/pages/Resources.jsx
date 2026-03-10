@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { GraduationCap, Briefcase, Building2, BookMarked, Calculator, Plus, Trash2, ExternalLink, ChevronDown, Target } from 'lucide-react'
+import { GraduationCap, Briefcase, BookMarked, Calculator, Plus, Trash2, ExternalLink, ChevronDown, Target } from 'lucide-react'
 import { scholarships, internships, jobs, jobPlatforms, handbook } from '../data/resources'
 
 const TABS = [
   { id: 'cgpa',         label: 'CGPA Calculator', icon: Calculator },
   { id: 'scholarships', label: 'Scholarships',    icon: GraduationCap },
-  { id: 'internships',  label: 'Internships',     icon: Building2 },
-  { id: 'jobs',         label: 'Jobs',            icon: Briefcase },
+  { id: 'jobs',         label: 'Jobs & Internships', icon: Briefcase },
   { id: 'handbook',     label: 'Handbook',        icon: BookMarked },
 ]
 
@@ -288,9 +287,22 @@ function PlatformCards() {
           rel="noopener noreferrer"
           className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:-translate-y-0.5 hover:border-brand-blue/30 transition-all duration-200 flex flex-col group"
         >
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="font-bold text-brand-blueDark dark:text-white group-hover:text-brand-blue transition-colors">{p.name}</h4>
-            <span className="text-xs font-semibold bg-brand-orange/10 text-brand-orange px-2 py-0.5 rounded-full">{p.badge}</span>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-100 dark:border-gray-600 flex items-center justify-center shrink-0 overflow-hidden">
+              <img
+                src={p.logo}
+                alt={p.name}
+                className="w-7 h-7 object-contain"
+                onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex' }}
+              />
+              <span style={{ display: 'none' }} className="w-full h-full items-center justify-center text-brand-blue font-black text-lg">
+                {p.name[0]}
+              </span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="font-bold text-brand-blueDark dark:text-white group-hover:text-brand-blue transition-colors truncate">{p.name}</h4>
+              <span className="text-xs font-semibold bg-brand-orange/10 text-brand-orange px-2 py-0.5 rounded-full">{p.badge}</span>
+            </div>
           </div>
           <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed flex-grow">{p.description}</p>
           <span className="mt-3 inline-flex items-center gap-1 text-brand-orange text-sm font-semibold group-hover:gap-2 transition-all">
@@ -354,28 +366,14 @@ export default function Resources() {
 
           {activeTab === 'scholarships' && (
             <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Scholarships</h2>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Scholarships</h2>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Recurring scholarships available to Nigerian university students. Deadlines vary yearly — visit each link for the latest dates.</p>
               {scholarships.length === 0 ? (
                 <EmptyState icon={GraduationCap} text="No scholarships listed yet. Check back soon." />
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {scholarships.map(s => (
-                    <OpportunityCard key={s.id} title={s.title} deadline={s.deadline} description={s.description} link={s.link} />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {activeTab === 'internships' && (
-            <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Internship Opportunities</h2>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Specific listings will appear here. In the meantime, use these trusted platforms to find internships.</p>
-              <PlatformCards />
-              {internships.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-                  {internships.map(i => (
-                    <OpportunityCard key={i.id} title={i.role} badge={i.type} deadline={i.deadline} description={`${i.company} — ${i.description}`} link={i.link} />
+                    <OpportunityCard key={s.id} title={s.title} badge={s.badge} deadline={s.deadline} description={s.description} link={s.link} />
                   ))}
                 </div>
               )}
@@ -384,11 +382,14 @@ export default function Resources() {
 
           {activeTab === 'jobs' && (
             <div>
-              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Job Board</h2>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Specific listings will appear here. In the meantime, use these trusted platforms to find jobs.</p>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Jobs & Internships</h2>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Use these trusted platforms to find jobs and internship opportunities in Nigeria and beyond.</p>
               <PlatformCards />
-              {jobs.length > 0 && (
+              {(jobs.length > 0 || internships.length > 0) && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+                  {internships.map(i => (
+                    <OpportunityCard key={i.id} title={i.role} badge={i.type} deadline={i.deadline} description={`${i.company} — ${i.description}`} link={i.link} />
+                  ))}
                   {jobs.map(j => (
                     <OpportunityCard key={j.id} title={j.role} badge={j.type} description={`${j.company} — ${j.description}`} link={j.link} />
                   ))}
