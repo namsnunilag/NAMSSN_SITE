@@ -16,12 +16,12 @@ function MerchCard({ item }) {
         : 'border-gray-100 dark:border-gray-700 opacity-60'
     }`}>
       {/* Image */}
-      <div className="h-56 bg-brand-blue/10 overflow-hidden relative">
+      <div className="h-72 bg-brand-blue/10 overflow-hidden relative">
         {!imgFailed && item.image ? (
           <img
             src={item.image}
             alt={item.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
             onError={() => setImgFailed(true)}
           />
         ) : (
