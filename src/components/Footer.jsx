@@ -6,7 +6,6 @@ const navLinks = [
   { to: '/about',       label: 'About' },
   { to: '/events',      label: 'Events' },
   { to: '/executives',  label: 'Executives' },
-  { to: '/gallery',     label: 'Gallery' },
   { to: '/contact',     label: 'Contact' },
 ]
 
@@ -91,8 +90,8 @@ export default function Footer() {
               </li>
               <li className="flex gap-2 text-sm text-gray-300">
                 <Mail size={14} className="shrink-0 mt-0.5 text-brand-orange" />
-                <a href="mailto:namssn.unilag@gmail.com" className="hover:text-brand-orange transition-colors">
-                  namssn.unilag@gmail.com
+                <a href="mailto:namsnunilag9@gmail.com" className="hover:text-brand-orange transition-colors">
+                  namsnunilag9@gmail.com
                 </a>
               </li>
             </ul>

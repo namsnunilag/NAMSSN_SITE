@@ -7,7 +7,7 @@ function MerchCard({ item }) {
 
   const orderMessage = `Hi NAMSSN UNILAG! I'm interested in ordering:\n*${item.name}* — ${item.price}${item.sizes?.length ? '\nSize: ___' : ''}\n\nPlease let me know availability. Thanks!`
   const whatsappLink = `https://wa.me/2349082595866?text=${encodeURIComponent(orderMessage)}`
-  const mailLink    = `mailto:namssn.unilag@gmail.com?subject=Merchandise Order — ${item.name}&body=${encodeURIComponent(orderMessage)}`
+  const mailLink    = `mailto:namsnunilag9@gmail.com?subject=Merchandise Order — ${item.name}&body=${encodeURIComponent(orderMessage)}`
 
   return (
     <div className={`bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border transition-all duration-200 flex flex-col ${

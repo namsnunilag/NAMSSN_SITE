@@ -49,17 +49,19 @@ export default function Contact() {
 
     setLoading(true)
 
-    // ── FORM SUBMISSION ────────────────────────────────────────────────────
-    // Replace the block below with your actual form submission logic.
-    // Options:
-    //   a) Formspree:  fetch('https://formspree.io/f/YOUR_FORM_ID', { method:'POST', ... })
-    //   b) EmailJS:    emailjs.send(...)
-    //   c) Backend API
-    // For now we simulate a 1 second delay.
-    await new Promise((r) => setTimeout(r, 1000))
-    // ──────────────────────────────────────────────────────────────────────
+    const res = await fetch('https://formspree.io/f/xvzwkzpr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(form),
+    })
 
     setLoading(false)
+
+    if (!res.ok) {
+      setError('Something went wrong. Please try again or email us directly.')
+      return
+    }
+
     setSubmitted(true)
     setForm({ name: '', email: '', subject: '', message: '' })
   }

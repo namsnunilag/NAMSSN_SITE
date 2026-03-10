@@ -48,7 +48,6 @@ const QUICK_LINKS = [
   { to: '/newsletter',  label: 'Newsletter',        desc: 'Weekly NAMSSN digest' },
   { to: '/community',   label: 'Community',         desc: 'Articles & alumni showcase' },
   { to: '/merchandise', label: 'Merchandise',       desc: 'Get your official NAMSSN gear' },
-  { to: '/gallery',     label: 'Photo Gallery',     desc: 'Memories from our events' },
 ]
 
 export default function Home() {
