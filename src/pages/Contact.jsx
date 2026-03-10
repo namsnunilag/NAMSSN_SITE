@@ -51,21 +51,27 @@ export default function Contact() {
 
     setLoading(true)
 
-    const res = await fetch('https://formspree.io/f/xvzwkzpr', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(form),
-    })
+    try {
+      const res = await fetch('https://formspree.io/f/xvzwkzpr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(form),
+      })
 
-    setLoading(false)
+      const data = await res.json().catch(() => ({}))
+      setLoading(false)
 
-    if (!res.ok) {
-      setError('Something went wrong. Please try again or email us directly.')
-      return
+      if (!res.ok) {
+        setError(data?.error || `Submission failed (${res.status}). Please email us directly.`)
+        return
+      }
+
+      setSubmitted(true)
+      setForm({ name: '', email: '', subject: '', message: '' })
+    } catch (err) {
+      setLoading(false)
+      setError('Network error — please check your connection and try again.')
     }
-
-    setSubmitted(true)
-    setForm({ name: '', email: '', subject: '', message: '' })
   }
 
   return (
