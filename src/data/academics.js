@@ -2,13 +2,6 @@
 
 export const announcements = [
   {
-    id: 2,
-    title: 'UNILAG ASUU Commences Indefinite Strike',
-    date: '2026-03-10',
-    type: 'general',
-    content: 'The University of Lagos chapter of ASUU has commenced an indefinite strike over what it described as "amputated" salaries received in January and February 2026. The strike takes effect immediately until university management meets its demands. Read the full update at nasowsunilag.com.',
-  },
-  {
     id: 1,
     title: 'First Semester Examination Timetable Released',
     date: '2026-01-15',

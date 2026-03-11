@@ -8,6 +8,6 @@ export const siteAnnouncements = [
     type: 'warning',
     href: 'https://www.nasowsunilag.com/events/newss/unilag-lecturers-begin-indefinite-strike-over-amputated-january-february-salaries',
     linkText: 'Read Full Update',
-    active: true,
+    active: false,
   },
 ]
