@@ -78,8 +78,36 @@ function EventCard({ event }) {
 import { useState } from 'react'
 
 export default function Events() {
-  usePageTitle('Events')
+  usePageTitle('Events', 'Upcoming NAMSSN UNILAG events including DECAGON mathematics competition, Dean\'s Games, and more. Register and stay updated on activities for maths students at UNILAG.')
+
+  const eventStructuredData = {
+    '@context': 'https://schema.org',
+    '@graph': upcomingEvents.map(e => ({
+      '@type': 'Event',
+      name: e.title,
+      description: e.shortDescription,
+      startDate: e.date,
+      location: {
+        '@type': 'Place',
+        name: e.location,
+        address: { '@type': 'PostalAddress', addressLocality: 'Lagos', addressCountry: 'NG' },
+      },
+      organizer: {
+        '@type': 'Organization',
+        name: 'NAMSSN UNILAG Chapter',
+        url: 'https://namssn-unilag.vercel.app',
+      },
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    })),
+  }
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(eventStructuredData) }}
+    />
     <div>
 
       {/* Hero */}
@@ -106,5 +134,6 @@ export default function Events() {
       </section>
 
     </div>
+    </>
   )
 }

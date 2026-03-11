@@ -19,7 +19,7 @@ const announcementTypeConfig = {
 const LEVELS = ['100', '200', '300', '400', '500']
 
 export default function Academics() {
-  usePageTitle('Academics')
+  usePageTitle('Academics', 'Academic resources for NAMSSN UNILAG students — course materials, timetables, exam schedules, and important announcements for mathematics and mathematical sciences students at UNILAG.')
   const [activeTab, setActiveTab] = useState('announcements')
   const [levelFilter, setLevelFilter] = useState('all')
 

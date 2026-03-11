@@ -145,7 +145,7 @@ function ArticleModal({ article, onClose }) {
 }
 
 export default function Community() {
-  usePageTitle('Community')
+  usePageTitle('Community', 'Read articles and thought pieces from NAMSSN UNILAG members on mathematics, calculus, number theory, applied math, and life as a maths student in Nigeria.')
   const [openArticle, setOpenArticle] = useState(null)
 
   return (

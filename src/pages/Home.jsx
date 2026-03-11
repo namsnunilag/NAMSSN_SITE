@@ -52,7 +52,7 @@ const QUICK_LINKS = [
 ]
 
 export default function Home() {
-  usePageTitle()
+  usePageTitle(null, 'NAMSSN UNILAG is the official student association for Mathematical Sciences students at the University of Lagos. Join us for DECAGON, Dean\'s Games, academic resources, and a thriving community of Nigerian maths students.')
   const [current, setCurrent] = useState(0)
   const intervalRef = useRef(null)
 

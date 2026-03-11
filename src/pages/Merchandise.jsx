@@ -74,7 +74,7 @@ function MerchCard({ item }) {
 }
 
 export default function Merchandise() {
-  usePageTitle('Merchandise')
+  usePageTitle('Merchandise', 'Order official NAMSSN UNILAG merchandise — hoodies, T-shirts, and branded items for mathematical sciences students at the University of Lagos.')
   const [filter, setFilter] = useState('all')
 
   const categories = ['all', ...new Set(merchandise.map(m => m.category).filter(Boolean))]

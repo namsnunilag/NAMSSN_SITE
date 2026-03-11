@@ -92,7 +92,7 @@ function Lightbox({ newsletter, onClose }) {
 }
 
 export default function Newsletter() {
-  usePageTitle('Newsletter')
+  usePageTitle('Newsletter', 'Read the official NAMSSN UNILAG newsletter — covering events, academic updates, student achievements, and news from the mathematical sciences community at UNILAG.')
   const [open, setOpen] = useState(null) // the newsletter object currently open
 
   return (

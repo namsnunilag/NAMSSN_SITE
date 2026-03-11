@@ -45,7 +45,7 @@ const values = [
 ]
 
 export default function About() {
-  usePageTitle('About')
+  usePageTitle('About', 'Learn about NAMSSN UNILAG — our mission, vision, and the values that drive the mathematical sciences student community at the University of Lagos, Nigeria.')
   return (
     <div>
 

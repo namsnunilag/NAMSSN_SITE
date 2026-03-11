@@ -30,7 +30,7 @@ const contactInfo = [
 ]
 
 export default function Contact() {
-  usePageTitle('Contact Us')
+  usePageTitle('Contact Us', 'Get in touch with NAMSSN UNILAG via email, WhatsApp, or social media. Reach the mathematical sciences student association at the University of Lagos.')
   const [form,      setForm]      = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading,   setLoading]   = useState(false)

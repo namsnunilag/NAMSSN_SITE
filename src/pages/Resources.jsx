@@ -391,7 +391,7 @@ function EmptyState({ icon: Icon, text }) {
 }
 
 export default function Resources() {
-  usePageTitle('Student Resources')
+  usePageTitle('Student Resources', 'Scholarships, internships, job listings, CGPA calculator, and student handbook for mathematical sciences students at the University of Lagos. Everything you need to succeed.')
   const [activeTab, setActiveTab] = useState('cgpa')
 
   return (

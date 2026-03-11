@@ -153,7 +153,7 @@ const TABS = {
 }
 
 export default function Executives() {
-  usePageTitle('Executives & Lecturers')
+  usePageTitle('Executives & Lecturers', 'Meet the elected student executives and academic staff of the NAMSSN UNILAG chapter — the student leaders and lecturers of the Mathematics Department at the University of Lagos.')
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = searchParams.get('tab') || 'patrons'
 
