@@ -7,7 +7,7 @@ function PaperCard({ paper }) {
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <div className="reveal bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:border-brand-blue/20 transition-all duration-200 flex flex-col gap-3">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:border-brand-blue/20 transition-all duration-200 flex flex-col gap-3">
 
       {/* Field badge */}
       <span className="self-start text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-blue/10 text-brand-blue dark:bg-brand-blue/20 dark:text-brand-blueLight">
@@ -118,7 +118,7 @@ export default function Research() {
         <div className="max-w-6xl mx-auto px-4 space-y-14">
           {groups.map(({ field, items }) => (
             <div key={field}>
-              <h2 className="reveal text-xl font-bold text-brand-blueDark dark:text-white mb-6 flex items-center gap-3">
+              <h2 className="text-xl font-bold text-brand-blueDark dark:text-white mb-6 flex items-center gap-3">
                 <span className="w-1 h-6 rounded-full bg-brand-orange inline-block" />
                 {field}
                 <span className="text-sm font-normal text-gray-400">({items.length} paper{items.length !== 1 ? 's' : ''})</span>
