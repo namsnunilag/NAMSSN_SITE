@@ -5,6 +5,7 @@
 export const mathFields = [
   'All',
   'Analysis',
+  'Algebra',
   'Topology',
   'Differential Equations',
   'Applied Mathematics',
@@ -263,5 +264,62 @@ export const papers = [
     abstract:
       'New fixed point results are proved for generalised contractions defined on O-metric spaces, extending the framework of ordered metric spaces and unifying several existing results in the literature.',
     link: 'https://arxiv.org/abs/2403.09655',
+  },
+
+  // ── Dr. George O.O ── Algebra (Loop Theory, Quasigroups, BCI Algebras) ───────
+  {
+    id: 22,
+    title: 'On a Class of Power Associative LCC-Loops',
+    authors: ['Dr. George O.O', 'Prof. Olaleru J.O', 'J.O. Adéniran', 'T.G. Jaiyéolá'],
+    field: 'Algebra',
+    journal: 'Extracta Mathematicae',
+    year: 2022,
+    abstract:
+      'A class of power associative left conjugacy closed (LCC) loops is studied, with characterisation theorems and structural results that extend known results in loop theory.',
+    link: 'https://dialnet.unirioja.es/servlet/articulo?codigo=8682593',
+  },
+  {
+    id: 23,
+    title: 'Nuclear Identification of Some New Loop Identities of Length Five',
+    authors: ['Dr. George O.O', 'T.G. Jaiyéolá'],
+    field: 'Algebra',
+    journal: 'Bulletin of the Academy of Sciences of Moldova, Mathematics',
+    year: 2022,
+    abstract:
+      'New loop identities of length five are identified and classified using nuclear methods, contributing to the systematic study of loop identities and their algebraic significance.',
+    link: 'https://www.researchgate.net/publication/367979377_Nuclear_Identification_of_Some_New_Loop_Identities_of_Length_Five',
+  },
+  {
+    id: 24,
+    title: 'On the Universality and Isotopy-Isomorphy of (r, s, t)-Inverse Quasigroups and Loops with Applications to Cryptography',
+    authors: ['R. Ilemobade', 'Dr. George O.O', 'T.G. Jaiyéolá'],
+    field: 'Algebra',
+    journal: 'Quasigroups and Related Systems',
+    year: 2023,
+    abstract:
+      'The universality and isotopy-isomorphy properties of (r, s, t)-inverse quasigroups and loops are investigated, with cryptographic applications demonstrated through encoding schemes.',
+    link: 'http://www.quasigroups.eu/',
+  },
+  {
+    id: 25,
+    title: 'Nuclear Identification of Extra Loop Identities of Second Bol-Moufang Type with Applications to Secure Information Encoding',
+    authors: ['Dr. George O.O'],
+    field: 'Algebra',
+    journal: 'Unilag Journal of Mathematics and Applications (LAGJMA)',
+    year: 2026,
+    abstract:
+      'Extra loop identities of the second Bol-Moufang type are identified via nuclear analysis, and their application to secure information encoding is demonstrated.',
+    link: 'https://lagjma.unilag.edu.ng/article/view/2868',
+  },
+  {
+    id: 26,
+    title: 'Bivariate BCI Algebras',
+    authors: ['E. Ilojide', 'Dr. George O.O'],
+    field: 'Algebra',
+    journal: 'International Journal of Mathematical Sciences and Optimization: Theory and Applications',
+    year: 2025,
+    abstract:
+      'The concept of bivariate BCI algebras is introduced and studied, establishing foundational properties and structural theorems that extend the classical theory of BCI algebras.',
+    link: 'https://ijmso.unilag.edu.ng/article/view/2455',
   },
 ]
