@@ -81,19 +81,19 @@ function NotifyMeForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-2">
       <p className="text-xs text-gray-500">Get notified when registration opens:</p>
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2">
         <input
           type="email"
           required
           placeholder="your@email.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-blue/30"
+          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-blue/30"
         />
         <button
           type="submit"
           disabled={loading}
-          className="bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5"
+          className="w-full bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5"
         >
           <Bell size={14} /> Notify Me
         </button>
