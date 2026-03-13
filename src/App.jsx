@@ -15,6 +15,7 @@ import Academics from './pages/Academics'
 import Resources from './pages/Resources'
 import Community from './pages/Community'
 import Merchandise from './pages/Merchandise'
+import Research from './pages/Research'
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
 export const useTheme = () => useContext(ThemeContext)
@@ -92,6 +93,7 @@ export default function App() {
               <Route path="/resources"    element={<Resources />} />
               <Route path="/community"    element={<Community />} />
               <Route path="/merchandise"  element={<Merchandise />} />
+              <Route path="/research"     element={<Research />} />
             </Routes>
           </main>
           <Footer />

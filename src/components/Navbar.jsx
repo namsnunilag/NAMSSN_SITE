@@ -22,6 +22,7 @@ const exploreDropdown = [
   { to: '/resources',   label: 'Student Resources' },
   { to: '/community',   label: 'Community' },
   { to: '/merchandise', label: 'Merchandise' },
+  { to: '/research',    label: 'Research' },
 ]
 
 export default function Navbar({ onToggleDark, isDark }) {
