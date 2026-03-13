@@ -24,8 +24,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'Phone',
-    value: '+234 806 533 6309', // ← replace with your actual phone
-    href: 'tel:+2348065336309',
+    value: '+234 816 533 6309',
+    href: 'tel:+2348165336309',
   },
 ]
 
