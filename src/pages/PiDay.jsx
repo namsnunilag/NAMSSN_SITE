@@ -106,7 +106,7 @@ export default function PiDay() {
             probability, physics, and analysis alike. These are not trivial computations; they are among the most
             beautiful results in mathematical analysis."
           </p>
-          <p className="mt-4 text-brand-orange font-semibold text-right">— Toyobo Oluwadamilola Oluwatimileyin, Editor</p>
+          <p className="mt-4 text-brand-orange font-semibold text-right">— Adebisi Oluwaseye Christopher, Chief Editor</p>
         </div>
       </section>
 
