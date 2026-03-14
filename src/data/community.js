@@ -659,4 +659,57 @@ For mathematics students, topology offers a different way of thinking about spac
       { title: 'Topology & Geometry — Dr Tadashi Tokieda (YouTube)', url: 'https://www.youtube.com/playlist?list=PLTBqohhFNBE_09L0i-lf3fYXF5woAbrzJ' },
     ],
   },
+  {
+    id: 14,
+    title: 'Pi Day Special: Five Integrals Converging to π',
+    author: 'Kamal — NAMSSN Academic Team',
+    date: 'March 14, 2026',
+    excerpt: 'In celebration of Pi Day (3/14), the NAMSSN Academic Team presents five remarkable integrals — from the classical Gaussian to the extraordinary Ahmed integral — each resolving elegantly to an expression involving π.',
+    image: '',
+    tags: ['Analysis', 'Pi Day', 'Integration', 'Academic'],
+    content: `March 14. Every year, the digits 3, 1, 4 on the calendar invite us to pause and celebrate the most famous constant in all of mathematics — π ≈ 3.14159...
+
+π is everywhere. It governs the circumference of a circle, appears in the normal distribution that describes random errors, emerges in the solution to the Basel problem (1 + 1/4 + 1/9 + 1/16 + ... = π²/6), and shows up in quantum mechanics, signal processing, and the shape of river bends. It is unavoidable, irrational, transcendental, and endlessly fascinating.
+
+In the spirit of Pi Day 2026, the NAMSSN Academic Team — authored by Kamal, edited by Abdulrasheed, and proofread by Oluwadamilola — has produced a collection of five integrals, each of which evaluates to an expression involving π. These are not textbook exercises. They are among the most celebrated results in mathematical analysis, each demanding a distinct and creative technique.
+
+The Five Integrals at a Glance:
+
+I. The Gaussian Integral
+∫_{-∞}^{∞} e^{-x²} dx = √π
+
+Perhaps the most famous integral in all of mathematics. The integrand e^{-x²} has no elementary antiderivative — you cannot find it by any standard technique. The key insight, due to Poisson, is to square the integral, rewrite it as a double integral over the plane, convert to polar coordinates, and evaluate directly. The result, √π, is the foundation of probability theory and statistics — it is why the normal distribution has the shape it does.
+
+II. The Dirichlet Sinc Integral
+∫_0^{∞} (sin x)/x dx = π/2
+
+This integral cannot be evaluated by standard techniques because sin(x)/x is not absolutely integrable over [0,∞). The solution uses Feynman's trick — differentiation under the integral sign — by introducing a decay parameter e^{-tx}, differentiating with respect to t, solving the resulting differential equation, and then setting t = 0.
+
+III. The 22/7 − π Integral
+∫_0^1 x⁴(1−x)⁴/(1+x²) dx = 22/7 − π
+
+This is one of the most elegant results in elementary calculus. The integrand is strictly positive on (0,1), so the integral is positive — which means 22/7 > π. This gives a rigorous proof of that classical approximation. The solution requires only polynomial long division and the fact that ∫arctan gives π/4.
+
+IV. Euler's Log-Sine Integral
+∫_0^{π/2} ln(sin x) dx = −(π/2) ln 2
+
+A beautiful result that exploits the symmetry of sin and cos over [0, π/2]. By adding I = ∫ln(sin x) and I = ∫ln(cos x) and applying the double-angle identity sin x cos x = (1/2)sin 2x, one obtains a self-referential functional equation that solves algebraically. The presence of ln 2 alongside π is a hallmark of deep connections between analysis and number theory.
+
+V. The Ahmed Integral
+∫_0^1 arctan(√(x²+2)) / [(1+x²)√(x²+2)] dx = 5π²/96
+
+The most technically demanding of the five. Published by Z. Ahmed in 2002, this integral requires three layers of technique: a complementary arctangent identity splits the integral into two parts; one part is evaluated by a hyperbolic substitution; the other is handled by Feynman's trick, which — at the critical moment — generates a mirror image of itself on the right-hand side, allowing it to be solved without ever computing it directly. The result, 5π²/96, involves π squared — a signature of deep connections to the Riemann zeta function.
+
+These five integrals span centuries of mathematical development, from Euler and Gauss to Feynman and Ahmed. They illustrate that π is not just the ratio of a circle's circumference to its diameter — it is woven into the fabric of analysis itself.
+
+"The mathematician's patterns, like the painter's or the poet's, must be beautiful." — G.H. Hardy
+
+Download the full step-by-step solutions — including all working, substitutions, and proofs — from the link below. Happy Pi Day.`,
+    references: [
+      { title: 'Full PDF — Five Integrals Converging to π (NAMSSN Academic Team, 2026)', url: '/pi-day-2026.pdf' },
+      { title: 'The Gaussian Integral — 3Blue1Brown', url: 'https://www.youtube.com/watch?v=cy8r7WSuT1I' },
+      { title: "Feynman's Trick — Math The World", url: 'https://www.youtube.com/watch?v=lIcFnSAMNvY' },
+      { title: 'Ahmed Integral — original paper (2002)', url: 'https://www.tandfonline.com/doi/abs/10.1080/00029890.2002.11919871' },
+    ],
+  },
 ]
