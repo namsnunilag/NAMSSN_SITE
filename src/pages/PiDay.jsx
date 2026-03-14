@@ -46,7 +46,7 @@ const INTEGRALS = [
   {
     number: 'V',
     name: 'The Ahmed Integral',
-    tex: '\\displaystyle\\int_0^1 \\frac{\\arctan\\!\\sqrt{x^2+2}}{(1+x^2)\\sqrt{x^2+2}}\\,dx = \\frac{5\\pi^2}{96}',
+    tex: '\\displaystyle\\int_0^1 \\frac{\\tan^{-1}\\!\\sqrt{x^2+2}}{(1+x^2)\\sqrt{x^2+2}}\\,dx = \\frac{5\\pi^2}{96}',
     technique: 'Hyperbolic sub + Feynman',
     description:
       "Published by Z. Ahmed in 2002. Three layers: an arctan identity, a hyperbolic substitution, and Feynman's trick — which generates a mirror of itself.",
@@ -131,7 +131,7 @@ export default function PiDay() {
                   { n: 'II',  lhs: '\\int_0^{\\infty} \\dfrac{\\sin x}{x}\\,dx',                                                            rhs: '\\dfrac{\\pi}{2}' },
                   { n: 'III', lhs: '\\int_0^1 \\dfrac{x^4(1-x)^4}{1+x^2}\\,dx',                                                            rhs: '\\dfrac{22}{7} - \\pi' },
                   { n: 'IV',  lhs: '\\int_0^{\\pi/2} \\ln(\\sin x)\\,dx',                                                                  rhs: '-\\dfrac{\\pi}{2}\\ln 2' },
-                  { n: 'V',   lhs: '\\int_0^1 \\dfrac{\\arctan\\!\\sqrt{x^2+2}}{(1+x^2)\\sqrt{x^2+2}}\\,dx',                              rhs: '\\dfrac{5\\pi^2}{96}' },
+                  { n: 'V',   lhs: '\\int_0^1 \\dfrac{\\tan^{-1}\\!\\sqrt{x^2+2}}{(1+x^2)\\sqrt{x^2+2}}\\,dx',                              rhs: '\\dfrac{5\\pi^2}{96}' },
                 ].map((row, i) => (
                   <tr key={row.n} className={i % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-900'}>
                     <td className="px-4 py-4 font-black text-brand-orange text-base">{row.n}</td>
