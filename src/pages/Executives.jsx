@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import usePageTitle from '../hooks/usePageTitle'
 
 // ── Lecturers ────────────────────────────────────────────────────────────────
@@ -203,7 +203,15 @@ export default function Executives() {
 
           {tab === 'executives' && (
             <div key="executives" className="tab-reveal">
-              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
+                <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white">Student Executives</h2>
+                <Link
+                  to="/student-executives"
+                  className="inline-flex items-center gap-1.5 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-bold px-4 py-2 rounded-full transition-colors"
+                >
+                  View Full Profiles →
+                </Link>
+              </div>
               <p className="text-gray-500 dark:text-gray-400 mb-8">Your elected NAMSSN UNILAG executives for the 2025/2026 session</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 stagger">
                 {executives.map((e) => <ExecCard key={e.role} exec={e} />)}
