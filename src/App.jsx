@@ -16,6 +16,7 @@ import Resources from './pages/Resources'
 import Community from './pages/Community'
 import Merchandise from './pages/Merchandise'
 import Research from './pages/Research'
+import PiDay from './pages/PiDay'
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
 export const useTheme = () => useContext(ThemeContext)
@@ -94,6 +95,7 @@ export default function App() {
               <Route path="/community"    element={<Community />} />
               <Route path="/merchandise"  element={<Merchandise />} />
               <Route path="/research"     element={<Research />} />
+              <Route path="/pi-day"       element={<PiDay />} />
             </Routes>
           </main>
           <Footer />
