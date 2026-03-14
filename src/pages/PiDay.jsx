@@ -92,7 +92,7 @@ export default function PiDay() {
           </a>
 
           <p className="mt-4 text-blue-200 text-sm">
-            By <strong>Kamal</strong> · Edited by <strong>Abdulrasheed</strong> · Proofread by <strong>Oluwadamilola</strong>
+            By <strong>Adebisi Oluwaseye Christopher</strong> · Edited &amp; Proofread by <strong>Toyobo Oluwadamilola Oluwatimileyin</strong> · Published by <strong>NAMSSN 2026</strong>
           </p>
         </div>
       </section>
@@ -106,7 +106,7 @@ export default function PiDay() {
             probability, physics, and analysis alike. These are not trivial computations; they are among the most
             beautiful results in mathematical analysis."
           </p>
-          <p className="mt-4 text-brand-orange font-semibold text-right">— Abdulrasheed, Editor</p>
+          <p className="mt-4 text-brand-orange font-semibold text-right">— Toyobo Oluwadamilola Oluwatimileyin, Editor</p>
         </div>
       </section>
 

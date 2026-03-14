@@ -662,7 +662,7 @@ For mathematics students, topology offers a different way of thinking about spac
   {
     id: 14,
     title: 'Pi Day Special: Five Integrals Converging to π',
-    author: 'Kamal — NAMSSN Academic Team',
+    author: 'Adebisi Oluwaseye Christopher — Director of Studies, NAMSSN',
     date: 'March 14, 2026',
     excerpt: 'In celebration of Pi Day (3/14), the NAMSSN Academic Team presents five remarkable integrals — from the classical Gaussian to the extraordinary Ahmed integral — each resolving elegantly to an expression involving π.',
     image: '',
@@ -671,7 +671,7 @@ For mathematics students, topology offers a different way of thinking about spac
 
 π is everywhere. It governs the circumference of a circle, appears in the normal distribution that describes random errors, emerges in the solution to the Basel problem (1 + 1/4 + 1/9 + 1/16 + ... = π²/6), and shows up in quantum mechanics, signal processing, and the shape of river bends. It is unavoidable, irrational, transcendental, and endlessly fascinating.
 
-In the spirit of Pi Day 2026, the NAMSSN Academic Team — authored by Kamal, edited by Abdulrasheed, and proofread by Oluwadamilola — has produced a collection of five integrals, each of which evaluates to an expression involving π. These are not textbook exercises. They are among the most celebrated results in mathematical analysis, each demanding a distinct and creative technique.
+In the spirit of Pi Day 2026, the NAMSSN Academic Team — authored by Adebisi Oluwaseye Christopher (Director of Studies, NAMSSN), edited and proofread by Toyobo Oluwadamilola Oluwatimileyin, and published by NAMSSN 2026 — has produced a collection of five integrals, each of which evaluates to an expression involving π. These are not textbook exercises. They are among the most celebrated results in mathematical analysis, each demanding a distinct and creative technique.
 
 The Five Integrals at a Glance:
 
