@@ -6,7 +6,7 @@ export const siteAnnouncements = [
     id: 2,
     message: '🥧 Happy Pi Day! The NAMSSN Academic Team presents: Five Integrals Converging to π',
     type: 'info',
-    href: '/pi-day',
+    href: '/celebration/pi-day',
     linkText: 'Read & Download',
     active: true,
   },

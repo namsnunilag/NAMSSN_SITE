@@ -95,7 +95,7 @@ export default function App() {
               <Route path="/community"    element={<Community />} />
               <Route path="/merchandise"  element={<Merchandise />} />
               <Route path="/research"     element={<Research />} />
-              <Route path="/pi-day"       element={<PiDay />} />
+              <Route path="/celebration/pi-day" element={<PiDay />} />
             </Routes>
           </main>
           <Footer />
