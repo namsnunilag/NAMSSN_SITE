@@ -211,7 +211,7 @@ export default function Executives() {
             <div key="executives" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
               <p className="text-gray-500 dark:text-gray-400 mb-8">Your elected NAMSSN UNILAG executives for the 2025/2026 session</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 stagger">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 stagger">
                 {executives.map((e) => <ExecCard key={e.role} exec={e} />)}
               </div>
             </div>
