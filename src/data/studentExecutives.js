@@ -5,7 +5,7 @@ export const studentExecutives = [
     role: 'President',
     image: '/images/executives/president.jpg',
     initials: 'OO',
-    bio: `Oludare Samuel is a final-year Mathematics student at the University of Lagos and the President-Elect of the National Association of Mathematical Science Students of Nigeria (NAMSSN), UNILAG Chapter.
+    bio: `Oludare Samuel is a final-year Mathematics student at the University of Lagos and the President of the National Association of Mathematical Science Students of Nigeria (NAMSSN), UNILAG Chapter.
 
 A dynamic student leader, he has contributed to multiple departmental and faculty initiatives through coordination, communication, and student support. Known for his strong leadership presence, he actively works to improve student experience, academic engagement, and the visibility of the Mathematics community on campus.
 
