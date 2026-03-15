@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Mail, MessageCircle, Instagram, Twitter, Linkedin } from 'lucide-react'
 import { studentExecutives } from '../data/studentExecutives'
@@ -8,6 +8,13 @@ export default function StudentExecutiveDetail() {
   const { id } = useParams()
   const exec = studentExecutives.find(e => e.id === id)
   const [failed, setFailed] = useState(false)
+
+  // Reset failed state and preload adjacent images on navigation
+  useEffect(() => {
+    setFailed(false)
+    const toPreload = [prev?.image, next?.image].filter(Boolean)
+    toPreload.forEach(src => { const img = new Image(); img.src = src })
+  }, [id])
 
   usePageTitle(exec ? exec.name : 'Executive')
 
