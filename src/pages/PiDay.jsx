@@ -56,7 +56,8 @@ const INTEGRALS = [
 export default function PiDay() {
   usePageTitle(
     'Pi Day 2026 — Five Integrals Converging to π',
-    'Happy Pi Day! The NAMSSN Academic Team presents five remarkable integrals that each resolve to an expression involving π. Download the full step-by-step solutions.'
+    'Happy Pi Day! The NAMSSN Academic Team presents five remarkable integrals that each resolve to an expression involving π. Download the full step-by-step solutions.',
+    'https://namssn-unilag.vercel.app/og-image.png'
   )
 
   return (
