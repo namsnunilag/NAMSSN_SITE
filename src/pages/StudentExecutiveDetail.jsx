@@ -66,7 +66,6 @@ export default function StudentExecutiveDetail() {
                 {exec.role}
               </span>
               <h1 className="text-lg font-black text-brand-blueDark dark:text-white text-center leading-tight">{exec.name}</h1>
-              <p className="text-gray-500 dark:text-gray-400 text-xs mt-1 text-center">NAMSSN UNILAG · 2025/2026 Session</p>
 
               {/* Contact */}
               {(exec.whatsapp || exec.email || exec.instagram || exec.twitter || exec.linkedin) && (
