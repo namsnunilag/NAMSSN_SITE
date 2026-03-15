@@ -18,6 +18,7 @@ import Merchandise from './pages/Merchandise'
 import Research from './pages/Research'
 import PiDay from './pages/PiDay'
 import StudentExecutives from './pages/StudentExecutives'
+import StudentExecutiveDetail from './pages/StudentExecutiveDetail'
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
 export const useTheme = () => useContext(ThemeContext)
@@ -97,7 +98,8 @@ export default function App() {
               <Route path="/merchandise"  element={<Merchandise />} />
               <Route path="/research"     element={<Research />} />
               <Route path="/celebration/pi-day"   element={<PiDay />} />
-              <Route path="/student-executives"   element={<StudentExecutives />} />
+              <Route path="/student-executives"        element={<StudentExecutives />} />
+              <Route path="/student-executives/:id"   element={<StudentExecutiveDetail />} />
             </Routes>
           </main>
           <Footer />
