@@ -13,7 +13,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'vice-president',
@@ -29,7 +29,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'general-secretary',
@@ -45,7 +45,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'asst-general-secretary',
@@ -61,7 +61,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'pro',
@@ -77,7 +77,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'financial-secretary',
@@ -93,7 +93,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'treasurer',
@@ -109,7 +109,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'social-secretary',
@@ -125,7 +125,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'welfare-director',
@@ -141,7 +141,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'sports-secretary',
@@ -157,7 +157,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'director-of-studies',
@@ -173,7 +173,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
   {
     id: 'librarian',
@@ -189,6 +189,6 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
     email: '',
     whatsapp: '',
     instagram: '',
-    twitter: '',
+    twitter: '',\n    linkedin: '',
   },
 ]

@@ -55,18 +55,18 @@ const patrons = [
 // ── Student Executives ───────────────────────────────────────────────────────
 // Update names and image filenames as needed
 const executives = [
-  { name: 'Oludare Samuel Oladapo',          role: 'President',                image: '/images/executives/president.jpg',  initials: 'OO' },
-  { name: 'Amure McDonald Oluwatunmibewo',   role: 'Vice President',           image: '/images/executives/vp.jpg',          initials: 'AM' },
-  { name: 'Chukwuma Miran-Ambrose',          role: 'General Secretary',        image: '/images/executives/gs.jpg',          initials: 'CM' },
-  { name: 'Akesinro Damilola Gold',          role: 'Asst. General Secretary',  image: '/images/executives/ags.jpg',          initials: 'AG' },
-  { name: 'Olowolayemo Temiloluwa Mercy',    role: 'Public Relations Officer', image: '/images/executives/pro.jpg',          initials: 'OT' },
-  { name: 'Azeezat Abdulazeez Temitope',     role: 'Financial Secretary',      image: '/images/executives/fin.jpg',          initials: 'AR' },
-  { name: 'Oguntuga Demilade Gabriel',       role: 'Treasurer',                image: '/images/executives/treasurer.jpg',    initials: 'OD' },
-  { name: 'Salami Malik Demola',             role: 'Social Secretary',         image: '/images/executives/social.jpg',       initials: 'SM' },
-  { name: 'Adesanya Racheal Teniola',        role: 'Welfare Director',         image: '/images/executives/welfare.jpg',      initials: 'AA' },
-  { name: 'George Ademola Samuel',           role: 'Sports Secretary',         image: '/images/executives/sport.jpg',        initials: 'GA' },
-  { name: 'Adebisi Oluwaseye Christopher',   role: 'Director of Studies',      image: '/images/executives/academic.jpg',     initials: 'AO' },
-  { name: 'Aderibigbe Michael Oloruntomiwa', role: 'Librarian',                image: '/images/executives/library.jpg',      initials: 'AM' },
+  { id: 'president',              name: 'Oludare Samuel Oladapo',          role: 'President',                image: '/images/executives/president.jpg',  initials: 'OO' },
+  { id: 'vice-president',         name: 'Amure McDonald Oluwatunmibewo',   role: 'Vice President',           image: '/images/executives/vp.jpg',          initials: 'AM' },
+  { id: 'general-secretary',      name: 'Chukwuma Miran-Ambrose',          role: 'General Secretary',        image: '/images/executives/gs.jpg',          initials: 'CM' },
+  { id: 'asst-general-secretary', name: 'Akesinro Damilola Gold',          role: 'Asst. General Secretary',  image: '/images/executives/ags.jpg',          initials: 'AG' },
+  { id: 'pro',                    name: 'Olowolayemo Temiloluwa Mercy',    role: 'Public Relations Officer', image: '/images/executives/pro.jpg',          initials: 'OT' },
+  { id: 'financial-secretary',    name: 'Azeezat Abdulazeez Temitope',     role: 'Financial Secretary',      image: '/images/executives/fin.jpg',          initials: 'AR' },
+  { id: 'treasurer',              name: 'Oguntuga Demilade Gabriel',       role: 'Treasurer',                image: '/images/executives/treasurer.jpg',    initials: 'OD' },
+  { id: 'social-secretary',       name: 'Salami Malik Demola',             role: 'Social Secretary',         image: '/images/executives/social.jpg',       initials: 'SM' },
+  { id: 'welfare-director',       name: 'Adesanya Racheal Teniola',        role: 'Welfare Director',         image: '/images/executives/welfare.jpg',      initials: 'AA' },
+  { id: 'sports-secretary',       name: 'George Ademola Samuel',           role: 'Sports Secretary',         image: '/images/executives/sport.jpg',        initials: 'GA' },
+  { id: 'director-of-studies',    name: 'Adebisi Oluwaseye Christopher',   role: 'Director of Studies',      image: '/images/executives/academic.jpg',     initials: 'AO' },
+  { id: 'librarian',              name: 'Aderibigbe Michael Oloruntomiwa', role: 'Librarian',                image: '/images/executives/library.jpg',      initials: 'AM' },
 ]
 
 function PatronCard({ patron }) {
@@ -98,13 +98,16 @@ function PatronCard({ patron }) {
 function ExecCard({ exec }) {
   const [failed, setFailed] = useState(false)
   return (
-    <div className="reveal bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+    <Link
+      to={`/student-executives/${exec.id}`}
+      className="reveal group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1"
+    >
       <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
             src={exec.image}
             alt={exec.name}
-            className="w-full h-full object-cover object-top" loading="lazy"
+            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" loading="lazy"
             onError={() => setFailed(true)}
           />
         ) : (
@@ -113,11 +116,14 @@ function ExecCard({ exec }) {
           </div>
         )}
       </div>
-      <div className="px-3 py-2 text-center">
+      <div className="px-3 py-3 text-center">
         <h3 className="font-bold text-brand-blueDark dark:text-white text-sm leading-tight">{exec.name}</h3>
         <p className="text-brand-orange text-xs font-medium mt-0.5">{exec.role}</p>
+        <span className="inline-block mt-1.5 text-xs text-brand-blue dark:text-brand-blueLight font-semibold group-hover:underline">
+          View Profile →
+        </span>
       </div>
-    </div>
+    </Link>
   )
 }
 
@@ -203,15 +209,7 @@ export default function Executives() {
 
           {tab === 'executives' && (
             <div key="executives" className="tab-reveal">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
-                <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white">Student Executives</h2>
-                <Link
-                  to="/student-executives"
-                  className="inline-flex items-center gap-1.5 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-bold px-4 py-2 rounded-full transition-colors"
-                >
-                  View Full Profiles →
-                </Link>
-              </div>
+              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
               <p className="text-gray-500 dark:text-gray-400 mb-8">Your elected NAMSSN UNILAG executives for the 2025/2026 session</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 stagger">
                 {executives.map((e) => <ExecCard key={e.role} exec={e} />)}

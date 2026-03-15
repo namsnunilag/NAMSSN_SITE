@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, Mail, MessageCircle, Instagram, Twitter } from 'lucide-react'
+import { ArrowLeft, Mail, MessageCircle, Instagram, Twitter, Linkedin } from 'lucide-react'
 import { studentExecutives } from '../data/studentExecutives'
 import usePageTitle from '../hooks/usePageTitle'
 
@@ -80,7 +80,7 @@ export default function StudentExecutiveDetail() {
           </div>
 
           {/* Contact */}
-          {(exec.whatsapp || exec.email || exec.instagram || exec.twitter) && (
+          {(exec.whatsapp || exec.email || exec.instagram || exec.twitter || exec.linkedin) && (
             <div className="px-8 py-6">
               <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Get in Touch</h2>
               <div className="flex flex-wrap gap-3">
@@ -117,6 +117,15 @@ export default function StudentExecutiveDetail() {
                     className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
                   >
                     <Twitter size={15} /> Twitter
+                  </a>
+                )}
+                {exec.linkedin && (
+                  <a
+                    href={`https://linkedin.com/in/${exec.linkedin.replace('@','')}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
+                  >
+                    <Linkedin size={15} /> LinkedIn
                   </a>
                 )}
               </div>
