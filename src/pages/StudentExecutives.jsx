@@ -50,7 +50,7 @@ export default function StudentExecutives() {
 
       <section className="py-16 bg-gray-50 dark:bg-gray-900 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 stagger">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 stagger">
             {studentExecutives.map(exec => (
               <ExecCard key={exec.id} exec={exec} />
             ))}

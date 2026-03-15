@@ -32,7 +32,7 @@ export default function StudentExecutiveDetail() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 pb-16">
+      <div className="max-w-6xl mx-auto px-4 pb-16">
 
         {/* Back link */}
         <div className="pt-6 mb-6">
@@ -41,96 +41,98 @@ export default function StudentExecutiveDetail() {
           </Link>
         </div>
 
-        {/* Profile card */}
+        {/* Profile card — two columns on desktop */}
         <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+          <div className="flex flex-col md:flex-row">
 
-          {/* Top section — photo + name */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6 px-8 pt-8 pb-6 border-b border-gray-100 dark:border-gray-700">
-            <div className="w-32 h-32 rounded-2xl overflow-hidden shadow-lg shrink-0 bg-gradient-to-br from-brand-blueDark to-brand-blue">
-              {!failed ? (
-                <img
-                  src={exec.image}
-                  alt={exec.name}
-                  className="w-full h-full object-cover object-top"
-                  onError={() => setFailed(true)}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-white font-black text-3xl">
-                  {exec.initials}
-                </div>
-              )}
-            </div>
-            <div className="text-center sm:text-left">
+            {/* Left — photo + name + socials */}
+            <div className="md:w-64 lg:w-72 shrink-0 flex flex-col items-center px-8 pt-8 pb-8 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
+              <div className="w-40 h-40 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-brand-blueDark to-brand-blue mb-4">
+                {!failed ? (
+                  <img
+                    src={exec.image}
+                    alt={exec.name}
+                    className="w-full h-full object-cover object-top"
+                    onError={() => setFailed(true)}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-white font-black text-4xl">
+                    {exec.initials}
+                  </div>
+                )}
+              </div>
+
               <span className="inline-block bg-brand-orange/10 text-brand-orange text-xs font-bold px-3 py-1 rounded-full mb-2">
                 {exec.role}
               </span>
-              <h1 className="text-2xl md:text-3xl font-black text-brand-blueDark dark:text-white">{exec.name}</h1>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">NAMSSN UNILAG · 2025/2026 Session</p>
-            </div>
-          </div>
+              <h1 className="text-lg font-black text-brand-blueDark dark:text-white text-center leading-tight">{exec.name}</h1>
+              <p className="text-gray-500 dark:text-gray-400 text-xs mt-1 text-center">NAMSSN UNILAG · 2025/2026 Session</p>
 
-          {/* Bio */}
-          <div className="px-8 py-6 border-b border-gray-100 dark:border-gray-700">
-            <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">About</h2>
-            <div className="space-y-4">
-              {exec.bio.split('\n\n').map((para, i) => (
-                <p key={i} className="text-gray-600 dark:text-gray-300 leading-relaxed">{para}</p>
-              ))}
+              {/* Contact */}
+              {(exec.whatsapp || exec.email || exec.instagram || exec.twitter || exec.linkedin) && (
+                <div className="mt-6 w-full">
+                  <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Get in Touch</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {exec.whatsapp && (
+                      <a
+                        href={`https://wa.me/${exec.whatsapp.replace(/\D/g, '')}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
+                      >
+                        <MessageCircle size={13} /> WhatsApp
+                      </a>
+                    )}
+                    {exec.email && (
+                      <a
+                        href={`mailto:${exec.email}`}
+                        className="inline-flex items-center gap-1.5 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
+                      >
+                        <Mail size={13} /> Email
+                      </a>
+                    )}
+                    {exec.instagram && (
+                      <a
+                        href={`https://instagram.com/${exec.instagram.replace('@','')}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 bg-pink-500 hover:bg-pink-600 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
+                      >
+                        <Instagram size={13} /> Instagram
+                      </a>
+                    )}
+                    {exec.twitter && (
+                      <a
+                        href={`https://twitter.com/${exec.twitter.replace('@','')}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
+                      >
+                        <Twitter size={13} /> Twitter
+                      </a>
+                    )}
+                    {exec.linkedin && (
+                      <a
+                        href={`https://linkedin.com/in/${exec.linkedin.replace('@','')}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
+                      >
+                        <Linkedin size={13} /> LinkedIn
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
 
-          {/* Contact */}
-          {(exec.whatsapp || exec.email || exec.instagram || exec.twitter || exec.linkedin) && (
-            <div className="px-8 py-6">
-              <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Get in Touch</h2>
-              <div className="flex flex-wrap gap-3">
-                {exec.whatsapp && (
-                  <a
-                    href={`https://wa.me/${exec.whatsapp.replace(/\D/g, '')}`}
-                    target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
-                  >
-                    <MessageCircle size={15} /> WhatsApp
-                  </a>
-                )}
-                {exec.email && (
-                  <a
-                    href={`mailto:${exec.email}`}
-                    className="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
-                  >
-                    <Mail size={15} /> Email
-                  </a>
-                )}
-                {exec.instagram && (
-                  <a
-                    href={`https://instagram.com/${exec.instagram.replace('@','')}`}
-                    target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
-                  >
-                    <Instagram size={15} /> Instagram
-                  </a>
-                )}
-                {exec.twitter && (
-                  <a
-                    href={`https://twitter.com/${exec.twitter.replace('@','')}`}
-                    target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
-                  >
-                    <Twitter size={15} /> Twitter
-                  </a>
-                )}
-                {exec.linkedin && (
-                  <a
-                    href={`https://linkedin.com/in/${exec.linkedin.replace('@','')}`}
-                    target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
-                  >
-                    <Linkedin size={15} /> LinkedIn
-                  </a>
-                )}
+            {/* Right — bio */}
+            <div className="flex-1 px-8 py-8">
+              <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">About</h2>
+              <div className="space-y-4">
+                {exec.bio.split('\n\n').map((para, i) => (
+                  <p key={i} className="text-gray-600 dark:text-gray-300 leading-relaxed">{para}</p>
+                ))}
               </div>
             </div>
-          )}
+
+          </div>
         </div>
 
         {/* Prev / Next navigation */}
