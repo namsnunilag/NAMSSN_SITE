@@ -89,6 +89,7 @@ export default function Giveaway() {
     setPhase('loading')
     try {
       const result = await submitEntry(name.trim(), matric.trim().toUpperCase())
+      console.log('Giveaway result:', result)
       if (result.success) {
         setPosition(result.position)
         setSlotsLeft(MAX_WINNERS - result.position)
@@ -99,9 +100,11 @@ export default function Giveaway() {
         setSlotsLeft(0)
         setPhase('full')
       } else {
+        console.error('Unexpected response:', result)
         setPhase('error')
       }
-    } catch {
+    } catch (err) {
+      console.error('Giveaway fetch error:', err)
       setPhase('error')
     }
   }
