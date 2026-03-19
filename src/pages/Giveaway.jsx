@@ -16,7 +16,7 @@ const QUESTIONS = [
 ]
 
 async function getCount() {
-  if (!SUPABASE_URL) return 0
+  if (!SUPABASE_URL) return 0 // demo mode
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/giveaway_entries?select=*`, {
       headers: {
@@ -34,6 +34,11 @@ async function getCount() {
 }
 
 async function submitEntry(name, matric) {
+  // Demo mode — no backend configured yet
+  if (!SUPABASE_URL) {
+    await new Promise(r => setTimeout(r, 1200))
+    return { success: true, position: 1 }
+  }
   const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/enter_giveaway`, {
     method: 'POST',
     headers: {
@@ -86,7 +91,7 @@ export default function Giveaway() {
       const result = await submitEntry(name.trim(), matric.trim().toUpperCase())
       if (result.success) {
         setPosition(result.position)
-        setSlotsLeft(prev => Math.max(0, prev - 1))
+        setSlotsLeft(MAX_WINNERS - result.position)
         setPhase('winner')
       } else if (result.error === 'duplicate') {
         setPhase('duplicate')
@@ -122,10 +127,18 @@ export default function Giveaway() {
             Answer one math question correctly. Be among the first{' '}
             <strong className="text-white">{MAX_WINNERS}</strong> to get it right — you win. 🎁
           </p>
-          <div className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold">
-            <span className={`w-2 h-2 rounded-full ${slotsLeft > 0 ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
+          <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold border ${
+            slotsLeft > 10
+              ? 'bg-green-500/10 border-green-500/30 text-green-300'
+              : slotsLeft > 0
+              ? 'bg-red-500/10 border-red-500/30 text-red-300'
+              : 'bg-gray-800 border-gray-700 text-gray-400'
+          }`}>
+            <span className={`w-2 h-2 rounded-full ${slotsLeft > 0 ? 'animate-pulse' : ''} ${
+              slotsLeft > 10 ? 'bg-green-400' : slotsLeft > 0 ? 'bg-red-400' : 'bg-gray-500'
+            }`} />
             {slotsLeft > 0
-              ? `${slotsLeft} of ${MAX_WINNERS} slots remaining`
+              ? <><span className="text-xl font-black">{slotsLeft}</span> / {MAX_WINNERS} slots remaining</>
               : 'All slots filled'}
           </div>
         </div>
