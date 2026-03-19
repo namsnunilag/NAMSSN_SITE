@@ -4,7 +4,7 @@ import usePageTitle from '../hooks/usePageTitle'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-const MAX_WINNERS = 29
+const MAX_WINNERS = 28
 
 const QUESTIONS = [
   { id: 1, question: 'Evaluate: ∫₀² x³ dx', answer: '4' },
