@@ -17,6 +17,7 @@ import Community from './pages/Community'
 import Merchandise from './pages/Merchandise'
 import Research from './pages/Research'
 import PiDay from './pages/PiDay'
+import Giveaway from './pages/Giveaway'
 import StudentExecutives from './pages/StudentExecutives'
 import StudentExecutiveDetail from './pages/StudentExecutiveDetail'
 
@@ -98,6 +99,7 @@ export default function App() {
               <Route path="/merchandise"  element={<Merchandise />} />
               <Route path="/research"     element={<Research />} />
               <Route path="/celebration/pi-day"   element={<PiDay />} />
+              <Route path="/giveaway"             element={<Giveaway />} />
               <Route path="/student-executives"        element={<StudentExecutives />} />
               <Route path="/student-executives/:id"   element={<StudentExecutiveDetail />} />
             </Routes>

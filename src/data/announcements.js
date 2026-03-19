@@ -8,7 +8,7 @@ export const siteAnnouncements = [
     type: 'info',
     href: '/celebration/pi-day',
     linkText: 'Read & Download',
-    active: true,
+    active: false,
   },
   {
     id: 1,
