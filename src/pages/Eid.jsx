@@ -70,7 +70,7 @@ export default function Eid() {
         .fade-up-5  { animation: fadeUp 0.8s 1.4s both; }
 
         .shimmer-text {
-          background: linear-gradient(90deg, #f97316 0%, #fbbf24 40%, #f97316 60%, #fbbf24 100%);
+          background: linear-gradient(90deg, #4ade80 0%, #fbbf24 40%, #4ade80 60%, #fbbf24 100%);
           background-size: 200% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -79,10 +79,10 @@ export default function Eid() {
         }
       `}</style>
 
-      <div className="min-h-screen bg-brand-blueDark relative overflow-hidden">
+      <div className="min-h-screen bg-[#0a2e1a] relative overflow-hidden">
 
         {/* Glow orb */}
-        <div className="glow-orb absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-brand-orange/20 blur-3xl pointer-events-none" />
+        <div className="glow-orb absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-green-500/20 blur-3xl pointer-events-none" />
 
         {/* Twinkling stars */}
         {STARS.map((s, i) => (
@@ -97,7 +97,7 @@ export default function Eid() {
         {PARTICLES.map((p, i) => (
           <div
             key={i}
-            className="particle absolute bottom-0 w-1.5 h-1.5 rounded-full bg-brand-orange/60 pointer-events-none"
+            className="particle absolute bottom-0 w-1.5 h-1.5 rounded-full bg-yellow-400/60 pointer-events-none"
             style={{ left: p.left, '--del': p.delay, '--dur': p.duration }}
           />
         ))}
@@ -107,7 +107,7 @@ export default function Eid() {
           <div className="max-w-2xl mx-auto">
 
             <div className="fade-up-1">
-              <p className="text-brand-orange text-xs font-bold uppercase tracking-widest mb-6">
+              <p className="text-green-400 text-xs font-bold uppercase tracking-widest mb-6">
                 From NAMSSN UNILAG
               </p>
             </div>
@@ -121,13 +121,13 @@ export default function Eid() {
             </div>
 
             <div className="fade-up-4">
-              <p className="text-blue-200 text-xl md:text-2xl font-medium mb-8 tracking-widest">
+              <p className="text-green-300 text-xl md:text-2xl font-medium mb-8 tracking-widest">
                 تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ
               </p>
             </div>
 
             <div className="fade-up-5">
-              <p className="text-blue-100 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+              <p className="text-green-100 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
                 To every Muslim student, family, and friend in our community — NAMSSN UNILAG joins you
                 in celebrating the end of this blessed month of fasting, reflection, and devotion.
                 May Allah accept your worship, grant you joy, and fill your home with peace and
@@ -140,29 +140,29 @@ export default function Eid() {
 
         {/* Divider */}
         <div className="relative z-10 flex items-center gap-4 max-w-sm mx-auto px-8 mb-12">
-          <div className="flex-1 h-px bg-white/10" />
-          <span className="text-brand-orange text-lg">✦</span>
-          <div className="flex-1 h-px bg-white/10" />
+          <div className="flex-1 h-px bg-green-800" />
+          <span className="text-yellow-400 text-lg">✦</span>
+          <div className="flex-1 h-px bg-green-800" />
         </div>
 
         {/* Message card */}
         <section className="relative z-10 pb-24 px-4">
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 text-center backdrop-blur-sm">
-              <p className="text-brand-orange text-2xl md:text-3xl font-black mb-6">
+            <div className="bg-green-900/40 border border-green-700/40 rounded-3xl p-8 md:p-12 text-center backdrop-blur-sm">
+              <p className="text-yellow-400 text-2xl md:text-3xl font-black mb-6">
                 🌟 Taqabbalallahu Minna Wa Minkum 🌟
               </p>
-              <p className="text-blue-100 text-base leading-relaxed mb-8">
+              <p className="text-green-100 text-base leading-relaxed mb-8">
                 May Allah accept our deeds and yours. This Eid, we celebrate not just the end of
                 Ramadan but the spirit of community, sacrifice, and gratitude that unites us all.
                 NAMSSN is a family, and today we celebrate with our Muslim brothers and sisters.
               </p>
               <div className="flex items-center gap-3 justify-center">
-                <div className="h-px w-12 bg-brand-orange/40" />
-                <p className="text-brand-orange font-bold text-xs uppercase tracking-widest">
+                <div className="h-px w-12 bg-green-600/40" />
+                <p className="text-green-400 font-bold text-xs uppercase tracking-widest">
                   NAMSSN UNILAG · 2025/2026 Session
                 </p>
-                <div className="h-px w-12 bg-brand-orange/40" />
+                <div className="h-px w-12 bg-green-600/40" />
               </div>
             </div>
           </div>
