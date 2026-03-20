@@ -3,6 +3,14 @@
 
 export const siteAnnouncements = [
   {
+    id: 3,
+    message: '🌙 Eid Mubarak to all our Muslim faithfuls! Wishing you peace, joy, and blessings.',
+    type: 'info',
+    href: '/eid',
+    linkText: 'View Celebration',
+    active: true,
+  },
+  {
     id: 2,
     message: '🥧 Happy Pi Day! The NAMSSN Academic Team presents: Five Integrals Converging to π',
     type: 'info',
