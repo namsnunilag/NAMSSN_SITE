@@ -36,7 +36,7 @@ export const merchandise = [
     id: 4,
     name: 'NAMSSN T-Shirt — Beige',
     price: 'Contact Us',
-    image: '/images/merch/biege.jpg',
+    image: '/images/merch/beige.jpg',
     description: 'Official NAMSSN UNILAG departmental T-shirt in Beige. Mathematical symbols design with NAMSSN branding.',
     available: true,
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],

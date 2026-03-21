@@ -235,7 +235,7 @@ export default function Gallery() {
           )}
 
           {/* See More button */}
-          {isCategory && seeMoreLink && (
+          {seeMoreLink && (
             <div className="mt-8 flex justify-center">
               <a
                 href={seeMoreLink}

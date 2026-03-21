@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react'
 import { upcomingEvents, registrationStatusConfig } from '../data/events'
@@ -74,8 +75,6 @@ function EventCard({ event }) {
     </Link>
   )
 }
-
-import { useState } from 'react'
 
 export default function Events() {
   usePageTitle('Events', 'Upcoming NAMSSN UNILAG events including DECAGON mathematics competition, Dean\'s Games, and more. Register and stay updated on activities for maths students at UNILAG.')

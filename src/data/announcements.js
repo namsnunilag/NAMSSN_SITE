@@ -8,7 +8,7 @@ export const siteAnnouncements = [
     type: 'info',
     href: '/eid',
     linkText: 'View Celebration',
-    active: true,
+    active: false,
   },
   {
     id: 2,
