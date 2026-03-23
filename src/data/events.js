@@ -43,26 +43,6 @@ export const upcomingEvents = [
     registrationDate: null,
     registrationLink: null,
   },
-  {
-    id: 3,
-    title: 'Annual Symposium 2025',
-    date: 'June 14, 2025',
-    time: '11:00 AM',
-    location: 'Mathematics Department Seminar Room',
-    category: 'Academic',
-    image: '/images/events/SYM.jpg',
-    shortDescription: 'Student research presentations and guest lectures from industry professionals.',
-    fullDescription: `The Annual Symposium provides a platform for students to present their research projects and hear from distinguished alumni and industry professionals working in mathematics, data science, finance, and related fields. This is an invaluable networking and learning opportunity for all mathematical sciences students.`,
-    highlights: [
-      'Student research presentations',
-      'Guest lectures from industry leaders',
-      'Networking with NAMSSN alumni',
-      'Q&A sessions with professionals',
-    ],
-    registrationStatus: 'coming-soon',
-    registrationDate: null,
-    registrationLink: null,
-  },
 ]
 
 export const pastEvents = []
