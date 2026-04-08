@@ -3,6 +3,14 @@
 
 export const siteAnnouncements = [
   {
+    id: 4,
+    message: '🏆 Decagon 5.0 — The Ultimate Calculus Competition. Registration opens April 15th!',
+    type: 'info',
+    href: '/events/1',
+    linkText: 'Learn More',
+    active: true,
+  },
+  {
     id: 3,
     message: '🌙 Eid Mubarak to all our Muslim faithfuls! Wishing you peace, joy, and blessings.',
     type: 'info',
