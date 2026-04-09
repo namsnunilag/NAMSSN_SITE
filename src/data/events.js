@@ -63,6 +63,7 @@ export const upcomingEvents = [
       { place: '3rd', amount: '₦70,000',  icon: '🥉' },
     ],
     challengePrize: '₦50,000',
+    theme: 'decagon',
     registrationStatus: 'coming-soon',
     registrationDate: '2026-04-15',
     registrationLink: null,
