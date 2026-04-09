@@ -219,7 +219,7 @@ function ChallengeTab() {
       {/* How it works */}
       <div className="grid sm:grid-cols-2 gap-3">
         {[
-          { icon: BookOpen, title: 'Daily Questions', desc: 'One calculus question drops every day for 20 days in May 2026.' },
+          { icon: BookOpen, title: 'Daily Questions', desc: 'One calculus question drops every day starting May 3rd, for 20 days.' },
           { icon: Clock,    title: 'Submit by Midnight', desc: 'Each question closes at midnight. Late submissions are not accepted.' },
           { icon: Zap,      title: 'Points for Speed', desc: 'Correct answers earn points. Faster submissions earn bonus points.' },
           { icon: Trophy,   title: '₦50,000 Prize', desc: 'The participant with the highest cumulative score wins.' },
@@ -249,7 +249,7 @@ function ChallengeTab() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-gray-600 mt-3">Days unlock when the challenge goes live in May 2026</p>
+        <p className="text-xs text-gray-600 mt-3">Day 1 unlocks on May 3, 2026</p>
       </div>
 
       {/* Sign up + Leaderboard */}
@@ -384,9 +384,9 @@ const TABS = [
 const PHASES = [
   {
     num: '01', icon: BookOpen, title: '20-Day Calculus Challenge',
-    when: 'May 2026', tag: 'Open to all',
+    when: 'May 3, 2026', tag: 'Open to all',
     prize: '₦50,000 prize',
-    desc: 'Open to everyone. A new calculus problem drops daily for 20 days. Earn points for correctness and speed.',
+    desc: 'Starts May 3rd. Open to everyone. A new calculus problem drops daily for 20 days. Earn points for correctness and speed.',
     accent: 'border-cyan-400/30 bg-cyan-400/5',
   },
   {
