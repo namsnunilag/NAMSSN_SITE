@@ -286,7 +286,7 @@ export default function Decagon() {
       title: '20-Day Calculus Challenge',
       when: 'May 2026',
       desc: 'Open to everyone. A new calculus problem drops daily for 20 days. Participants submit answers, earn points, and compete on a live leaderboard.',
-      prize: '₦50,000 winner's prize',
+      prize: '₦50,000 winner prize',
       accent: 'border-cyan-400/30 bg-cyan-400/5',
       tag: 'Open to all',
     },
