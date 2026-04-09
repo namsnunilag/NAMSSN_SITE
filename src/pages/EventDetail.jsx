@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Calendar, MapPin, Clock, ArrowLeft, ExternalLink, Bell, CheckCircle2 } from 'lucide-react'
+import { Calendar, MapPin, Clock, ArrowLeft, ExternalLink, Bell, CheckCircle2, Trophy, BookOpen, Mic, Zap } from 'lucide-react'
 import { findEvent, registrationStatusConfig } from '../data/events'
 import usePageTitle from '../hooks/usePageTitle'
 
@@ -220,6 +220,76 @@ export default function EventDetail() {
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {/* Event Phases (Decagon-style) */}
+            {event.phases?.length > 0 && (
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-blueDark dark:text-white mb-4">Event Phases</h2>
+                <div className="space-y-3">
+                  {event.phases.map((p) => {
+                    const icons = { '01': BookOpen, '02': Mic, '03': Zap, '04': Trophy }
+                    const Icon = icons[p.num] || Trophy
+                    return (
+                      <div key={p.num} className="flex gap-4 p-4 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+                        <div className="w-9 h-9 rounded-lg bg-brand-blue/10 flex items-center justify-center shrink-0">
+                          <Icon size={16} className="text-brand-blue" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 mb-1">
+                            <p className="text-sm font-bold text-gray-800 dark:text-white">{p.title}</p>
+                            <span className="text-xs text-gray-400">{p.when}</span>
+                          </div>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{p.desc}</p>
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {p.prize && (
+                              <span className="text-xs font-bold text-brand-orange bg-orange-50 dark:bg-brand-orange/10 border border-brand-orange/30 px-2 py-0.5 rounded-full">
+                                {p.prize}
+                              </span>
+                            )}
+                            <span className="text-xs text-gray-400 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 px-2 py-0.5 rounded-full">
+                              {p.tag}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Grand Finale Prizes */}
+            {event.competitionPrizes?.length > 0 && (
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-blueDark dark:text-white mb-4">Grand Finale Prizes</h2>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {[
+                    event.competitionPrizes.find(p => p.place === '2nd'),
+                    event.competitionPrizes.find(p => p.place === '1st'),
+                    event.competitionPrizes.find(p => p.place === '3rd'),
+                  ].filter(Boolean).map((p) => (
+                    <div key={p.place}
+                      className={`flex-1 rounded-xl p-4 text-center border ${
+                        p.place === '1st'
+                          ? 'bg-orange-50 dark:bg-brand-orange/10 border-brand-orange/30'
+                          : 'bg-gray-50 dark:bg-gray-900/50 border-gray-100 dark:border-gray-700'
+                      }`}
+                    >
+                      <div className="text-3xl mb-1">{p.icon}</div>
+                      <p className="text-xs text-gray-500 font-semibold mb-0.5">{p.place} Place</p>
+                      <p className={`text-xl font-black ${p.place === '1st' ? 'text-brand-orange' : 'text-gray-800 dark:text-white'}`}>
+                        {p.amount}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                {event.challengePrize && (
+                  <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-3">
+                    + <span className="font-bold text-brand-blue">{event.challengePrize}</span> for the 20-Day Challenge winner
+                  </p>
+                )}
               </div>
             )}
           </div>
