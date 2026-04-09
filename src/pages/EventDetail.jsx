@@ -212,12 +212,9 @@ function DecagonEventDetail({ event, navigate }) {
             NAMSSN UNILAG · Department of Mathematics
           </p>
 
-          {/* Styled logo */}
-          <h1 className="text-6xl sm:text-8xl font-black mb-2 leading-none"
-            style={{ background: 'linear-gradient(135deg,#00CCFF 0%,#ffffff 50%,#FC7307 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            decagon
-          </h1>
-          <div className="inline-block bg-brand-orange text-white text-sm font-black px-3 py-1 rounded-full mb-6">5.0</div>
+          {/* Official SVG logo */}
+          <img src="/images/decagon-logo.svg" alt="Decagon 5.0"
+            className="mx-auto mb-6 w-72 sm:w-96 max-w-full" />
 
           <p className="text-xl text-gray-300 font-semibold mb-3">The Ultimate Calculus Competition</p>
 
