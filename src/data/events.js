@@ -29,7 +29,7 @@ export const upcomingEvents = [
         title: '20-Day Calculus Challenge',
         when: 'May 3, 2026',
         tag: 'Open to all',
-        prize: 'Prizes for top winners',
+        prize: '₦20,000 prize',
         desc: 'Starts May 3rd. A new calculus problem drops every day for 20 days. Anyone can join — no fee required. Points are awarded for correctness and speed.',
       },
       {

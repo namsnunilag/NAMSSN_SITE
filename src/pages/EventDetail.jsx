@@ -322,7 +322,7 @@ function DecagonEventDetail({ event, navigate }) {
                 </div>
                 {event.challengePrize && (
                   <p className="text-center text-sm text-gray-600 mt-4">
-                    + Prizes for top 20-Day Challenge winners
+                    + <span className="text-cyan-400 font-semibold">₦20,000</span> for the 20-Day Challenge winner
                   </p>
                 )}
               </div>
