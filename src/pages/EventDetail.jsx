@@ -322,7 +322,7 @@ function DecagonEventDetail({ event, navigate }) {
                 </div>
                 {event.challengePrize && (
                   <p className="text-center text-sm text-gray-600 mt-4">
-                    + <span className="text-cyan-400 font-semibold">{event.challengePrize}</span> for the 20-Day Challenge winner
+                    + Prizes for top 20-Day Challenge winners
                   </p>
                 )}
               </div>
