@@ -430,11 +430,11 @@ export default function Decagon() {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-400 mb-4">
             NAMSSN UNILAG · Department of Mathematics
           </p>
-          <h1 className="text-6xl sm:text-8xl font-black mb-2 leading-none"
-            style={{ background: 'linear-gradient(135deg,#00CCFF 0%,#ffffff 50%,#FC7307 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Decagon
-          </h1>
-          <div className="inline-block bg-brand-orange text-white text-sm font-black px-3 py-1 rounded-full mb-6">5.0</div>
+          <img
+            src="/images/decagon-logo.svg"
+            alt="Decagon 5.0"
+            className="mx-auto mb-6 w-72 sm:w-96 max-w-full"
+          />
           <p className="text-xl text-gray-300 font-semibold mb-3">The Ultimate Calculus Competition</p>
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-500 mb-10">
             <span className="flex items-center gap-1.5"><Calendar size={14} className="text-cyan-400" /> May – June 2026</span>
