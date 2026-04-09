@@ -22,6 +22,7 @@ import Giveaway from './pages/Giveaway'
 import Eid from './pages/Eid'
 import StudentExecutives from './pages/StudentExecutives'
 import StudentExecutiveDetail from './pages/StudentExecutiveDetail'
+import Decagon from './pages/Decagon'
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
 export const useTheme = () => useContext(ThemeContext)
@@ -105,6 +106,8 @@ export default function App() {
               <Route path="/eid"                  element={<Eid />} />
               <Route path="/student-executives"        element={<StudentExecutives />} />
               <Route path="/student-executives/:id"   element={<StudentExecutiveDetail />} />
+              {/* Decagon — not linked in nav, internal staging */}
+              <Route path="/decagon"                  element={<Decagon />} />
             </Routes>
           </main>
           <Footer />
