@@ -449,7 +449,7 @@ export default function Decagon() {
               { icon: Layers, value: '4',    label: 'Phases' },
               { icon: Users,  value: '50+',  label: 'Competitors' },
               { icon: Star,   value: '4',    label: 'Comp. Stages' },
-              { icon: Trophy, value: '₦370k', label: 'Total Prizes' },
+              { icon: Trophy, value: '₦340k', label: 'Total Prizes' },
             ].map(({ icon: Icon, value, label }) => (
               <div key={label} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
                 <Icon size={17} className="text-cyan-400 mx-auto mb-2" />
