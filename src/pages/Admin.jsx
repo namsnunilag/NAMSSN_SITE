@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import emailjs from '@emailjs/browser'
 import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
   Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy,
@@ -12,6 +13,12 @@ const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 const ADMIN_PASSWORD    = import.meta.env.VITE_ADMIN_PASSWORD || 'decagon2026'
 const SESSION_KEY       = 'decagon_admin_auth'
+
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID || ''
+const EMAILJS_CONFIRM_TID = import.meta.env.VITE_EMAILJS_CONFIRM_TEMPLATE_ID || ''
+const EMAILJS_REJECT_TID  = import.meta.env.VITE_EMAILJS_REJECT_TEMPLATE_ID || ''
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
+const WHATSAPP_LINK       = 'https://chat.whatsapp.com/IGMTNSA8zP1DPCx2dow56o?mode=hqctswi'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Supabase helpers
@@ -33,6 +40,11 @@ async function fetchSignups() {
   )
   if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
   return res.json()
+}
+
+async function sendEmail(templateId, params) {
+  if (!EMAILJS_SERVICE_ID || !EMAILJS_PUBLIC_KEY || !templateId) return
+  await emailjs.send(EMAILJS_SERVICE_ID, templateId, params, EMAILJS_PUBLIC_KEY)
 }
 
 async function setStatus(id, status) {
@@ -148,6 +160,26 @@ function RegistrationsTab() {
     try {
       await setStatus(id, status)
       setRows(r => r.map(x => x.id === id ? { ...x, payment_status: status } : x))
+
+      // Send email notification
+      const reg = rows.find(r => r.id === id)
+      if (reg) {
+        if (status === 'confirmed') {
+          await sendEmail(EMAILJS_CONFIRM_TID, {
+            to_name:        reg.full_name,
+            to_email:       reg.email,
+            matric:         reg.matric,
+            department:     reg.department,
+            whatsapp_link:  WHATSAPP_LINK,
+          })
+        } else if (status === 'rejected') {
+          await sendEmail(EMAILJS_REJECT_TID, {
+            to_name:  reg.full_name,
+            to_email: reg.email,
+            matric:   reg.matric,
+          })
+        }
+      }
     } catch {
       alert('Failed to update. Please try again.')
     } finally {
