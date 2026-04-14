@@ -48,6 +48,10 @@ CREATE POLICY "anon can update status"
 CREATE POLICY "anon can sign up for challenge"
   ON challenge_signups FOR INSERT TO anon WITH CHECK (true);
 
+-- Allow reading challenge signups (used by the admin dashboard)
+CREATE POLICY "anon can read signups"
+  ON challenge_signups FOR SELECT TO anon USING (true);
+
 -- Allow anyone to upload receipts to the storage bucket
 CREATE POLICY "anon can upload receipts"
   ON storage.objects FOR INSERT TO anon
