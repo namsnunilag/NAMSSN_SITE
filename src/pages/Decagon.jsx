@@ -1,56 +1,62 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import {
   Trophy, Users, Layers, Star, ChevronRight, Lock,
   Medal, Clock, BookOpen, Mic, Zap, Calendar, MapPin,
-  CheckCircle2, ArrowRight, AlertCircle,
+  CheckCircle2, ArrowRight, AlertCircle, Upload, Copy, Check,
 } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Config — set via .env.local
+// Config
 // ─────────────────────────────────────────────────────────────────────────────
 
-const SUPABASE_URL     = import.meta.env.VITE_SUPABASE_URL || ''
+const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-const PAYSTACK_KEY     = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || ''
-const REGISTRATION_FEE = Number(import.meta.env.VITE_REGISTRATION_FEE || 2000) // NGN
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Paystack script loader
-// ─────────────────────────────────────────────────────────────────────────────
-
-function usePaystackScript() {
-  const [ready, setReady] = useState(
-    typeof window !== 'undefined' && !!window.PaystackPop
-  )
-  useEffect(() => {
-    if (window.PaystackPop) { setReady(true); return }
-    const existing = document.querySelector('script[src="https://js.paystack.co/v1/inline.js"]')
-    if (existing) {
-      existing.addEventListener('load', () => setReady(true))
-      return
-    }
-    const script = document.createElement('script')
-    script.src = 'https://js.paystack.co/v1/inline.js'
-    script.onload = () => setReady(true)
-    document.head.appendChild(script)
-  }, [])
-  return ready
+const BANK = {
+  name:    'Moniepoint MFB',
+  account: '8123174623',
+  holder:  'NAMSSN UNILAG OFFICIAL SERVICES',
+  amount:  '₦2,000',
+  raw:     2000,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Supabase helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+async function uploadReceipt(file, matric) {
+  if (!SUPABASE_URL) throw new Error('no-backend')
+  const ext      = file.name.split('.').pop()
+  const filename = `${matric.toUpperCase()}_${Date.now()}.${ext}`
+  const res = await fetch(
+    `${SUPABASE_URL}/storage/v1/object/decagon-receipts/${filename}`,
+    {
+      method: 'POST',
+      headers: {
+        apikey:        SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': file.type || 'application/octet-stream',
+      },
+      body: file,
+    }
+  )
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.message || `Upload failed (${res.status})`)
+  }
+  return `${SUPABASE_URL}/storage/v1/object/public/decagon-receipts/${filename}`
+}
+
 async function saveRegistration(data) {
   if (!SUPABASE_URL) throw new Error('no-backend')
   const res = await fetch(`${SUPABASE_URL}/rest/v1/decagon_registrations`, {
     method: 'POST',
     headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      apikey:         SUPABASE_ANON_KEY,
+      Authorization:  `Bearer ${SUPABASE_ANON_KEY}`,
       'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
+      Prefer:         'return=minimal',
     },
     body: JSON.stringify(data),
   })
@@ -65,10 +71,10 @@ async function saveChallengeSignup(data) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/challenge_signups`, {
     method: 'POST',
     headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      apikey:         SUPABASE_ANON_KEY,
+      Authorization:  `Bearer ${SUPABASE_ANON_KEY}`,
       'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
+      Prefer:         'return=minimal',
     },
     body: JSON.stringify(data),
   })
@@ -79,7 +85,7 @@ async function saveChallengeSignup(data) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Shared helpers
+// Shared UI helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DEPARTMENTS = [
@@ -140,91 +146,161 @@ function ErrorBox({ message }) {
   )
 }
 
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false)
+  const copy = () => {
+    navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+  return (
+    <button type="button" onClick={copy}
+      className="ml-2 text-gray-500 hover:text-cyan-400 transition shrink-0">
+      {copied ? <Check size={13} className="text-cyan-400" /> : <Copy size={13} />}
+    </button>
+  )
+}
+
+function FileUpload({ value, onChange, required }) {
+  const inputRef = useRef(null)
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+        Step 2 — Upload Payment Receipt
+      </label>
+      <div
+        onClick={() => inputRef.current?.click()}
+        className={`border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-all ${
+          value
+            ? 'border-cyan-400/40 bg-cyan-400/5'
+            : 'border-white/10 hover:border-white/20 bg-white/[0.02]'
+        }`}
+      >
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*,.pdf"
+          className="hidden"
+          required={required}
+          onChange={e => onChange(e.target.files[0] || null)}
+        />
+        {value ? (
+          <div className="flex items-center justify-center gap-2 text-cyan-400">
+            <CheckCircle2 size={16} />
+            <span className="text-sm font-semibold truncate max-w-[240px]">{value.name}</span>
+          </div>
+        ) : (
+          <>
+            <Upload size={20} className="text-gray-500 mx-auto mb-2" />
+            <p className="text-sm text-gray-400">Click to upload receipt</p>
+            <p className="text-xs text-gray-600 mt-1">JPG, PNG or PDF · max 5 MB</p>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function BankDetails() {
+  return (
+    <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 overflow-hidden">
+      <div className="px-4 py-3 border-b border-cyan-400/10">
+        <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
+          Step 1 — Transfer {BANK.amount} to this account
+        </p>
+      </div>
+      <div className="px-4 py-4 space-y-3">
+        {[
+          { label: 'Bank',         value: BANK.name,    copy: false },
+          { label: 'Account No.',  value: BANK.account, copy: true  },
+          { label: 'Account Name', value: BANK.holder,  copy: false },
+          { label: 'Amount',       value: BANK.amount,  copy: false },
+        ].map(({ label, value, copy }) => (
+          <div key={label} className="flex justify-between items-center gap-4">
+            <span className="text-xs text-gray-500 shrink-0">{label}</span>
+            <div className="flex items-center">
+              <span className={`text-sm font-bold text-right ${
+                label === 'Account No.' ? 'text-cyan-400 font-black tracking-wider' :
+                label === 'Amount'      ? 'text-brand-orange font-black' :
+                'text-white'
+              }`}>{value}</span>
+              {copy && <CopyButton text={value} />}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Tab 1 — Main Competition
 // ─────────────────────────────────────────────────────────────────────────────
 
 function CompetitionTab() {
-  const [form, setForm] = useState({ fullName: '', email: '', phone: '', matric: '', department: '', level: '' })
+  const [form, setForm]       = useState({ fullName: '', email: '', phone: '', matric: '', department: '', level: '' })
+  const [receipt, setReceipt] = useState(null)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const paystackReady = usePaystackScript()
+  const [error, setError]     = useState('')
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
   const handleSubmit = async e => {
     e.preventDefault()
     setError('')
 
-    if (!PAYSTACK_KEY) {
-      setError('Payment is not configured yet. Please contact the Decagon team.')
+    if (!receipt) {
+      setError('Please upload your payment receipt before submitting.')
       return
     }
-    if (!paystackReady) {
-      setError('Payment provider is still loading. Please wait a moment and try again.')
+    if (receipt.size > 5 * 1024 * 1024) {
+      setError('Receipt file is too large. Maximum size is 5 MB.')
       return
     }
 
     setLoading(true)
 
-    // 1. Save registration to Supabase (payment_status = pending)
+    // 1. Upload receipt to Supabase Storage
+    let receiptUrl = ''
+    try {
+      receiptUrl = await uploadReceipt(receipt, form.matric)
+    } catch {
+      setLoading(false)
+      setError('Could not upload your receipt. Please check your connection and try again.')
+      return
+    }
+
+    // 2. Save registration record
     try {
       await saveRegistration({
-        full_name: form.fullName,
-        email: form.email,
-        phone: form.phone,
-        matric: form.matric.trim().toUpperCase(),
-        department: form.department,
-        level: form.level,
-        payment_status: 'pending',
+        full_name:      form.fullName,
+        email:          form.email,
+        phone:          form.phone,
+        matric:         form.matric.trim().toUpperCase(),
+        department:     form.department,
+        level:          form.level,
+        receipt_url:    receiptUrl,
+        payment_status: 'pending_review',
       })
+      setSubmitted(true)
     } catch (err) {
       setLoading(false)
       if (err.message === 'duplicate') {
         setError('This matric number is already registered. Contact us if this is an error.')
       } else if (err.message === 'no-backend') {
-        setError('Registration system is not yet configured. Please contact the Decagon team.')
+        setError('Registration system is temporarily unavailable. Please contact the Decagon team.')
       } else {
-        setError('Could not save your details. Please try again.')
+        setError('Something went wrong saving your registration. Please try again.')
       }
-      return
     }
-
-    // 2. Open Paystack popup
-    const ref = `DECAGON5_${form.matric.trim().toUpperCase()}_${Date.now()}`
-    const handler = window.PaystackPop.setup({
-      key: PAYSTACK_KEY,
-      email: form.email,
-      amount: REGISTRATION_FEE * 100, // kobo
-      currency: 'NGN',
-      ref,
-      metadata: {
-        custom_fields: [
-          { display_name: 'Full Name',  variable_name: 'full_name',  value: form.fullName },
-          { display_name: 'Matric No.', variable_name: 'matric',     value: form.matric.trim().toUpperCase() },
-          { display_name: 'Department', variable_name: 'department', value: form.department },
-          { display_name: 'Phone',      variable_name: 'phone',      value: form.phone },
-          { display_name: 'Level',      variable_name: 'level',      value: form.level },
-        ],
-      },
-      callback: () => {
-        setSubmitted(true)
-        setLoading(false)
-      },
-      onClose: () => {
-        setLoading(false)
-        setError('Payment window was closed. Your details are saved — complete payment to finish your registration.')
-      },
-    })
-    handler.openIframe()
   }
 
   const stages = [
-    { n: '01', title: 'Online Screening', desc: 'All registered participants sit an online calculus assessment.' },
-    { n: '02', title: 'Written Qualifying Round', desc: 'Qualifiers from Stage 1 write a structured problem set.' },
-    { n: '03', title: 'Semi-Final', desc: 'Top scorers advance to an oral and written semi-final round.' },
-    { n: '04', title: 'Final Selection → Top 5', desc: 'The top 5 are identified and earn their place on the Grand Finale stage.' },
-    { n: 'GF', title: 'Grand Finale (June 2026)', desc: 'Live competition on stage. Open audience of 200+. Winners crowned and prizes awarded.', finale: true },
+    { n: '01', title: 'Online Screening',           desc: 'All registered participants sit an online calculus assessment.' },
+    { n: '02', title: 'Written Qualifying Round',   desc: 'Qualifiers from Stage 1 write a structured problem set.' },
+    { n: '03', title: 'Semi-Final',                 desc: 'Top scorers advance to an oral and written semi-final round.' },
+    { n: '04', title: 'Final Selection → Top 5',   desc: 'The top 5 are identified and earn their place on the Grand Finale stage.' },
+    { n: 'GF', title: 'Grand Finale (June 2026)',   desc: 'Live competition on stage. Open audience of 200+. Winners crowned and prizes awarded.', finale: true },
   ]
 
   const prizes = [
@@ -236,31 +312,25 @@ function CompetitionTab() {
   if (submitted) return (
     <SuccessBanner
       email={form.email}
-      message="You're registered!"
-      sub="Payment confirmed. A receipt has been sent to"
+      message="Registration submitted!"
+      sub="Your receipt is under review. We'll confirm your spot via email at"
     />
   )
 
   return (
     <div className="space-y-10">
 
-      {/* How it works */}
+      {/* Competition Stages */}
       <div>
         <SectionLabel>Competition Stages</SectionLabel>
         <div className="space-y-3">
           {stages.map(s => (
-            <div key={s.n}
-              className={`flex gap-4 p-4 rounded-xl border ${
-                s.finale
-                  ? 'bg-brand-orange/10 border-brand-orange/30'
-                  : 'bg-white/[0.03] border-white/10'
-              }`}
-            >
+            <div key={s.n} className={`flex gap-4 p-4 rounded-xl border ${
+              s.finale ? 'bg-brand-orange/10 border-brand-orange/30' : 'bg-white/[0.03] border-white/10'
+            }`}>
               <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-xs font-black ${
                 s.finale ? 'bg-brand-orange/20 text-brand-orange' : 'bg-white/5 text-cyan-400'
-              }`}>
-                {s.n}
-              </div>
+              }`}>{s.n}</div>
               <div>
                 <p className="text-sm font-bold text-white">{s.title}</p>
                 <p className="text-xs text-gray-400 mt-0.5">{s.desc}</p>
@@ -275,13 +345,9 @@ function CompetitionTab() {
         <SectionLabel>Grand Finale Prizes</SectionLabel>
         <div className="flex flex-col sm:flex-row items-end justify-center gap-3">
           {prizes.map(({ place, amount, icon, featured }) => (
-            <div key={place}
-              className={`w-full sm:w-44 rounded-2xl p-5 text-center border ${
-                featured
-                  ? 'bg-brand-orange/10 border-brand-orange/40 sm:-translate-y-3'
-                  : 'bg-white/[0.03] border-white/10'
-              }`}
-            >
+            <div key={place} className={`w-full sm:w-44 rounded-2xl p-5 text-center border ${
+              featured ? 'bg-brand-orange/10 border-brand-orange/40 sm:-translate-y-3' : 'bg-white/[0.03] border-white/10'
+            }`}>
               <div className="text-3xl mb-2">{icon}</div>
               <p className="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-1">{place} Place</p>
               <p className={`text-2xl font-black ${featured ? 'text-brand-orange' : 'text-white'}`}>{amount}</p>
@@ -293,34 +359,39 @@ function CompetitionTab() {
       {/* Registration form */}
       <div>
         <SectionLabel>Register for the Competition</SectionLabel>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
+
+          {/* Personal details */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Full Name" placeholder="e.g. Amira Hassan" value={form.fullName} onChange={set('fullName')} required />
-            <Field label="Email Address" type="email" placeholder="you@example.com" value={form.email} onChange={set('email')} required />
-            <Field label="Phone Number" type="tel" placeholder="+234 800 000 0000" value={form.phone} onChange={set('phone')} required />
-            <Field label="Matric Number" placeholder="e.g. 190404001" value={form.matric} onChange={set('matric')} required />
+            <Field label="Full Name"      placeholder="e.g. Amira Hassan"       value={form.fullName}   onChange={set('fullName')}   required />
+            <Field label="Email Address"  type="email" placeholder="you@example.com"  value={form.email}      onChange={set('email')}      required />
+            <Field label="Phone Number"   type="tel"   placeholder="+234 800 000 0000" value={form.phone}      onChange={set('phone')}      required />
+            <Field label="Matric Number"  placeholder="e.g. 190404001"          value={form.matric}     onChange={set('matric')}     required />
             <SelectField label="Department" value={form.department} onChange={set('department')} required
               placeholder="Select department" options={DEPARTMENTS} />
-            <SelectField label="Level" value={form.level} onChange={set('level')} required
+            <SelectField label="Level"      value={form.level}       onChange={set('level')}       required
               placeholder="Select level" options={['100', '200', '300', '400', '500'].map(l => `${l} Level`)} />
           </div>
 
-          <div className="flex items-start gap-3 bg-brand-orange/10 border border-brand-orange/20 rounded-xl p-4">
-            <Lock size={15} className="text-brand-orange shrink-0 mt-0.5" />
-            <p className="text-sm text-gray-300">
-              A <span className="text-brand-orange font-bold">₦{REGISTRATION_FEE.toLocaleString()} registration fee</span> is required.
-              After submitting, you will be redirected to Paystack to complete payment.
-              Once paid, a confirmation email is sent to you automatically.
-            </p>
-          </div>
+          {/* Bank details */}
+          <BankDetails />
+
+          {/* Receipt upload */}
+          <FileUpload value={receipt} onChange={setReceipt} required />
 
           <ErrorBox message={error} />
 
           <button type="submit" disabled={loading}
             className="w-full bg-brand-orange hover:bg-brand-yellow hover:text-[#0D1B2A] text-white font-black py-4 rounded-xl
                        transition-all flex items-center justify-center gap-2 disabled:opacity-60">
-            {loading ? 'Processing…' : <>Register & Proceed to Payment <ChevronRight size={18} /></>}
+            {loading
+              ? (receipt && !error ? 'Uploading receipt…' : 'Submitting…')
+              : <>Submit Registration <ChevronRight size={18} /></>}
           </button>
+
+          <p className="text-center text-xs text-gray-600">
+            Your registration is confirmed once the Decagon team verifies your receipt.
+          </p>
         </form>
       </div>
     </div>
@@ -340,10 +411,10 @@ const MOCK_LEADERS = [
 ]
 
 function ChallengeTab() {
-  const [form, setForm] = useState({ fullName: '', email: '', department: '' })
+  const [form, setForm]       = useState({ fullName: '', email: '', department: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError]     = useState('')
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
   const handleSubmit = async e => {
@@ -351,17 +422,13 @@ function ChallengeTab() {
     setLoading(true)
     setError('')
     try {
-      await saveChallengeSignup({
-        full_name: form.fullName,
-        email: form.email,
-        department: form.department,
-      })
+      await saveChallengeSignup({ full_name: form.fullName, email: form.email, department: form.department })
       setSubmitted(true)
     } catch (err) {
       if (err.message === 'duplicate') {
         setError('This email is already signed up for the challenge.')
       } else if (err.message === 'no-backend') {
-        setError('Signup system is not yet configured. Please contact the Decagon team.')
+        setError('Signup system is temporarily unavailable. Please contact the Decagon team.')
       } else {
         setError('Something went wrong. Please try again.')
       }
@@ -375,13 +442,12 @@ function ChallengeTab() {
   return (
     <div className="space-y-10">
 
-      {/* How it works */}
       <div className="grid sm:grid-cols-2 gap-3">
         {[
-          { icon: BookOpen, title: 'Daily Questions', desc: 'One calculus question drops every day starting May 3rd, for 20 days.' },
+          { icon: BookOpen, title: 'Daily Questions',   desc: 'One calculus question drops every day starting May 3rd, for 20 days.' },
           { icon: Clock,    title: 'Submit by Midnight', desc: 'Each question closes at midnight. Late submissions are not accepted.' },
-          { icon: Zap,      title: 'Points for Speed', desc: 'Correct answers earn points. Faster submissions earn bonus points.' },
-          { icon: Trophy,   title: '₦20,000 Prize', desc: 'The top participant on the leaderboard wins ₦20,000.' },
+          { icon: Zap,      title: 'Points for Speed',  desc: 'Correct answers earn points. Faster submissions earn bonus points.' },
+          { icon: Trophy,   title: '₦20,000 Prize',     desc: 'The top participant on the leaderboard wins ₦20,000.' },
         ].map(({ icon: Icon, title, desc }) => (
           <div key={title} className="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex gap-3">
             <div className="w-8 h-8 rounded-lg bg-cyan-400/10 flex items-center justify-center shrink-0">
@@ -395,14 +461,12 @@ function ChallengeTab() {
         ))}
       </div>
 
-      {/* 20-day grid */}
       <div>
         <SectionLabel>Challenge Days</SectionLabel>
         <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
           {days.map(d => (
-            <div key={d}
-              className="aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs font-black border
-                         bg-white/[0.03] border-white/5 text-gray-700">
+            <div key={d} className="aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs font-black border
+                                    bg-white/[0.03] border-white/5 text-gray-700">
               <span className="text-[10px] text-gray-600 font-normal">Day</span>
               {d}
             </div>
@@ -411,17 +475,14 @@ function ChallengeTab() {
         <p className="text-xs text-gray-600 mt-3">Day 1 unlocks on May 3, 2026</p>
       </div>
 
-      {/* Sign up + Leaderboard */}
       <div className="grid lg:grid-cols-2 gap-8">
-
-        {/* Sign up */}
         <div>
           <SectionLabel>Sign Up — Free, Open to All</SectionLabel>
           {submitted
             ? <SuccessBanner email={form.email} message="You're in!" sub="Challenge details will be sent to" />
             : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <Field label="Full Name" placeholder="e.g. Emeka Nwosu" value={form.fullName} onChange={set('fullName')} required />
+                <Field label="Full Name"    placeholder="e.g. Emeka Nwosu"  value={form.fullName}   onChange={set('fullName')}   required />
                 <Field label="Email Address" type="email" placeholder="you@example.com" value={form.email} onChange={set('email')} required />
                 <SelectField label="Department" value={form.department} onChange={set('department')} required
                   placeholder="Select department" options={DEPARTMENTS} />
@@ -437,7 +498,6 @@ function ChallengeTab() {
           }
         </div>
 
-        {/* Leaderboard */}
         <div>
           <SectionLabel>Live Leaderboard</SectionLabel>
           <div className="space-y-2">
@@ -452,13 +512,11 @@ function ChallengeTab() {
               <span className="text-xs text-gray-600 text-right">Score</span>
             </div>
             {MOCK_LEADERS.map(p => (
-              <div key={p.rank}
-                className={`grid grid-cols-[2rem_1fr_auto_auto] gap-2 items-center px-4 py-3 rounded-xl border ${
-                  p.rank === 1 ? 'bg-brand-orange/10 border-brand-orange/30'
-                  : p.rank <= 3 ? 'bg-white/5 border-white/10'
-                  : 'bg-white/[0.02] border-white/5'
-                }`}
-              >
+              <div key={p.rank} className={`grid grid-cols-[2rem_1fr_auto_auto] gap-2 items-center px-4 py-3 rounded-xl border ${
+                p.rank === 1 ? 'bg-brand-orange/10 border-brand-orange/30'
+                : p.rank <= 3 ? 'bg-white/5 border-white/10'
+                : 'bg-white/[0.02] border-white/5'
+              }`}>
                 <span className="text-base text-center">{p.badge ?? <span className="text-xs text-gray-500 font-bold">#{p.rank}</span>}</span>
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-white truncate">{p.name}</p>
@@ -490,12 +548,11 @@ function ConferenceTab() {
         May 2026. It brings together faculty members, invited experts, and students for structured talks and
         Q&amp;A sessions covering advanced topics in calculus and mathematical sciences.
       </p>
-
       <div className="grid sm:grid-cols-2 gap-3">
         {[
-          { icon: Mic,      title: 'Expert Talks', desc: 'Invited speakers from academia and industry present on topics in applied and pure mathematics.' },
-          { icon: Users,    title: 'Panel Q&A', desc: 'Attendees engage directly with speakers in open, structured question sessions.' },
-          { icon: BookOpen, title: 'Topics', desc: 'Advanced calculus, mathematical modelling, research in mathematical sciences.' },
+          { icon: Mic,      title: 'Expert Talks',    desc: 'Invited speakers from academia and industry present on topics in applied and pure mathematics.' },
+          { icon: Users,    title: 'Panel Q&A',       desc: 'Attendees engage directly with speakers in open, structured question sessions.' },
+          { icon: BookOpen, title: 'Topics',          desc: 'Advanced calculus, mathematical modelling, research in mathematical sciences.' },
           { icon: Star,     title: 'Exclusive Access', desc: 'Attendance is by invite or registration. Details will be announced closer to the event.' },
         ].map(({ icon: Icon, title, desc }) => (
           <div key={title} className="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex gap-3">
@@ -509,7 +566,6 @@ function ConferenceTab() {
           </div>
         ))}
       </div>
-
       <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-5">
         <Clock size={18} className="text-gray-500 shrink-0" />
         <div>
@@ -526,9 +582,7 @@ function ConferenceTab() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function SectionLabel({ children }) {
-  return (
-    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{children}</p>
-  )
+  return <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{children}</p>
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -544,29 +598,25 @@ const TABS = [
 const PHASES = [
   {
     num: '01', icon: BookOpen, title: '20-Day Calculus Challenge',
-    when: 'May 3, 2026', tag: 'Open to all',
-    prize: '₦20,000 prize',
+    when: 'May 3, 2026', tag: 'Open to all', prize: '₦20,000 prize',
     desc: 'Starts May 3rd. Open to everyone. A new calculus problem drops daily for 20 days. Earn points for correctness and speed.',
     accent: 'border-cyan-400/30 bg-cyan-400/5',
   },
   {
     num: '02', icon: Mic, title: 'Mini Conference',
-    when: 'May 2026', tag: 'Invite / Registration',
-    prize: null,
+    when: 'May 2026', tag: 'Invite / Registration', prize: null,
     desc: 'Exclusive talks and Q&A sessions with faculty and invited experts in mathematical sciences.',
     accent: 'border-white/10 bg-white/[0.03]',
   },
   {
     num: '03', icon: Zap, title: 'Main Calculus Competition',
-    when: 'May 2026', tag: 'Registered competitors only',
-    prize: null,
+    when: 'May 2026', tag: 'Registered competitors only', prize: null,
     desc: 'Multiple elimination stages. All registered competitors advance through screening, written and oral rounds. Top 5 qualify.',
     accent: 'border-brand-orange/20 bg-brand-orange/5',
   },
   {
     num: '04', icon: Trophy, title: 'Grand Finale & Awards',
-    when: 'June 2026', tag: 'Open audience',
-    prize: '₦150,000 · ₦100,000 · ₦70,000',
+    when: 'June 2026', tag: 'Open audience', prize: '₦150,000 · ₦100,000 · ₦70,000',
     desc: 'Top 5 finalists compete live on stage before 200+ students, faculty, and delegates. Winners crowned.',
     accent: 'border-brand-yellow/30 bg-brand-yellow/5',
   },
@@ -579,7 +629,7 @@ export default function Decagon() {
   return (
     <div className="min-h-screen" style={{ background: '#0D1B2A', color: '#fff' }}>
 
-      {/* ── Hero ─────────────────────────────────────────────────────────────── */}
+      {/* Hero */}
       <section className="relative overflow-hidden px-4 pt-16 pb-20 text-center">
         <div className="absolute inset-0 opacity-[0.035]"
           style={{ backgroundImage: 'linear-gradient(#00CCFF 1px,transparent 1px),linear-gradient(90deg,#00CCFF 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
@@ -590,11 +640,8 @@ export default function Decagon() {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-400 mb-4">
             NAMSSN UNILAG · Department of Mathematics
           </p>
-          <img
-            src="/images/decagon-logo.svg"
-            alt="Decagon 5.0"
-            className="mx-auto mb-6 w-72 sm:w-96 max-w-full"
-          />
+          <img src="/images/decagon-logo.svg" alt="Decagon 5.0"
+            className="mx-auto mb-6 w-72 sm:w-96 max-w-full" />
           <p className="text-xl text-gray-300 font-semibold mb-3">The Ultimate Calculus Competition</p>
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-500 mb-10">
             <span className="flex items-center gap-1.5"><Calendar size={14} className="text-cyan-400" /> May – June 2026</span>
@@ -606,9 +653,9 @@ export default function Decagon() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto">
             {[
-              { icon: Layers, value: '4',    label: 'Phases' },
-              { icon: Users,  value: '50+',  label: 'Competitors' },
-              { icon: Star,   value: '4',    label: 'Comp. Stages' },
+              { icon: Layers, value: '4',     label: 'Phases' },
+              { icon: Users,  value: '50+',   label: 'Competitors' },
+              { icon: Star,   value: '4',     label: 'Comp. Stages' },
               { icon: Trophy, value: '₦340k', label: 'Total Prizes' },
             ].map(({ icon: Icon, value, label }) => (
               <div key={label} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
@@ -623,7 +670,7 @@ export default function Decagon() {
 
       <div className="max-w-5xl mx-auto px-4 pb-24 space-y-16">
 
-        {/* ── Event Phases ─────────────────────────────────────────────────────── */}
+        {/* Event Phases */}
         <section>
           <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Event Phases</p>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -655,9 +702,8 @@ export default function Decagon() {
           </div>
         </section>
 
-        {/* ── Radio Tabs ───────────────────────────────────────────────────────── */}
+        {/* Tabs */}
         <section>
-          {/* Tab selector */}
           <div className="flex flex-col sm:flex-row gap-3 mb-8">
             {TABS.map(({ key, label, icon: Icon }) => (
               <label key={key}
@@ -675,14 +721,11 @@ export default function Decagon() {
                   <Icon size={16} className={tab === key ? 'text-cyan-400' : 'text-gray-500'} />
                 </div>
                 <span className="text-sm font-bold">{label}</span>
-                {tab === key && (
-                  <div className="ml-auto w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
-                )}
+                {tab === key && <div className="ml-auto w-2 h-2 rounded-full bg-cyan-400 shrink-0" />}
               </label>
             ))}
           </div>
 
-          {/* Tab content */}
           <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 sm:p-8">
             {tab === 'competition' && <CompetitionTab />}
             {tab === 'challenge'   && <ChallengeTab />}
@@ -690,7 +733,7 @@ export default function Decagon() {
           </div>
         </section>
 
-        {/* ── Contact ──────────────────────────────────────────────────────────── */}
+        {/* Contact */}
         <section className="text-center text-gray-500 text-sm space-y-1.5">
           <p className="font-semibold text-gray-400 text-base">Contact the Decagon Team</p>
           <p>+234 816 533 6309 &nbsp;·&nbsp; +234 903 449 5638</p>

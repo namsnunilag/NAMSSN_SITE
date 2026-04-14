@@ -1,8 +1,7 @@
--- ── Decagon 5.0 — Supabase table setup ──────────────────────────────────────
--- Run this in the Supabase SQL editor:
--- supabase.com → your project → SQL Editor → New query → paste & run
+-- ── Decagon 5.0 — Supabase setup ─────────────────────────────────────────────
+-- Go to: supabase.com → your project → SQL Editor → New query → paste & Run
 
--- Competition registrations
+-- 1. Competition registrations table
 CREATE TABLE IF NOT EXISTS decagon_registrations (
   id              UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
   full_name       TEXT        NOT NULL,
@@ -11,12 +10,12 @@ CREATE TABLE IF NOT EXISTS decagon_registrations (
   matric          TEXT        NOT NULL UNIQUE,
   department      TEXT        NOT NULL,
   level           TEXT        NOT NULL,
-  payment_status  TEXT        NOT NULL DEFAULT 'pending',  -- 'pending' | 'paid'
-  payment_ref     TEXT,
+  receipt_url     TEXT,
+  payment_status  TEXT        NOT NULL DEFAULT 'pending_review',
   created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 20-Day Challenge signups
+-- 2. 20-Day Challenge signups table
 CREATE TABLE IF NOT EXISTS challenge_signups (
   id          UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
   full_name   TEXT        NOT NULL,
@@ -25,20 +24,28 @@ CREATE TABLE IF NOT EXISTS challenge_signups (
   created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── Row Level Security ────────────────────────────────────────────────────────
--- Allow anonymous inserts (the website uses the anon key)
+-- 3. Storage bucket for payment receipts
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('decagon-receipts', 'decagon-receipts', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- 4. Row Level Security
 ALTER TABLE decagon_registrations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE challenge_signups     ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "allow anon insert registrations"
+-- Allow anyone to insert (the website uses the anon key)
+CREATE POLICY "anon can register"
   ON decagon_registrations FOR INSERT TO anon WITH CHECK (true);
 
-CREATE POLICY "allow anon insert signups"
+CREATE POLICY "anon can sign up for challenge"
   ON challenge_signups FOR INSERT TO anon WITH CHECK (true);
 
--- ── Optional: Paystack webhook handler (update payment_status to 'paid') ──────
--- After verifying the webhook signature server-side, run:
--- UPDATE decagon_registrations
---   SET payment_status = 'paid', payment_ref = '<ref>'
---   WHERE matric = '<matric>';
--- (Do this via a Supabase Edge Function or your own webhook endpoint)
+-- Allow anyone to upload receipts to the storage bucket
+CREATE POLICY "anon can upload receipts"
+  ON storage.objects FOR INSERT TO anon
+  WITH CHECK (bucket_id = 'decagon-receipts');
+
+-- Allow public read of receipts (so you can view them from the dashboard)
+CREATE POLICY "public can view receipts"
+  ON storage.objects FOR SELECT TO public
+  USING (bucket_id = 'decagon-receipts');
