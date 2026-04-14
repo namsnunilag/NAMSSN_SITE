@@ -1,10 +1,82 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Trophy, Users, Layers, Star, ChevronRight, Lock,
   Medal, Clock, BookOpen, Mic, Zap, Calendar, MapPin,
-  CheckCircle2, ArrowRight,
+  CheckCircle2, ArrowRight, AlertCircle,
 } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Config — set via .env.local
+// ─────────────────────────────────────────────────────────────────────────────
+
+const SUPABASE_URL     = import.meta.env.VITE_SUPABASE_URL || ''
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
+const PAYSTACK_KEY     = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || ''
+const REGISTRATION_FEE = Number(import.meta.env.VITE_REGISTRATION_FEE || 2000) // NGN
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Paystack script loader
+// ─────────────────────────────────────────────────────────────────────────────
+
+function usePaystackScript() {
+  const [ready, setReady] = useState(
+    typeof window !== 'undefined' && !!window.PaystackPop
+  )
+  useEffect(() => {
+    if (window.PaystackPop) { setReady(true); return }
+    const existing = document.querySelector('script[src="https://js.paystack.co/v1/inline.js"]')
+    if (existing) {
+      existing.addEventListener('load', () => setReady(true))
+      return
+    }
+    const script = document.createElement('script')
+    script.src = 'https://js.paystack.co/v1/inline.js'
+    script.onload = () => setReady(true)
+    document.head.appendChild(script)
+  }, [])
+  return ready
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Supabase helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function saveRegistration(data) {
+  if (!SUPABASE_URL) throw new Error('no-backend')
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/decagon_registrations`, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.code === '23505' ? 'duplicate' : body.message || `HTTP ${res.status}`)
+  }
+}
+
+async function saveChallengeSignup(data) {
+  if (!SUPABASE_URL) throw new Error('no-backend')
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/challenge_signups`, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.code === '23505' ? 'duplicate' : body.message || `HTTP ${res.status}`)
+  }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Shared helpers
@@ -58,6 +130,16 @@ function SuccessBanner({ email, message, sub }) {
   )
 }
 
+function ErrorBox({ message }) {
+  if (!message) return null
+  return (
+    <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/20 rounded-xl p-4">
+      <AlertCircle size={15} className="text-red-400 shrink-0 mt-0.5" />
+      <p className="text-sm text-red-300">{message}</p>
+    </div>
+  )
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Tab 1 — Main Competition
 // ─────────────────────────────────────────────────────────────────────────────
@@ -66,16 +148,75 @@ function CompetitionTab() {
   const [form, setForm] = useState({ fullName: '', email: '', phone: '', matric: '', department: '', level: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const paystackReady = usePaystackScript()
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setError('')
+
+    if (!PAYSTACK_KEY) {
+      setError('Payment is not configured yet. Please contact the Decagon team.')
+      return
+    }
+    if (!paystackReady) {
+      setError('Payment provider is still loading. Please wait a moment and try again.')
+      return
+    }
+
     setLoading(true)
-    // TODO: POST to Supabase → redirect to Paystack
-    // After Paystack callback, show confirmation + trigger email
-    await new Promise(r => setTimeout(r, 1200))
-    setLoading(false)
-    setSubmitted(true)
+
+    // 1. Save registration to Supabase (payment_status = pending)
+    try {
+      await saveRegistration({
+        full_name: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        matric: form.matric.trim().toUpperCase(),
+        department: form.department,
+        level: form.level,
+        payment_status: 'pending',
+      })
+    } catch (err) {
+      setLoading(false)
+      if (err.message === 'duplicate') {
+        setError('This matric number is already registered. Contact us if this is an error.')
+      } else if (err.message === 'no-backend') {
+        setError('Registration system is not yet configured. Please contact the Decagon team.')
+      } else {
+        setError('Could not save your details. Please try again.')
+      }
+      return
+    }
+
+    // 2. Open Paystack popup
+    const ref = `DECAGON5_${form.matric.trim().toUpperCase()}_${Date.now()}`
+    const handler = window.PaystackPop.setup({
+      key: PAYSTACK_KEY,
+      email: form.email,
+      amount: REGISTRATION_FEE * 100, // kobo
+      currency: 'NGN',
+      ref,
+      metadata: {
+        custom_fields: [
+          { display_name: 'Full Name',  variable_name: 'full_name',  value: form.fullName },
+          { display_name: 'Matric No.', variable_name: 'matric',     value: form.matric.trim().toUpperCase() },
+          { display_name: 'Department', variable_name: 'department', value: form.department },
+          { display_name: 'Phone',      variable_name: 'phone',      value: form.phone },
+          { display_name: 'Level',      variable_name: 'level',      value: form.level },
+        ],
+      },
+      callback: () => {
+        setSubmitted(true)
+        setLoading(false)
+      },
+      onClose: () => {
+        setLoading(false)
+        setError('Payment window was closed. Your details are saved — complete payment to finish your registration.')
+      },
+    })
+    handler.openIframe()
   }
 
   const stages = [
@@ -95,8 +236,8 @@ function CompetitionTab() {
   if (submitted) return (
     <SuccessBanner
       email={form.email}
-      message="Registration received!"
-      sub="A confirmation and payment details have been sent to"
+      message="You're registered!"
+      sub="Payment confirmed. A receipt has been sent to"
     />
   )
 
@@ -167,11 +308,13 @@ function CompetitionTab() {
           <div className="flex items-start gap-3 bg-brand-orange/10 border border-brand-orange/20 rounded-xl p-4">
             <Lock size={15} className="text-brand-orange shrink-0 mt-0.5" />
             <p className="text-sm text-gray-300">
-              A <span className="text-brand-orange font-bold">registration fee</span> is required.
+              A <span className="text-brand-orange font-bold">₦{REGISTRATION_FEE.toLocaleString()} registration fee</span> is required.
               After submitting, you will be redirected to Paystack to complete payment.
               Once paid, a confirmation email is sent to you automatically.
             </p>
           </div>
+
+          <ErrorBox message={error} />
 
           <button type="submit" disabled={loading}
             className="w-full bg-brand-orange hover:bg-brand-yellow hover:text-[#0D1B2A] text-white font-black py-4 rounded-xl
@@ -200,15 +343,31 @@ function ChallengeTab() {
   const [form, setForm] = useState({ fullName: '', email: '', department: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
   const handleSubmit = async e => {
     e.preventDefault()
     setLoading(true)
-    // TODO: POST to Supabase
-    await new Promise(r => setTimeout(r, 1000))
-    setLoading(false)
-    setSubmitted(true)
+    setError('')
+    try {
+      await saveChallengeSignup({
+        full_name: form.fullName,
+        email: form.email,
+        department: form.department,
+      })
+      setSubmitted(true)
+    } catch (err) {
+      if (err.message === 'duplicate') {
+        setError('This email is already signed up for the challenge.')
+      } else if (err.message === 'no-backend') {
+        setError('Signup system is not yet configured. Please contact the Decagon team.')
+      } else {
+        setError('Something went wrong. Please try again.')
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   const days = Array.from({ length: 20 }, (_, i) => i + 1)
@@ -267,6 +426,7 @@ function ChallengeTab() {
                 <SelectField label="Department" value={form.department} onChange={set('department')} required
                   placeholder="Select department" options={DEPARTMENTS} />
                 <p className="text-xs text-gray-500">No fee required. Open to all UNILAG students.</p>
+                <ErrorBox message={error} />
                 <button type="submit" disabled={loading}
                   className="w-full bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 text-cyan-300 font-black py-4 rounded-xl
                              transition-all flex items-center justify-center gap-2 disabled:opacity-60">

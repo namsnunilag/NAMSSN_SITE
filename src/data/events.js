@@ -64,9 +64,9 @@ export const upcomingEvents = [
     ],
     challengePrize: '₦20,000',
     theme: 'decagon',
-    registrationStatus: 'coming-soon',
+    registrationStatus: 'open',
     registrationDate: '2026-04-15',
-    registrationLink: null,
+    registrationLink: '/decagon',
   },
   {
     id: 2,
