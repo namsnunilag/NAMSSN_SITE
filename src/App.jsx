@@ -23,6 +23,7 @@ import Eid from './pages/Eid'
 import StudentExecutives from './pages/StudentExecutives'
 import StudentExecutiveDetail from './pages/StudentExecutiveDetail'
 import Decagon from './pages/Decagon'
+import Admin from './pages/Admin'
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
 export const useTheme = () => useContext(ThemeContext)
@@ -81,37 +82,44 @@ export default function App() {
     <ThemeContext.Provider value={{ isDark, toggle }}>
       <BrowserRouter>
         <ScrollToTop />
-        <div className="flex flex-col min-h-screen">
-          <div ref={headerRef} className="fixed top-0 inset-x-0 z-50">
-            <AnnouncementBanner />
-            <Navbar onToggleDark={toggle} isDark={isDark} />
-          </div>
-          <main className="flex-grow" style={{ paddingTop: 'var(--header-h, 64px)' }}>
-            <Routes>
-              <Route path="/"             element={<Home />} />
-              <Route path="/about"        element={<About />} />
-              <Route path="/events"       element={<Events />} />
-              <Route path="/events/:id"   element={<EventDetail />} />
-              <Route path="/executives"   element={<Executives />} />
-              {/* <Route path="/gallery"      element={<Gallery />} /> */}
-              <Route path="/contact"      element={<Contact />} />
-              <Route path="/newsletter"   element={<Newsletter />} />
-              <Route path="/academics"    element={<Academics />} />
-              <Route path="/resources"    element={<Resources />} />
-              <Route path="/community"    element={<Community />} />
-              <Route path="/merchandise"  element={<Merchandise />} />
-              <Route path="/research"     element={<Research />} />
-              <Route path="/celebration/pi-day"   element={<PiDay />} />
-              <Route path="/giveaway"             element={<Giveaway />} />
-              <Route path="/eid"                  element={<Eid />} />
-              <Route path="/student-executives"        element={<StudentExecutives />} />
-              <Route path="/student-executives/:id"   element={<StudentExecutiveDetail />} />
-              {/* Decagon — not linked in nav, internal staging */}
-              <Route path="/decagon"                  element={<Decagon />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+        <Routes>
+          {/* Admin — standalone, no navbar/footer */}
+          <Route path="/admin" element={<Admin />} />
+
+          {/* All other pages — wrapped in nav + footer */}
+          <Route path="/*" element={
+            <div className="flex flex-col min-h-screen">
+              <div ref={headerRef} className="fixed top-0 inset-x-0 z-50">
+                <AnnouncementBanner />
+                <Navbar onToggleDark={toggle} isDark={isDark} />
+              </div>
+              <main className="flex-grow" style={{ paddingTop: 'var(--header-h, 64px)' }}>
+                <Routes>
+                  <Route path="/"             element={<Home />} />
+                  <Route path="/about"        element={<About />} />
+                  <Route path="/events"       element={<Events />} />
+                  <Route path="/events/:id"   element={<EventDetail />} />
+                  <Route path="/executives"   element={<Executives />} />
+                  {/* <Route path="/gallery"      element={<Gallery />} /> */}
+                  <Route path="/contact"      element={<Contact />} />
+                  <Route path="/newsletter"   element={<Newsletter />} />
+                  <Route path="/academics"    element={<Academics />} />
+                  <Route path="/resources"    element={<Resources />} />
+                  <Route path="/community"    element={<Community />} />
+                  <Route path="/merchandise"  element={<Merchandise />} />
+                  <Route path="/research"     element={<Research />} />
+                  <Route path="/celebration/pi-day"        element={<PiDay />} />
+                  <Route path="/giveaway"                  element={<Giveaway />} />
+                  <Route path="/eid"                       element={<Eid />} />
+                  <Route path="/student-executives"        element={<StudentExecutives />} />
+                  <Route path="/student-executives/:id"    element={<StudentExecutiveDetail />} />
+                  <Route path="/decagon"                   element={<Decagon />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
+          } />
+        </Routes>
         <Analytics />
       </BrowserRouter>
     </ThemeContext.Provider>

@@ -37,6 +37,14 @@ ALTER TABLE challenge_signups     ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "anon can register"
   ON decagon_registrations FOR INSERT TO anon WITH CHECK (true);
 
+-- Allow reading registrations (used by the admin dashboard)
+CREATE POLICY "anon can read registrations"
+  ON decagon_registrations FOR SELECT TO anon USING (true);
+
+-- Allow updating payment_status (used by the admin dashboard)
+CREATE POLICY "anon can update status"
+  ON decagon_registrations FOR UPDATE TO anon USING (true) WITH CHECK (true);
+
 CREATE POLICY "anon can sign up for challenge"
   ON challenge_signups FOR INSERT TO anon WITH CHECK (true);
 
