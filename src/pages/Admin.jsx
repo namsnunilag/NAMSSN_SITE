@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
-  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2,
+  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download,
 } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -82,6 +82,23 @@ async function setStatus(id, status) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
+
+function exportCSV(rows, columns, filename) {
+  const header = columns.map(c => c.label).join(',')
+  const body = rows.map(r =>
+    columns.map(c => {
+      const val = r[c.key] ?? ''
+      return `"${String(val).replace(/"/g, '""')}"`
+    }).join(',')
+  ).join('\n')
+  const blob = new Blob([header + '\n' + body], { type: 'text/csv' })
+  const url  = URL.createObjectURL(blob)
+  const a    = document.createElement('a')
+  a.href     = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}
 
 function fmt(dateStr) {
   return new Date(dateStr).toLocaleString('en-NG', {
@@ -255,7 +272,7 @@ function RegistrationsTab() {
       </div>
 
       {/* Filter + Search */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
         <div className="flex gap-2 flex-wrap">
           {[
             { key: 'all',            label: 'All'       },
@@ -280,6 +297,21 @@ function RegistrationsTab() {
             className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-gray-600
                        focus:outline-none focus:ring-2 focus:ring-cyan-400/30 transition" />
         </div>
+        <button onClick={() => exportCSV(rows, [
+          { label: 'Full Name',     key: 'full_name'   },
+          { label: 'Email',         key: 'email'       },
+          { label: 'Phone',         key: 'phone'       },
+          { label: 'Matric',        key: 'matric'      },
+          { label: 'Department',    key: 'department'  },
+          { label: 'Level',         key: 'level'       },
+          { label: 'Status',        key: 'payment_status' },
+          { label: 'Receipt URL',   key: 'receipt_url' },
+          { label: 'Course Form URL', key: 'course_form_url' },
+          { label: 'Registered At', key: 'created_at'  },
+        ], 'decagon_registrations.csv')}
+          className="flex items-center gap-1.5 text-xs font-bold text-cyan-400 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 px-3 py-2 rounded-xl transition shrink-0">
+          <Download size={13} /> Export CSV
+        </button>
       </div>
 
       {error && (
@@ -398,13 +430,24 @@ function SignupsTab() {
         </div>
       </div>
 
-      {/* Search */}
-      <div className="relative sm:max-w-xs">
-        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
-        <input value={search} onChange={e => setSearch(e.target.value)}
-          placeholder="Search name, email, dept…"
-          className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-gray-600
-                     focus:outline-none focus:ring-2 focus:ring-cyan-400/30 transition" />
+      {/* Search + Export */}
+      <div className="flex gap-3 items-center">
+        <div className="relative flex-1 sm:max-w-xs">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+          <input value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Search name, email, dept…"
+            className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-gray-600
+                       focus:outline-none focus:ring-2 focus:ring-cyan-400/30 transition" />
+        </div>
+        <button onClick={() => exportCSV(rows, [
+          { label: 'Full Name',   key: 'full_name'   },
+          { label: 'Email',       key: 'email'       },
+          { label: 'Department',  key: 'department'  },
+          { label: 'Signed Up At', key: 'created_at' },
+        ], 'decagon_challenge_signups.csv')}
+          className="flex items-center gap-1.5 text-xs font-bold text-cyan-400 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 px-3 py-2 rounded-xl transition shrink-0">
+          <Download size={13} /> Export CSV
+        </button>
       </div>
 
       {error && (
