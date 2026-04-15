@@ -174,12 +174,12 @@ function CopyButton({ text }) {
   )
 }
 
-function FileUpload({ value, onChange, required }) {
+function FileUpload({ value, onChange, required, label = 'Upload File', hint = 'JPG, PNG or PDF · max 5 MB' }) {
   const inputRef = useRef(null)
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-        Step 2 — Upload Payment Receipt
+        {label}
       </label>
       <div
         onClick={() => inputRef.current?.click()}
@@ -206,7 +206,7 @@ function FileUpload({ value, onChange, required }) {
           <>
             <Upload size={20} className="text-gray-500 mx-auto mb-2" />
             <p className="text-sm text-gray-400">Click to upload receipt</p>
-            <p className="text-xs text-gray-600 mt-1">JPG, PNG or PDF · max 5 MB</p>
+            <p className="text-xs text-gray-600 mt-1">{hint}</p>
           </>
         )}
       </div>
@@ -219,7 +219,7 @@ function BankDetails() {
     <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 overflow-hidden">
       <div className="px-4 py-3 border-b border-cyan-400/10">
         <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
-          Step 1 — Transfer {BANK.amount} to this account
+          Step 3 — Transfer {BANK.amount} to this account
         </p>
       </div>
       <div className="px-4 py-4 space-y-3">
@@ -272,6 +272,7 @@ function useCountdown(target) {
 function CompetitionTab() {
   const [form, setForm]       = useState({ fullName: '', email: '', phone: '', matric: '', department: '', level: '' })
   const [receipt, setReceipt] = useState(null)
+  const [courseForm, setCourseForm] = useState(null)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
@@ -309,8 +310,16 @@ function CompetitionTab() {
     e.preventDefault()
     setError('')
 
+    if (!courseForm) {
+      setError('Please upload your course form before submitting.')
+      return
+    }
     if (!receipt) {
       setError('Please upload your payment receipt before submitting.')
+      return
+    }
+    if (courseForm.size > 5 * 1024 * 1024) {
+      setError('Course form file is too large. Maximum size is 5 MB.')
       return
     }
     if (receipt.size > 5 * 1024 * 1024) {
@@ -320,7 +329,32 @@ function CompetitionTab() {
 
     setLoading(true)
 
-    // 1. Upload receipt to Supabase Storage
+    // 1. Upload course form to Supabase Storage
+    let courseFormUrl = ''
+    try {
+      const ext      = courseForm.name.split('.').pop()
+      const filename = `${form.matric.toUpperCase()}_courseform_${Date.now()}.${ext}`
+      const res = await fetch(
+        `${SUPABASE_URL}/storage/v1/object/decagon-receipts/${filename}`,
+        {
+          method: 'POST',
+          headers: {
+            apikey:        SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': courseForm.type || 'application/octet-stream',
+          },
+          body: courseForm,
+        }
+      )
+      if (!res.ok) throw new Error('upload failed')
+      courseFormUrl = `${SUPABASE_URL}/storage/v1/object/public/decagon-receipts/${filename}`
+    } catch {
+      setLoading(false)
+      setError('Could not upload your course form. Please check your connection and try again.')
+      return
+    }
+
+    // 2. Upload receipt to Supabase Storage
     let receiptUrl = ''
     try {
       receiptUrl = await uploadReceipt(receipt, form.matric)
@@ -330,17 +364,18 @@ function CompetitionTab() {
       return
     }
 
-    // 2. Save registration record
+    // 3. Save registration record
     try {
       await saveRegistration({
-        full_name:      form.fullName,
-        email:          form.email,
-        phone:          form.phone,
-        matric:         form.matric.trim().toUpperCase(),
-        department:     form.department,
-        level:          form.level,
-        receipt_url:    receiptUrl,
-        payment_status: 'pending_review',
+        full_name:       form.fullName,
+        email:           form.email,
+        phone:           form.phone,
+        matric:          form.matric.trim().toUpperCase(),
+        department:      form.department,
+        level:           form.level,
+        course_form_url: courseFormUrl,
+        receipt_url:     receiptUrl,
+        payment_status:  'pending_review',
       })
       setSubmitted(true)
     } catch (err) {
@@ -430,14 +465,29 @@ function CompetitionTab() {
             <SelectField label="Department" value={form.department} onChange={set('department')} required
               placeholder="Select department" options={DEPARTMENTS} />
             <SelectField label="Level"      value={form.level}       onChange={set('level')}       required
-              placeholder="Select level" options={['100', '200', '300', '400', '500'].map(l => `${l} Level`)} />
+              placeholder="Select level" options={['100', '200', '300'].map(l => `${l} Level`)} />
           </div>
+
+          {/* Course form upload */}
+          <FileUpload
+            value={courseForm}
+            onChange={setCourseForm}
+            required
+            label="Step 2 — Upload Course Form (confirms Year 1–3)"
+            hint="JPG, PNG or PDF · max 5 MB"
+          />
 
           {/* Bank details */}
           <BankDetails />
 
           {/* Receipt upload */}
-          <FileUpload value={receipt} onChange={setReceipt} required />
+          <FileUpload
+            value={receipt}
+            onChange={setReceipt}
+            required
+            label="Step 4 — Upload Payment Receipt"
+            hint="JPG, PNG or PDF · max 5 MB"
+          />
 
           <ErrorBox message={error} />
 
