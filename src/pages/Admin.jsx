@@ -306,7 +306,7 @@ function RegistrationsTab() {
           { label: 'Level',         key: 'level'       },
           { label: 'Status',        key: 'payment_status' },
           { label: 'Receipt URL',   key: 'receipt_url' },
-          { label: 'Course Form URL', key: 'course_form_url' },
+          { label: 'biodata URL', key: 'biodata_url' },
           { label: 'Registered At', key: 'created_at'  },
         ], 'decagon_registrations.csv')}
           className="flex items-center gap-1.5 text-xs font-bold text-cyan-400 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 px-3 py-2 rounded-xl transition shrink-0">
@@ -350,10 +350,10 @@ function RegistrationsTab() {
               </div>
               <div className="flex items-center gap-2 shrink-0 flex-wrap">
                 <StatusBadge status={r.payment_status} />
-                {r.course_form_url && (
-                  <a href={r.course_form_url} target="_blank" rel="noreferrer"
+                {r.biodata_url && (
+                  <a href={r.biodata_url} target="_blank" rel="noreferrer"
                     className="flex items-center gap-1 text-xs text-gray-400 hover:text-cyan-400 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
-                    <ExternalLink size={12} /> Course Form
+                    <ExternalLink size={12} /> biodata
                   </a>
                 )}
                 {r.receipt_url && (

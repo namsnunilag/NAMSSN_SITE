@@ -272,7 +272,7 @@ function useCountdown(target) {
 function CompetitionTab() {
   const [form, setForm]       = useState({ fullName: '', email: '', phone: '', matric: '', department: '', level: '' })
   const [receipt, setReceipt] = useState(null)
-  const [courseForm, setCourseForm] = useState(null)
+  const [biodata, setBiodata] = useState(null)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
@@ -310,16 +310,16 @@ function CompetitionTab() {
     e.preventDefault()
     setError('')
 
-    if (!courseForm) {
-      setError('Please upload your course form before submitting.')
+    if (!biodata) {
+      setError('Please upload your biodata before submitting.')
       return
     }
     if (!receipt) {
       setError('Please upload your payment receipt before submitting.')
       return
     }
-    if (courseForm.size > 5 * 1024 * 1024) {
-      setError('Course form file is too large. Maximum size is 5 MB.')
+    if (biodata.size > 5 * 1024 * 1024) {
+      setError('biodata file is too large. Maximum size is 5 MB.')
       return
     }
     if (receipt.size > 5 * 1024 * 1024) {
@@ -329,11 +329,11 @@ function CompetitionTab() {
 
     setLoading(true)
 
-    // 1. Upload course form to Supabase Storage
-    let courseFormUrl = ''
+    // 1. Upload biodata to Supabase Storage
+    let biodataUrl = ''
     try {
-      const ext      = courseForm.name.split('.').pop()
-      const filename = `${form.matric.toUpperCase()}_courseform_${Date.now()}.${ext}`
+      const ext      = biodata.name.split('.').pop()
+      const filename = `${form.matric.toUpperCase()}_biodata_${Date.now()}.${ext}`
       const res = await fetch(
         `${SUPABASE_URL}/storage/v1/object/decagon-receipts/${filename}`,
         {
@@ -341,16 +341,16 @@ function CompetitionTab() {
           headers: {
             apikey:        SUPABASE_ANON_KEY,
             Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-            'Content-Type': courseForm.type || 'application/octet-stream',
+            'Content-Type': biodata.type || 'application/octet-stream',
           },
-          body: courseForm,
+          body: biodata,
         }
       )
       if (!res.ok) throw new Error('upload failed')
-      courseFormUrl = `${SUPABASE_URL}/storage/v1/object/public/decagon-receipts/${filename}`
+      biodataUrl = `${SUPABASE_URL}/storage/v1/object/public/decagon-receipts/${filename}`
     } catch {
       setLoading(false)
-      setError('Could not upload your course form. Please check your connection and try again.')
+      setError('Could not upload your biodata. Please check your connection and try again.')
       return
     }
 
@@ -373,7 +373,7 @@ function CompetitionTab() {
         matric:          form.matric.trim().toUpperCase(),
         department:      form.department,
         level:           form.level,
-        course_form_url: courseFormUrl,
+        biodata_url: biodataUrl,
         receipt_url:     receiptUrl,
         payment_status:  'pending_review',
       })
@@ -468,13 +468,13 @@ function CompetitionTab() {
               placeholder="Select level" options={['100', '200', '300'].map(l => `${l} Level`)} />
           </div>
 
-          {/* Course form upload */}
+          {/* biodata upload */}
           <FileUpload
-            value={courseForm}
-            onChange={setCourseForm}
+            value={biodata}
+            onChange={setBiodata}
             required
-            label="Step 2 — Upload Course Form (confirms Year 1–3)"
-            placeholder="Click to upload course form"
+            label="Step 2 — Upload biodata (confirms Year 1–3)"
+            placeholder="Click to upload biodata"
             hint="JPG, PNG or PDF · max 5 MB"
           />
 
