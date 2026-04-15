@@ -174,7 +174,7 @@ function CopyButton({ text }) {
   )
 }
 
-function FileUpload({ value, onChange, required, label = 'Upload File', hint = 'JPG, PNG or PDF · max 5 MB' }) {
+function FileUpload({ value, onChange, required, label = 'Upload File', hint = 'JPG, PNG or PDF · max 5 MB', placeholder = 'Click to upload file' }) {
   const inputRef = useRef(null)
   return (
     <div className="flex flex-col gap-1.5">
@@ -205,7 +205,7 @@ function FileUpload({ value, onChange, required, label = 'Upload File', hint = '
         ) : (
           <>
             <Upload size={20} className="text-gray-500 mx-auto mb-2" />
-            <p className="text-sm text-gray-400">Click to upload receipt</p>
+            <p className="text-sm text-gray-400">{placeholder}</p>
             <p className="text-xs text-gray-600 mt-1">{hint}</p>
           </>
         )}
@@ -474,6 +474,7 @@ function CompetitionTab() {
             onChange={setCourseForm}
             required
             label="Step 2 — Upload Course Form (confirms Year 1–3)"
+            placeholder="Click to upload course form"
             hint="JPG, PNG or PDF · max 5 MB"
           />
 
@@ -486,6 +487,7 @@ function CompetitionTab() {
             onChange={setReceipt}
             required
             label="Step 4 — Upload Payment Receipt"
+            placeholder="Click to upload receipt"
             hint="JPG, PNG or PDF · max 5 MB"
           />
 
