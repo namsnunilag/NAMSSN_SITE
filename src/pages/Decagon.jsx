@@ -21,8 +21,8 @@ const BANK = {
   name:    'Moniepoint MFB',
   account: '8123174623',
   holder:  'NAMSSN UNILAG OFFICIAL SERVICES',
-  amount:  '₦1,500',
-  raw:     1500,
+  amount:  '₦2,000',
+  raw:     2000,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
