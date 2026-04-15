@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
-  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy,
+  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2,
 } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -45,6 +45,21 @@ async function fetchSignups() {
 async function sendEmail(templateId, params) {
   if (!EMAILJS_SERVICE_ID || !EMAILJS_PUBLIC_KEY || !templateId) return
   await emailjs.send(EMAILJS_SERVICE_ID, templateId, params, EMAILJS_PUBLIC_KEY)
+}
+
+async function deleteRegistration(id) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/decagon_registrations?id=eq.${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        apikey:        SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        Prefer:        'return=minimal',
+      },
+    }
+  )
+  if (!res.ok) throw new Error(`Delete failed (${res.status})`)
 }
 
 async function setStatus(id, status) {
@@ -145,6 +160,7 @@ function RegistrationsTab() {
   const [filter, setFilter]     = useState('all')
   const [search, setSearch]     = useState('')
   const [updating, setUpdating] = useState(null)
+  const [deleting, setDeleting] = useState(null)
 
   const load = useCallback(async () => {
     setLoading(true); setError('')
@@ -184,6 +200,19 @@ function RegistrationsTab() {
       alert('Failed to update. Please try again.')
     } finally {
       setUpdating(null)
+    }
+  }
+
+  const handleDelete = async (id, name) => {
+    if (!window.confirm(`Delete registration for ${name}? This cannot be undone.`)) return
+    setDeleting(id)
+    try {
+      await deleteRegistration(id)
+      setRows(r => r.filter(x => x.id !== id))
+    } catch {
+      alert('Failed to delete. Please try again.')
+    } finally {
+      setDeleting(null)
     }
   }
 
@@ -313,6 +342,10 @@ function RegistrationsTab() {
                     <XCircle size={12} /> {updating === r.id ? '…' : 'Reject'}
                   </button>
                 )}
+                <button onClick={() => handleDelete(r.id, r.full_name)} disabled={deleting === r.id}
+                  className="flex items-center gap-1 text-xs text-gray-500 hover:text-white hover:bg-red-600 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg disabled:opacity-40">
+                  <Trash2 size={12} /> {deleting === r.id ? '…' : 'Delete'}
+                </button>
               </div>
             </div>
           ))}
