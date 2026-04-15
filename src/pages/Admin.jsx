@@ -289,6 +289,12 @@ function RegistrationsTab() {
               </div>
               <div className="flex items-center gap-2 shrink-0 flex-wrap">
                 <StatusBadge status={r.payment_status} />
+                {r.course_form_url && (
+                  <a href={r.course_form_url} target="_blank" rel="noreferrer"
+                    className="flex items-center gap-1 text-xs text-gray-400 hover:text-cyan-400 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
+                    <ExternalLink size={12} /> Course Form
+                  </a>
+                )}
                 {r.receipt_url && (
                   <a href={r.receipt_url} target="_blank" rel="noreferrer"
                     className="flex items-center gap-1 text-xs text-gray-400 hover:text-cyan-400 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
