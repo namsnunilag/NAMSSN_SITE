@@ -47,6 +47,21 @@ async function sendEmail(templateId, params) {
   await emailjs.send(EMAILJS_SERVICE_ID, templateId, params, EMAILJS_PUBLIC_KEY)
 }
 
+async function deleteSignup(id) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/challenge_signups?id=eq.${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        apikey:        SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        Prefer:        'return=minimal',
+      },
+    }
+  )
+  if (!res.ok) throw new Error(`Delete failed (${res.status})`)
+}
+
 async function deleteRegistration(id) {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/decagon_registrations?id=eq.${id}`,
@@ -397,6 +412,7 @@ function SignupsTab() {
   const [loading, setLoading] = useState(true)
   const [error, setError]     = useState('')
   const [search, setSearch]   = useState('')
+  const [deleting, setDeleting] = useState(null)
 
   const load = useCallback(async () => {
     setLoading(true); setError('')
@@ -406,6 +422,19 @@ function SignupsTab() {
   }, [])
 
   useEffect(() => { load() }, [load])
+
+  const handleDelete = async (id, name) => {
+    if (!window.confirm(`Delete signup for ${name}? This cannot be undone.`)) return
+    setDeleting(id)
+    try {
+      await deleteSignup(id)
+      setRows(r => r.filter(x => x.id !== id))
+    } catch {
+      alert('Failed to delete. Please try again.')
+    } finally {
+      setDeleting(null)
+    }
+  }
 
   const visible = rows.filter(r => {
     const q = search.toLowerCase()
@@ -482,9 +511,15 @@ function SignupsTab() {
                   <p className="text-xs text-gray-600">{fmt(r.created_at)}</p>
                 </div>
               </div>
-              <span className="text-xs font-bold px-2.5 py-1 rounded-full border bg-cyan-500/10 text-cyan-400 border-cyan-500/20 shrink-0">
-                Signed Up
-              </span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full border bg-cyan-500/10 text-cyan-400 border-cyan-500/20">
+                  Signed Up
+                </span>
+                <button onClick={() => handleDelete(r.id, r.full_name)} disabled={deleting === r.id}
+                  className="flex items-center gap-1 text-xs text-gray-500 hover:text-white hover:bg-red-600 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg disabled:opacity-40">
+                  <Trash2 size={12} /> {deleting === r.id ? '…' : 'Delete'}
+                </button>
+              </div>
             </div>
           ))}
         </div>
