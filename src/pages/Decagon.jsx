@@ -93,9 +93,36 @@ async function saveChallengeSignup(data) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DEPARTMENTS = [
+  // Faculty of Science
   'Mathematics', 'Statistics', 'Computer Science', 'Physics',
   'Chemistry', 'Biochemistry', 'Microbiology', 'Botany',
-  'Zoology', 'Marine Sciences', 'Geosciences', 'Other',
+  'Zoology', 'Marine Sciences', 'Geosciences',
+  // Faculty of Engineering
+  'Chemical Engineering', 'Civil Engineering', 'Computer Engineering',
+  'Electrical & Electronics Engineering', 'Mechanical Engineering',
+  'Metallurgical & Materials Engineering', 'Systems Engineering',
+  'Biomedical Engineering', 'Surveying & Geoinformatics',
+  // College of Medicine & Health Sciences
+  'Medicine & Surgery', 'Pharmacy', 'Pharmacology', 'Physiology', 'Anatomy',
+  'Nursing Science', 'Physiotherapy', 'Radiography',
+  'Medical Laboratory Science', 'Human Nutrition & Dietetics', 'Dentistry',
+  // Faculty of Environmental Sciences
+  'Architecture', 'Building', 'Estate Management',
+  'Quantity Surveying', 'Urban & Regional Planning',
+  // Faculty of Social Sciences
+  'Economics', 'Geography', 'Political Science', 'Psychology', 'Sociology',
+  // Faculty of Arts
+  'English', 'History & Strategic Studies', 'Linguistics', 'Philosophy',
+  'French', 'Arabic & Islamic Studies', 'Music', 'Creative Arts',
+  // Faculty of Business Administration
+  'Accounting', 'Actuarial Science', 'Banking & Finance',
+  'Business Administration', 'Insurance', 'Management Information Systems', 'Marketing',
+  // Faculty of Education
+  'Adult Education', 'Educational Administration', 'Educational Technology',
+  'Guidance & Counselling', 'Human Kinetics & Health Education', 'Science & Technology Education',
+  // Faculty of Law
+  'Law',
+  'Other',
 ]
 
 function Field({ label, type = 'text', placeholder, value, onChange, required }) {
