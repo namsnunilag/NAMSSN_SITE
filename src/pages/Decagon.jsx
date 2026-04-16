@@ -270,7 +270,7 @@ function useCountdown(target) {
 }
 
 function CompetitionTab() {
-  const [form, setForm]       = useState({ fullName: '', email: '', phone: '', matric: '', department: '', level: '' })
+  const [form, setForm]       = useState({ fullName: '', email: '', phone: '', matric: '', department: '', otherDept: '', level: '' })
   const [receipt, setReceipt] = useState(null)
   const [biodata, setBiodata] = useState(null)
   const [submitted, setSubmitted] = useState(false)
@@ -371,7 +371,7 @@ function CompetitionTab() {
         email:           form.email,
         phone:           form.phone,
         matric:          form.matric.trim().toUpperCase(),
-        department:      form.department,
+        department:      form.department === 'Other' ? form.otherDept.trim() : form.department,
         level:           form.level,
         biodata_url: biodataUrl,
         receipt_url:     receiptUrl,
@@ -464,6 +464,9 @@ function CompetitionTab() {
             <Field label="Matric Number"  placeholder="e.g. 190404001"          value={form.matric}     onChange={set('matric')}     required />
             <SelectField label="Department" value={form.department} onChange={set('department')} required
               placeholder="Select department" options={DEPARTMENTS} />
+            {form.department === 'Other' && (
+              <Field label="Specify your department" placeholder="e.g. Geology" value={form.otherDept} onChange={set('otherDept')} required />
+            )}
             <SelectField label="Level"      value={form.level}       onChange={set('level')}       required
               placeholder="Select level" options={['100', '200', '300'].map(l => `${l} Level`)} />
           </div>
@@ -514,27 +517,44 @@ function CompetitionTab() {
 // Tab 2 — 20-Day Challenge
 // ─────────────────────────────────────────────────────────────────────────────
 
-const MOCK_LEADERS = [
-  { rank: 1, name: 'Aisha Bello',   dept: 'Mathematics',      score: 940, days: 18, badge: '🥇' },
-  { rank: 2, name: 'Emeka Nwosu',   dept: 'Computer Science', score: 910, days: 17, badge: '🥈' },
-  { rank: 3, name: 'Fatima Yusuf',  dept: 'Statistics',       score: 875, days: 17, badge: '🥉' },
-  { rank: 4, name: 'Tunde Adeyemi', dept: 'Physics',          score: 850, days: 16, badge: null },
-  { rank: 5, name: 'Zara Okafor',   dept: 'Biochemistry',     score: 820, days: 15, badge: null },
-]
 
 function ChallengeTab() {
-  const [form, setForm]       = useState({ fullName: '', email: '', department: '' })
+  const [form, setForm]       = useState({ fullName: '', email: '', department: '', otherDept: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
+  const [leaders, setLeaders] = useState([])
+  const [loadingLeaders, setLoadingLeaders] = useState(true)
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
+
+  useEffect(() => {
+    if (!SUPABASE_URL) { setLoadingLeaders(false); return }
+    fetch(`${SUPABASE_URL}/rest/v1/challenge_signups?select=full_name,department&order=created_at.asc`, {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setLeaders(data.map((p, i) => ({
+            rank: i + 1,
+            name: p.full_name,
+            dept: p.department,
+            score: 0,
+            days: 0,
+          })))
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoadingLeaders(false))
+  }, [])
 
   const handleSubmit = async e => {
     e.preventDefault()
     setLoading(true)
     setError('')
+    const dept = form.department === 'Other' ? form.otherDept.trim() : form.department
     try {
-      await saveChallengeSignup({ full_name: form.fullName, email: form.email, department: form.department })
+      await saveChallengeSignup({ full_name: form.fullName, email: form.email, department: dept })
       setSubmitted(true)
     } catch (err) {
       if (err.message === 'duplicate') {
@@ -556,8 +576,8 @@ function ChallengeTab() {
 
       <div className="grid sm:grid-cols-2 gap-3">
         {[
-          { icon: BookOpen, title: 'Daily Questions',   desc: 'One calculus question drops every day starting May 3rd, for 20 days.' },
-          { icon: Clock,    title: 'Submit by Midnight', desc: 'Each question closes at midnight. Late submissions are not accepted.' },
+          { icon: BookOpen, title: 'Daily Questions',   desc: 'One calculus question drops every day for 20 days. Start date to be announced.' },
+          { icon: Clock,    title: 'Submission Window', desc: 'Each question closes 1 hr 30 mins after it drops. Late submissions are not accepted.' },
           { icon: Zap,      title: 'Points for Speed',  desc: 'Correct answers earn points. Faster submissions earn bonus points.' },
           { icon: Trophy,   title: '₦20,000 Prize',     desc: 'The top participant on the leaderboard wins ₦20,000.' },
         ].map(({ icon: Icon, title, desc }) => (
@@ -584,7 +604,7 @@ function ChallengeTab() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-gray-600 mt-3">Day 1 unlocks on May 3, 2026</p>
+        <p className="text-xs text-gray-600 mt-3">Day 1 date to be announced — stay tuned</p>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
@@ -598,6 +618,9 @@ function ChallengeTab() {
                 <Field label="Email Address" type="email" placeholder="you@example.com" value={form.email} onChange={set('email')} required />
                 <SelectField label="Department" value={form.department} onChange={set('department')} required
                   placeholder="Select department" options={DEPARTMENTS} />
+                {form.department === 'Other' && (
+                  <Field label="Specify your department" placeholder="e.g. Geology" value={form.otherDept} onChange={set('otherDept')} required />
+                )}
                 <p className="text-xs text-gray-500">No fee required. Open to all UNILAG students.</p>
                 <ErrorBox message={error} />
                 <button type="submit" disabled={loading}
@@ -611,11 +634,11 @@ function ChallengeTab() {
         </div>
 
         <div>
-          <SectionLabel>Live Leaderboard</SectionLabel>
+          <SectionLabel>Leaderboard</SectionLabel>
           <div className="space-y-2">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">Updates daily</span>
+              <div className="w-2 h-2 rounded-full bg-cyan-400" />
+              <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">Challenge not started — scores at 0</span>
             </div>
             <div className="grid grid-cols-[2rem_1fr_auto_auto] gap-2 px-2 mb-1">
               <span className="text-xs text-gray-600">#</span>
@@ -623,24 +646,23 @@ function ChallengeTab() {
               <span className="text-xs text-gray-600 text-center">Days</span>
               <span className="text-xs text-gray-600 text-right">Score</span>
             </div>
-            {MOCK_LEADERS.map(p => (
-              <div key={p.rank} className={`grid grid-cols-[2rem_1fr_auto_auto] gap-2 items-center px-4 py-3 rounded-xl border ${
-                p.rank === 1 ? 'bg-brand-orange/10 border-brand-orange/30'
-                : p.rank <= 3 ? 'bg-white/5 border-white/10'
-                : 'bg-white/[0.02] border-white/5'
-              }`}>
-                <span className="text-base text-center">{p.badge ?? <span className="text-xs text-gray-500 font-bold">#{p.rank}</span>}</span>
-                <div className="min-w-0">
-                  <p className="text-sm font-bold text-white truncate">{p.name}</p>
-                  <p className="text-xs text-gray-500 truncate">{p.dept}</p>
-                </div>
-                <span className="text-xs text-gray-500 text-center">{p.days}/20</span>
-                <span className={`text-sm font-black tabular-nums text-right ${p.rank === 1 ? 'text-brand-orange' : 'text-cyan-400'}`}>
-                  {p.score.toLocaleString()}
-                </span>
-              </div>
-            ))}
-            <p className="text-center text-xs text-gray-600 pt-1">* Sample data — live scores populate when challenge begins</p>
+            {loadingLeaders
+              ? <p className="text-center text-xs text-gray-600 py-4">Loading participants…</p>
+              : leaders.length === 0
+                ? <p className="text-center text-xs text-gray-600 py-4">No sign-ups yet — be the first!</p>
+                : leaders.map(p => (
+                  <div key={p.rank} className="grid grid-cols-[2rem_1fr_auto_auto] gap-2 items-center px-4 py-3 rounded-xl border bg-white/[0.02] border-white/5">
+                    <span className="text-xs text-gray-500 font-bold text-center">#{p.rank}</span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-white truncate">{p.name}</p>
+                      <p className="text-xs text-gray-500 truncate">{p.dept}</p>
+                    </div>
+                    <span className="text-xs text-gray-500 text-center">{p.days}/20</span>
+                    <span className="text-sm font-black tabular-nums text-right text-gray-500">0</span>
+                  </div>
+                ))
+            }
+            <p className="text-center text-xs text-gray-600 pt-1">Scores update daily once the challenge begins</p>
           </div>
         </div>
       </div>
@@ -710,8 +732,8 @@ const TABS = [
 const PHASES = [
   {
     num: '01', icon: BookOpen, title: '20-Day Calculus Challenge',
-    when: 'May 3, 2026', tag: 'Open to all', prize: '₦20,000 prize',
-    desc: 'Starts May 3rd. Open to everyone. A new calculus problem drops daily for 20 days. Earn points for correctness and speed.',
+    when: 'May 2026 (TBA)', tag: 'Open to all', prize: '₦20,000 prize',
+    desc: 'Open to everyone. A new calculus problem drops daily for 20 days. Earn points for correctness and speed. Start date to be announced.',
     accent: 'border-cyan-400/30 bg-cyan-400/5',
   },
   {
