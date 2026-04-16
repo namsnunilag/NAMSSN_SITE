@@ -418,11 +418,11 @@ function CompetitionTab() {
   }
 
   const stages = [
-    { n: '01', title: 'Online Screening',           desc: 'All registered participants sit an online calculus assessment.' },
-    { n: '02', title: 'Written Qualifying Round',   desc: 'Qualifiers from Stage 1 write a structured problem set.' },
-    { n: '03', title: 'Semi-Final',                 desc: 'Top scorers advance to an oral and written semi-final round.' },
-    { n: '04', title: 'Final Selection → Top 5',   desc: 'The top 5 are identified and earn their place on the Grand Finale stage.' },
-    { n: 'GF', title: 'Grand Finale (June 2026)',   desc: 'Live competition on stage. Open audience of 200+. Winners crowned and prizes awarded.', finale: true },
+    { n: '01', title: 'Preliminary Stage', desc: 'All registered participants compete in the opening round of the competition.' },
+    { n: '02', title: '2nd Stage',         desc: 'Qualifiers from the Preliminary Stage advance to the second round.' },
+    { n: '03', title: 'Quarter Final',     desc: 'Top performers from Stage 2 battle it out in the quarter finals.' },
+    { n: '04', title: 'Semi Final',        desc: 'Quarter final winners advance to the semi final round.' },
+    { n: 'GF', title: 'Final & Grand Finale (June 2026)', desc: 'The last competitors standing face off live on stage. Open audience of 200+. Winners crowned and prizes awarded.', finale: true },
   ]
 
   const prizes = [
@@ -816,7 +816,7 @@ export default function Decagon() {
             {[
               { icon: Layers, value: '4',     label: 'Phases' },
               { icon: Users,  value: '50+',   label: 'Competitors' },
-              { icon: Star,   value: '4',     label: 'Comp. Stages' },
+              { icon: Star,   value: '5',     label: 'Comp. Stages' },
               { icon: Trophy, value: '₦340k', label: 'Total Prizes' },
             ].map(({ icon: Icon, value, label }) => (
               <div key={label} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
