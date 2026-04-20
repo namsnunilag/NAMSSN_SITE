@@ -94,7 +94,7 @@ export default function Events() {
       organizer: {
         '@type': 'Organization',
         name: 'NAMSSN UNILAG Chapter',
-        url: 'https://namssn-unilag.vercel.app',
+        url: 'https://www.namssnunilag.one',
       },
       eventStatus: 'https://schema.org/EventScheduled',
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',

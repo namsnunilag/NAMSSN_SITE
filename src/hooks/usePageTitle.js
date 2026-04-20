@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const SITE        = 'https://namssn-unilag.vercel.app'
+const SITE        = 'https://www.namssnunilag.one'
 const SITE_NAME   = 'NAMSSN UNILAG'
 const DEFAULT_TITLE = 'NAMSSN UNILAG | Mathematical Sciences Students Association'
 const DEFAULT_DESC  = 'Official website of NAMSSN University of Lagos Chapter — empowering mathematical sciences students through academics, competitions, networking, and community.'

@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mamssn-unilag.vercel.app/</loc>
+    <loc>https://www.namssnunilag.one/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/about</loc>
+    <loc>https://www.namssnunilag.one/about</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/events</loc>
+    <loc>https://www.namssnunilag.one/events</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/executives</loc>
+    <loc>https://www.namssnunilag.one/executives</loc>
     <priority>0.7</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/newsletter</loc>
+    <loc>https://www.namssnunilag.one/newsletter</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/academics</loc>
+    <loc>https://www.namssnunilag.one/academics</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/resources</loc>
+    <loc>https://www.namssnunilag.one/resources</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/community</loc>
+    <loc>https://www.namssnunilag.one/community</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/merchandise</loc>
+    <loc>https://www.namssnunilag.one/merchandise</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://mamssn-unilag.vercel.app/contact</loc>
+    <loc>https://www.namssnunilag.one/contact</loc>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
