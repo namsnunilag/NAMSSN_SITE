@@ -556,7 +556,7 @@ function ChallengeTab() {
 
   useEffect(() => {
     if (!SUPABASE_URL) { setLoadingLeaders(false); return }
-    fetch(`${SUPABASE_URL}/rest/v1/challenge_signups?select=full_name,department&order=created_at.asc`, {
+    fetch(`${SUPABASE_URL}/rest/v1/challenge_signups?select=full_name,department,score,days_completed&order=score.desc,days_completed.desc,created_at.asc`, {
       headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
     })
       .then(r => r.json())
@@ -566,8 +566,8 @@ function ChallengeTab() {
             rank: i + 1,
             name: p.full_name,
             dept: p.department,
-            score: 0,
-            days: 0,
+            score: p.score ?? 0,
+            days: p.days_completed ?? 0,
           })))
         }
       })
@@ -664,8 +664,10 @@ function ChallengeTab() {
           <SectionLabel>Leaderboard</SectionLabel>
           <div className="space-y-2">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 rounded-full bg-cyan-400" />
-              <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">Challenge not started — scores at 0</span>
+              <div className={`w-2 h-2 rounded-full ${leaders.some(p => p.score > 0) ? 'bg-green-400 animate-pulse' : 'bg-cyan-400'}`} />
+              <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">
+                {leaders.some(p => p.score > 0) ? 'Live scores' : 'Challenge not started — scores at 0'}
+              </span>
             </div>
             <div className="grid grid-cols-[2rem_1fr_auto_auto] gap-2 px-2 mb-1">
               <span className="text-xs text-gray-600">#</span>
@@ -685,7 +687,7 @@ function ChallengeTab() {
                       <p className="text-xs text-gray-500 truncate">{p.dept}</p>
                     </div>
                     <span className="text-xs text-gray-500 text-center">{p.days}/20</span>
-                    <span className="text-sm font-black tabular-nums text-right text-gray-500">0</span>
+                    <span className={`text-sm font-black tabular-nums text-right ${p.score > 0 ? 'text-cyan-400' : 'text-gray-500'}`}>{p.score}</span>
                   </div>
                 ))
             }

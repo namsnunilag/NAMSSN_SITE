@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
-  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil,
+  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil, Medal,
 } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -677,6 +677,117 @@ function SignupsTab() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Leaderboard tab
+// ─────────────────────────────────────────────────────────────────────────────
+
+function LeaderboardTab() {
+  const [rows, setRows]       = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError]     = useState('')
+
+  const load = useCallback(async () => {
+    setLoading(true); setError('')
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/challenge_signups?select=id,full_name,department,score,days_completed&order=score.desc,days_completed.desc,created_at.asc`,
+        { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+      )
+      if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
+      const data = await res.json()
+      setRows(data.map((p, i) => ({ ...p, rank: i + 1 })))
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  const rankStyle = rank => {
+    if (rank === 1) return { badge: 'bg-amber-400/15 text-amber-300 border-amber-400/30',  row: 'border-amber-400/20 bg-amber-400/[0.04]' }
+    if (rank === 2) return { badge: 'bg-gray-400/15  text-gray-300  border-gray-400/30',   row: 'border-gray-400/20  bg-gray-400/[0.03]'  }
+    if (rank === 3) return { badge: 'bg-orange-400/15 text-orange-300 border-orange-400/30', row: 'border-orange-400/20 bg-orange-400/[0.03]' }
+    return { badge: 'bg-white/5 text-gray-500 border-white/10', row: 'border-white/[0.07] bg-white/[0.02]' }
+  }
+
+  const topScore = rows[0]?.score ?? 0
+
+  return (
+    <div className="space-y-5">
+      {/* Header bar */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-base font-black text-white">Challenge Leaderboard</h2>
+          <p className="text-xs text-gray-500 mt-0.5">{rows.length} participants · sorted by score</p>
+        </div>
+        <button onClick={load} disabled={loading}
+          className="flex items-center gap-1.5 text-xs font-bold text-cyan-400 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 px-3 py-2 rounded-xl transition disabled:opacity-40">
+          <RefreshCw size={13} className={loading ? 'animate-spin' : ''} /> Refresh
+        </button>
+      </div>
+
+      {/* Live indicator */}
+      {!loading && rows.length > 0 && (
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+          <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">
+            {topScore > 0 ? 'Live scores' : 'Challenge not started — scores at 0'}
+          </span>
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400">
+          {error}
+        </div>
+      )}
+
+      {/* Column headers */}
+      {!loading && rows.length > 0 && (
+        <div className="grid grid-cols-[2.5rem_1fr_5rem_5rem] gap-2 px-4 mb-1">
+          <span className="text-xs text-gray-600">#</span>
+          <span className="text-xs text-gray-600">Participant</span>
+          <span className="text-xs text-gray-600 text-center">Days</span>
+          <span className="text-xs text-gray-600 text-right">Score</span>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="text-center py-20 text-gray-500 text-sm">Loading…</div>
+      ) : rows.length === 0 ? (
+        <div className="text-center py-20 text-gray-600 text-sm">No sign-ups yet.</div>
+      ) : (
+        <div className="space-y-2">
+          {rows.map(p => {
+            const { badge, row } = rankStyle(p.rank)
+            return (
+              <div key={p.id}
+                className={`grid grid-cols-[2.5rem_1fr_5rem_5rem] gap-2 items-center px-4 py-3 rounded-xl border ${row}`}>
+                <span className={`text-xs font-black text-center px-1.5 py-0.5 rounded-lg border ${badge}`}>
+                  #{p.rank}
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-white truncate">{p.full_name}</p>
+                  <p className="text-xs text-gray-500 truncate">{p.department}</p>
+                </div>
+                <span className="text-xs text-gray-400 text-center tabular-nums">
+                  {p.days_completed ?? 0}/20
+                </span>
+                <span className={`text-sm font-black tabular-nums text-right ${(p.score ?? 0) > 0 ? 'text-cyan-400' : 'text-gray-600'}`}>
+                  {p.score ?? 0}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      )}
+      <p className="text-xs text-gray-700 text-center">Scores update as you edit them in the Challenge Signups tab</p>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Dashboard shell
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -711,6 +822,7 @@ function Dashboard({ onLogout }) {
           {[
             { key: 'registrations', label: 'Competition Registrations', icon: Trophy   },
             { key: 'signups',       label: '20-Day Challenge Signups',  icon: BookOpen },
+            { key: 'leaderboard',   label: 'Leaderboard',               icon: Medal    },
           ].map(({ key, label, icon: Icon }) => (
             <button key={key} onClick={() => setTab(key)}
               className={`flex items-center gap-2 text-sm font-bold px-4 py-3 border-b-2 transition -mb-px ${
@@ -728,6 +840,7 @@ function Dashboard({ onLogout }) {
       <div className="px-4 sm:px-8 py-6">
         {tab === 'registrations' && <RegistrationsTab />}
         {tab === 'signups'       && <SignupsTab />}
+        {tab === 'leaderboard'   && <LeaderboardTab />}
       </div>
     </div>
   )
