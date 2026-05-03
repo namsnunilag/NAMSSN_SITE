@@ -12,16 +12,19 @@ CREATE TABLE IF NOT EXISTS decagon_registrations (
   level           TEXT        NOT NULL,
   receipt_url     TEXT,
   payment_status  TEXT        NOT NULL DEFAULT 'pending_review',
+  score           INT         NOT NULL DEFAULT 0,
   created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- 2. 20-Day Challenge signups table
 CREATE TABLE IF NOT EXISTS challenge_signups (
-  id          UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
-  full_name   TEXT        NOT NULL,
-  email       TEXT        NOT NULL UNIQUE,
-  department  TEXT        NOT NULL,
-  created_at  TIMESTAMPTZ DEFAULT NOW()
+  id             UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  full_name      TEXT        NOT NULL,
+  email          TEXT        NOT NULL UNIQUE,
+  department     TEXT        NOT NULL,
+  score          INT         NOT NULL DEFAULT 0,
+  days_completed INT         NOT NULL DEFAULT 0,
+  created_at     TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- 3. Storage bucket for payment receipts
@@ -51,6 +54,16 @@ CREATE POLICY "anon can sign up for challenge"
 -- Allow reading challenge signups (used by the admin dashboard)
 CREATE POLICY "anon can read signups"
   ON challenge_signups FOR SELECT TO anon USING (true);
+
+-- Allow updating challenge signups (used by admin to set scores)
+CREATE POLICY "anon can update signups"
+  ON challenge_signups FOR UPDATE TO anon USING (true) WITH CHECK (true);
+
+-- ── Score columns (run once if tables already exist) ──────────────────────────
+-- If you created the tables before this update, run these ALTER statements:
+--   ALTER TABLE decagon_registrations ADD COLUMN IF NOT EXISTS score INT DEFAULT 0;
+--   ALTER TABLE challenge_signups     ADD COLUMN IF NOT EXISTS score INT DEFAULT 0;
+--   ALTER TABLE challenge_signups     ADD COLUMN IF NOT EXISTS days_completed INT DEFAULT 0;
 
 -- Allow anyone to upload receipts to the storage bucket
 CREATE POLICY "anon can upload receipts"

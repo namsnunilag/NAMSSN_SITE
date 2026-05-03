@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
-  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download,
+  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil,
 } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -94,6 +94,40 @@ async function setStatus(id, status) {
   if (!res.ok) throw new Error(`Update failed (${res.status})`)
 }
 
+async function updateCompetitionScore(id, score) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/decagon_registrations?id=eq.${id}`,
+    {
+      method: 'PATCH',
+      headers: {
+        apikey:         SUPABASE_ANON_KEY,
+        Authorization:  `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer:         'return=minimal',
+      },
+      body: JSON.stringify({ score }),
+    }
+  )
+  if (!res.ok) throw new Error(`Update failed (${res.status})`)
+}
+
+async function updateChallengeScore(id, score, days_completed) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/challenge_signups?id=eq.${id}`,
+    {
+      method: 'PATCH',
+      headers: {
+        apikey:         SUPABASE_ANON_KEY,
+        Authorization:  `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer:         'return=minimal',
+      },
+      body: JSON.stringify({ score, days_completed }),
+    }
+  )
+  if (!res.ok) throw new Error(`Update failed (${res.status})`)
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -129,6 +163,60 @@ function StatusBadge({ status }) {
   }
   const { label, cls } = map[status] ?? { label: status, cls: 'bg-white/5 text-gray-400 border-white/10' }
   return <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${cls}`}>{label}</span>
+}
+
+function ScoreModal({ type, person, onSave, onClose }) {
+  const [score, setScore]   = useState(person.score ?? 0)
+  const [days,  setDays]    = useState(person.days_completed ?? 0)
+  const [saving, setSaving] = useState(false)
+
+  const submit = async e => {
+    e.preventDefault()
+    setSaving(true)
+    try { await onSave(score, days) }
+    finally { setSaving(false) }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div className="bg-[#1e293b] border border-white/10 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+        <h2 className="text-base font-black text-white mb-1">Edit Score</h2>
+        <p className="text-xs text-gray-500 mb-5 truncate">{person.full_name}</p>
+        <form onSubmit={submit} className="space-y-4">
+          <div>
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Points / Score</label>
+            <input
+              type="number" min="0" value={score}
+              onChange={e => setScore(Number(e.target.value))}
+              className="mt-1.5 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white
+                         focus:outline-none focus:ring-2 focus:ring-cyan-400/40 transition"
+            />
+          </div>
+          {type === 'challenge' && (
+            <div>
+              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Days Completed (0–20)</label>
+              <input
+                type="number" min="0" max="20" value={days}
+                onChange={e => setDays(Math.min(20, Number(e.target.value)))}
+                className="mt-1.5 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white
+                           focus:outline-none focus:ring-2 focus:ring-cyan-400/40 transition"
+              />
+            </div>
+          )}
+          <div className="flex gap-3 pt-2">
+            <button type="button" onClick={onClose}
+              className="flex-1 text-sm font-bold text-gray-400 bg-white/5 border border-white/10 hover:border-white/20 py-2.5 rounded-xl transition">
+              Cancel
+            </button>
+            <button type="submit" disabled={saving}
+              className="flex-1 text-sm font-bold text-[#0f172a] bg-cyan-400 hover:bg-cyan-300 py-2.5 rounded-xl transition disabled:opacity-50">
+              {saving ? 'Saving…' : 'Save'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -186,13 +274,14 @@ function LoginScreen({ onLogin }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function RegistrationsTab() {
-  const [rows, setRows]         = useState([])
-  const [loading, setLoading]   = useState(true)
-  const [error, setError]       = useState('')
-  const [filter, setFilter]     = useState('all')
-  const [search, setSearch]     = useState('')
-  const [updating, setUpdating] = useState(null)
-  const [deleting, setDeleting] = useState(null)
+  const [rows, setRows]           = useState([])
+  const [loading, setLoading]     = useState(true)
+  const [error, setError]         = useState('')
+  const [filter, setFilter]       = useState('all')
+  const [search, setSearch]       = useState('')
+  const [updating, setUpdating]   = useState(null)
+  const [deleting, setDeleting]   = useState(null)
+  const [scoreModal, setScoreModal] = useState(null)
 
   const load = useCallback(async () => {
     setLoading(true); setError('')
@@ -248,6 +337,16 @@ function RegistrationsTab() {
     }
   }
 
+  const handleScoreSave = async (score) => {
+    try {
+      await updateCompetitionScore(scoreModal.id, score)
+      setRows(r => r.map(x => x.id === scoreModal.id ? { ...x, score } : x))
+      setScoreModal(null)
+    } catch {
+      alert('Failed to update score. Please try again.')
+    }
+  }
+
   const total     = rows.length
   const pending   = rows.filter(r => r.payment_status === 'pending_review').length
   const confirmed = rows.filter(r => r.payment_status === 'confirmed').length
@@ -265,6 +364,15 @@ function RegistrationsTab() {
   })
 
   return (
+    <>
+    {scoreModal && (
+      <ScoreModal
+        type="competition"
+        person={scoreModal}
+        onSave={handleScoreSave}
+        onClose={() => setScoreModal(null)}
+      />
+    )}
     <div className="space-y-5">
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -313,16 +421,17 @@ function RegistrationsTab() {
                        focus:outline-none focus:ring-2 focus:ring-cyan-400/30 transition" />
         </div>
         <button onClick={() => exportCSV(rows, [
-          { label: 'Full Name',     key: 'full_name'   },
-          { label: 'Email',         key: 'email'       },
-          { label: 'Phone',         key: 'phone'       },
-          { label: 'Matric',        key: 'matric'      },
-          { label: 'Department',    key: 'department'  },
-          { label: 'Level',         key: 'level'       },
+          { label: 'Full Name',     key: 'full_name'      },
+          { label: 'Email',         key: 'email'          },
+          { label: 'Phone',         key: 'phone'          },
+          { label: 'Matric',        key: 'matric'         },
+          { label: 'Department',    key: 'department'     },
+          { label: 'Level',         key: 'level'          },
           { label: 'Status',        key: 'payment_status' },
-          { label: 'Receipt URL',   key: 'receipt_url' },
-          { label: 'biodata URL', key: 'biodata_url' },
-          { label: 'Registered At', key: 'created_at'  },
+          { label: 'Score',         key: 'score'          },
+          { label: 'Receipt URL',   key: 'receipt_url'    },
+          { label: 'Biodata URL',   key: 'biodata_url'    },
+          { label: 'Registered At', key: 'created_at'     },
         ], 'decagon_registrations.csv')}
           className="flex items-center gap-1.5 text-xs font-bold text-cyan-400 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 px-3 py-2 rounded-xl transition shrink-0">
           <Download size={13} /> Export CSV
@@ -365,6 +474,11 @@ function RegistrationsTab() {
               </div>
               <div className="flex items-center gap-2 shrink-0 flex-wrap">
                 <StatusBadge status={r.payment_status} />
+                {r.score > 0 && (
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-full border bg-violet-500/10 text-violet-400 border-violet-500/20">
+                    {r.score} pts
+                  </span>
+                )}
                 {r.biodata_url && (
                   <a href={r.biodata_url} target="_blank" rel="noreferrer"
                     className="flex items-center gap-1 text-xs text-gray-400 hover:text-cyan-400 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
@@ -389,6 +503,10 @@ function RegistrationsTab() {
                     <XCircle size={12} /> {updating === r.id ? '…' : 'Reject'}
                   </button>
                 )}
+                <button onClick={() => setScoreModal(r)}
+                  className="flex items-center gap-1 text-xs text-violet-400 hover:text-white hover:bg-violet-600 transition bg-violet-500/10 border border-violet-500/20 px-3 py-1.5 rounded-lg">
+                  <Pencil size={12} /> Score
+                </button>
                 <button onClick={() => handleDelete(r.id, r.full_name)} disabled={deleting === r.id}
                   className="flex items-center gap-1 text-xs text-gray-500 hover:text-white hover:bg-red-600 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg disabled:opacity-40">
                   <Trash2 size={12} /> {deleting === r.id ? '…' : 'Delete'}
@@ -400,6 +518,7 @@ function RegistrationsTab() {
       )}
       <p className="text-xs text-gray-700 text-center">Showing {visible.length} of {total} registrations</p>
     </div>
+    </>
   )
 }
 
@@ -408,11 +527,12 @@ function RegistrationsTab() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function SignupsTab() {
-  const [rows, setRows]       = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError]     = useState('')
-  const [search, setSearch]   = useState('')
-  const [deleting, setDeleting] = useState(null)
+  const [rows, setRows]           = useState([])
+  const [loading, setLoading]     = useState(true)
+  const [error, setError]         = useState('')
+  const [search, setSearch]       = useState('')
+  const [deleting, setDeleting]   = useState(null)
+  const [scoreModal, setScoreModal] = useState(null)
 
   const load = useCallback(async () => {
     setLoading(true); setError('')
@@ -436,6 +556,16 @@ function SignupsTab() {
     }
   }
 
+  const handleScoreSave = async (score, days_completed) => {
+    try {
+      await updateChallengeScore(scoreModal.id, score, days_completed)
+      setRows(r => r.map(x => x.id === scoreModal.id ? { ...x, score, days_completed } : x))
+      setScoreModal(null)
+    } catch {
+      alert('Failed to update score. Please try again.')
+    }
+  }
+
   const visible = rows.filter(r => {
     const q = search.toLowerCase()
     return !q
@@ -445,6 +575,15 @@ function SignupsTab() {
   })
 
   return (
+    <>
+    {scoreModal && (
+      <ScoreModal
+        type="challenge"
+        person={scoreModal}
+        onSave={handleScoreSave}
+        onClose={() => setScoreModal(null)}
+      />
+    )}
     <div className="space-y-5">
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -469,10 +608,12 @@ function SignupsTab() {
                        focus:outline-none focus:ring-2 focus:ring-cyan-400/30 transition" />
         </div>
         <button onClick={() => exportCSV(rows, [
-          { label: 'Full Name',   key: 'full_name'   },
-          { label: 'Email',       key: 'email'       },
-          { label: 'Department',  key: 'department'  },
-          { label: 'Signed Up At', key: 'created_at' },
+          { label: 'Full Name',      key: 'full_name'      },
+          { label: 'Email',          key: 'email'          },
+          { label: 'Department',     key: 'department'     },
+          { label: 'Score',          key: 'score'          },
+          { label: 'Days Completed', key: 'days_completed' },
+          { label: 'Signed Up At',   key: 'created_at'     },
         ], 'decagon_challenge_signups.csv')}
           className="flex items-center gap-1.5 text-xs font-bold text-cyan-400 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 px-3 py-2 rounded-xl transition shrink-0">
           <Download size={13} /> Export CSV
@@ -508,6 +649,7 @@ function SignupsTab() {
                   <p className="text-xs text-gray-400">{r.department}</p>
                 </div>
                 <div>
+                  <p className="text-xs text-gray-500">{r.days_completed ?? 0}/20 days · {r.score ?? 0} pts</p>
                   <p className="text-xs text-gray-600">{fmt(r.created_at)}</p>
                 </div>
               </div>
@@ -515,6 +657,10 @@ function SignupsTab() {
                 <span className="text-xs font-bold px-2.5 py-1 rounded-full border bg-cyan-500/10 text-cyan-400 border-cyan-500/20">
                   Signed Up
                 </span>
+                <button onClick={() => setScoreModal(r)}
+                  className="flex items-center gap-1 text-xs text-violet-400 hover:text-white hover:bg-violet-600 transition bg-violet-500/10 border border-violet-500/20 px-3 py-1.5 rounded-lg">
+                  <Pencil size={12} /> Score
+                </button>
                 <button onClick={() => handleDelete(r.id, r.full_name)} disabled={deleting === r.id}
                   className="flex items-center gap-1 text-xs text-gray-500 hover:text-white hover:bg-red-600 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg disabled:opacity-40">
                   <Trash2 size={12} /> {deleting === r.id ? '…' : 'Delete'}
@@ -526,6 +672,7 @@ function SignupsTab() {
       )}
       <p className="text-xs text-gray-700 text-center">Showing {visible.length} of {rows.length} signups</p>
     </div>
+    </>
   )
 }
 
