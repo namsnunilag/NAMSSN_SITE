@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import {
   Trophy, Users, Layers, Star, ChevronRight, Lock,
   Medal, Clock, BookOpen, Mic, Zap, Calendar, MapPin,
-  CheckCircle2, ArrowRight, AlertCircle, Upload, Copy, Check,
+  CheckCircle2, ArrowRight, AlertCircle, Upload, Copy, Check, XCircle,
 } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 
@@ -10,9 +10,8 @@ import usePageTitle from '../hooks/usePageTitle'
 // Config
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Registration opens April 15 2026 at midnight (WAT = UTC+1)
-const REGISTRATION_OPENS = new Date('2026-04-15T00:00:00+01:00')
-const isRegistrationOpen = () => new Date() >= REGISTRATION_OPENS
+// Registration is closed
+const REGISTRATION_CLOSED = true
 
 const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
@@ -303,33 +302,18 @@ function CompetitionTab() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
-  const [open, setOpen]       = useState(isRegistrationOpen)
-  const t = useCountdown(REGISTRATION_OPENS.getTime())
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
-  // flip to open automatically when countdown hits zero
-  useEffect(() => { if (!t) setOpen(true) }, [t])
-
-  if (!open) return (
+  if (REGISTRATION_CLOSED) return (
     <div className="flex flex-col items-center justify-center gap-6 py-14 text-center">
-      <div className="w-14 h-14 rounded-full bg-brand-orange/20 flex items-center justify-center">
-        <Clock size={26} className="text-brand-orange" />
+      <div className="w-14 h-14 rounded-full bg-red-500/20 flex items-center justify-center">
+        <XCircle size={26} className="text-red-400" />
       </div>
       <div>
-        <h3 className="text-xl font-black text-white mb-1">Registration opens at midnight</h3>
-        <p className="text-gray-400 text-sm">April 15, 2026 · 12:00 AM WAT</p>
+        <h3 className="text-xl font-black text-white mb-1">Registration is closed</h3>
+        <p className="text-gray-400 text-sm">The Decagon 5.0 competition registration period has ended.</p>
       </div>
-      {t && (
-        <div className="flex gap-4">
-          {[['HRS', t.hours], ['MIN', t.minutes], ['SEC', t.seconds]].map(([label, val]) => (
-            <div key={label} className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-center min-w-[72px]">
-              <p className="text-3xl font-black text-white tabular-nums">{String(val).padStart(2, '0')}</p>
-              <p className="text-xs text-gray-500 mt-1">{label}</p>
-            </div>
-          ))}
-        </div>
-      )}
-      <p className="text-xs text-gray-600">Come back at midnight to register</p>
+      <p className="text-xs text-gray-600">Follow our announcements for competition updates.</p>
     </div>
   )
 
@@ -636,28 +620,16 @@ function ChallengeTab() {
 
       <div className="grid lg:grid-cols-2 gap-8">
         <div>
-          <SectionLabel>Sign Up — Free, Open to All</SectionLabel>
-          {submitted
-            ? <SuccessBanner email={form.email} message="You're in!" sub="Challenge details will be sent to" groupLink="https://chat.whatsapp.com/DnC6Z7LICSSITIEORFMqEJ?mode=gi_t" />
-            : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Field label="Full Name"    placeholder="e.g. Emeka Nwosu"  value={form.fullName}   onChange={set('fullName')}   required />
-                <Field label="Email Address" type="email" placeholder="you@example.com" value={form.email} onChange={set('email')} required />
-                <SelectField label="Department" value={form.department} onChange={set('department')} required
-                  placeholder="Select department" options={DEPARTMENTS} />
-                {form.department === 'Other' && (
-                  <Field label="Specify your department" placeholder="e.g. Geology" value={form.otherDept} onChange={set('otherDept')} required />
-                )}
-                <p className="text-xs text-gray-500">No fee required. Open to all UNILAG students.</p>
-                <ErrorBox message={error} />
-                <button type="submit" disabled={loading}
-                  className="w-full bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 text-cyan-300 font-black py-4 rounded-xl
-                             transition-all flex items-center justify-center gap-2 disabled:opacity-60">
-                  {loading ? 'Signing up…' : <>Join the Challenge <ChevronRight size={18} /></>}
-                </button>
-              </form>
-            )
-          }
+          <SectionLabel>Sign Up</SectionLabel>
+          <div className="flex flex-col items-center justify-center gap-4 py-10 text-center border border-white/10 rounded-2xl bg-white/[0.02]">
+            <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+              <XCircle size={22} className="text-red-400" />
+            </div>
+            <div>
+              <p className="text-base font-black text-white mb-1">Sign-ups are closed</p>
+              <p className="text-xs text-gray-500">The 20-Day Challenge registration period has ended.</p>
+            </div>
+          </div>
         </div>
 
         <div>
