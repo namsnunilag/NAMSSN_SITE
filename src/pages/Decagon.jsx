@@ -682,7 +682,7 @@ function ChallengeTab() {
                       <p className="text-sm font-bold text-white truncate">{p.name}</p>
                       <p className="text-xs text-gray-500 truncate">{p.dept}</p>
                     </div>
-                    <span className="text-xs text-gray-500 text-center">{p.days}/20</span>
+                    <span className="text-xs text-gray-500 text-center">{currentDay}/20</span>
                     <span className={`text-sm font-black tabular-nums text-right ${p.score > 0 ? 'text-cyan-400' : 'text-gray-500'}`}>{p.score}</span>
                   </div>
                 ))
