@@ -4,6 +4,7 @@ import { X, ZoomIn, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react
 // ── "See More" links (Google Photos albums) ───────────────────────────────────
 // Fill in each album URL when ready. Leave as '' to hide the button.
 const SEE_MORE_LINKS = {
+  'Press Conference':     '',
   'Freshers Orientation': '',   // e.g. 'https://photos.app.goo.gl/...'
   'HOD Games':            '',
   'Executives':           '',
@@ -18,6 +19,27 @@ const SEE_MORE_LINKS = {
 // Freshers    → public/images/gallery/freshers/
 
 const photos = [
+  // ── Press Conference ────────────────────────────────────────────────────────
+  { src: '/images/gallery/press-conference/pc01.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc02.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc03.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc04.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc05.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc06.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc07.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc08.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc09.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc10.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc11.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc12.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc13.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc14.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc15.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc16.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc17.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc18.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+  { src: '/images/gallery/press-conference/pc19.jpg', caption: 'Decagon 5.0 Press Conference', category: 'Press Conference' },
+
   // ── Executives ──────────────────────────────────────────────────────────────
   { src: '/images/gallery/executives/exco.jpg',      caption: 'Executives',             category: 'Executives' },
   { src: '/images/gallery/executives/excos.jpg',     caption: 'Executives',             category: 'Executives' },
@@ -55,7 +77,7 @@ const photos = [
   // Add up to 8: freshers/fo1.jpg, fo2.jpg … fo8.jpg
 ]
 
-const CATEGORY_ORDER = ['Freshers Orientation', 'HOD Games', 'Executives', 'Events']
+const CATEGORY_ORDER = ['Press Conference', 'Freshers Orientation', 'HOD Games', 'Executives', 'Events']
 const CATEGORIES = CATEGORY_ORDER.filter(
   cat => photos.some(p => p.category === cat)
 )
