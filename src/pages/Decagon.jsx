@@ -13,6 +13,9 @@ import usePageTitle from '../hooks/usePageTitle'
 // Registration is closed
 const REGISTRATION_CLOSED = true
 
+// 20-Day Challenge start date (Day 1 = May 4 2026)
+const CHALLENGE_START = new Date('2026-05-04T00:00:00')
+
 const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
@@ -580,6 +583,11 @@ function ChallengeTab() {
     }
   }
 
+  const msPerDay = 86400000
+  const todayStart = new Date(); todayStart.setHours(0,0,0,0)
+  const currentDay = Math.min(20, Math.max(0, Math.floor((todayStart - CHALLENGE_START) / msPerDay) + 1))
+  const challengeStarted = todayStart >= CHALLENGE_START
+
   const days = Array.from({ length: 20 }, (_, i) => i + 1)
 
   return (
@@ -587,7 +595,7 @@ function ChallengeTab() {
 
       <div className="grid sm:grid-cols-2 gap-3">
         {[
-          { icon: BookOpen, title: 'Daily Questions',   desc: 'One calculus question drops every day for 20 days. Start date to be announced.' },
+          { icon: BookOpen, title: 'Daily Questions',   desc: 'One calculus question drops every day for 20 days. Started May 4, 2026.' },
           { icon: Clock,    title: 'Submission Window', desc: 'Each question closes 1 hr 30 mins after it drops. Late submissions are not accepted.' },
           { icon: Zap,      title: 'Points for Speed',  desc: 'Correct answers earn points. Faster submissions earn bonus points.' },
           { icon: Trophy,   title: '₦20,000 Prize',     desc: 'The top participant on the leaderboard wins ₦20,000.' },
@@ -607,15 +615,31 @@ function ChallengeTab() {
       <div>
         <SectionLabel>Challenge Days</SectionLabel>
         <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
-          {days.map(d => (
-            <div key={d} className="aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs font-black border
-                                    bg-white/[0.03] border-white/5 text-gray-700">
-              <span className="text-[10px] text-gray-600 font-normal">Day</span>
-              {d}
-            </div>
-          ))}
+          {days.map(d => {
+            const isToday = challengeStarted && d === currentDay
+            const isPast  = challengeStarted && d < currentDay
+            const isFuture = !challengeStarted || d > currentDay
+            return (
+              <div key={d} className={`aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs font-black border transition-all ${
+                isToday  ? 'bg-cyan-400/20 border-cyan-400/60 text-cyan-300 ring-2 ring-cyan-400/40' :
+                isPast   ? 'bg-green-500/10 border-green-500/30 text-green-400' :
+                           'bg-white/[0.03] border-white/5 text-gray-700'
+              }`}>
+                <span className={`text-[10px] font-normal ${isToday ? 'text-cyan-400' : isPast ? 'text-green-500' : 'text-gray-600'}`}>
+                  {isToday ? '▶' : isPast ? '✓' : 'Day'}
+                </span>
+                {d}
+              </div>
+            )
+          })}
         </div>
-        <p className="text-xs text-gray-600 mt-3">Day 1 date to be announced — stay tuned</p>
+        <p className="text-xs text-gray-600 mt-3">
+          {challengeStarted
+            ? currentDay <= 20
+              ? `Day ${currentDay} of 20 — challenge is live`
+              : 'Challenge complete — all 20 days done'
+            : 'Challenge starts May 4, 2026 — stay tuned'}
+        </p>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
