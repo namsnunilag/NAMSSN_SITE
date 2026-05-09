@@ -21,7 +21,7 @@ export const upcomingEvents = [
       '20-Day Challenge open to all — ₦20,000 prize',
       'Mini Conference with faculty and expert speakers',
       'Open audience Grand Finale — 200+ expected',
-      'Registration opens April 15th',
+      'Registration closed — competition underway',
     ],
     phases: [
       {
@@ -64,7 +64,7 @@ export const upcomingEvents = [
     ],
     challengePrize: '₦20,000',
     theme: 'decagon',
-    registrationStatus: 'open',
+    registrationStatus: 'closed',
     registrationDate: '2026-04-15',
     registrationLink: '/decagon',
   },

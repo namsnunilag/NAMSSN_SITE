@@ -4,10 +4,10 @@
 export const siteAnnouncements = [
   {
     id: 4,
-    message: '🏆 Decagon 5.0 — The Ultimate Calculus Competition. Registration opens April 15th!',
+    message: '🏆 Decagon 5.0 — Preliminary Stage done! Results are live. Next: Stage 2.',
     type: 'info',
-    href: '/events/1',
-    linkText: 'Learn More',
+    href: '/decagon',
+    linkText: 'View Leaderboard',
     active: true,
   },
   {
