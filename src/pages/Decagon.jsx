@@ -416,7 +416,7 @@ function CompetitionTab() {
                       <p className="text-sm font-bold text-white truncate">{p.name}</p>
                       <p className="text-xs text-gray-500 truncate">{p.dept}</p>
                     </div>
-                    <span className="text-sm font-black tabular-nums text-right text-cyan-400">{p.score} pts</span>
+                    <span className="text-sm font-black tabular-nums text-right text-cyan-400">{p.score / 100}%</span>
                   </div>
                 )
               })}
