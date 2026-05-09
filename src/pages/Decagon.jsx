@@ -407,16 +407,22 @@ function CompetitionTab() {
                 <span className="text-xs text-gray-600">Competitor</span>
                 <span className="text-xs text-gray-600 text-right">Score</span>
               </div>
-              {leaders.map(p => {
-                const { badge, row } = rankStyle(p.rank)
+              {leaders.map((p, idx) => {
+                const eliminated = idx >= leaders.length - 6
+                const { badge, row } = eliminated
+                  ? { badge: 'bg-red-500/15 text-red-400 border-red-500/30', row: 'border-red-500/20 bg-red-500/[0.04]' }
+                  : rankStyle(p.rank)
                 return (
                   <div key={p.rank} className={`grid grid-cols-[2rem_1fr_auto] gap-2 items-center px-4 py-3 rounded-xl border ${row}`}>
                     <span className={`text-xs font-black text-center border rounded-md px-1 py-0.5 ${badge}`}>#{p.rank}</span>
                     <div className="min-w-0">
-                      <p className="text-sm font-bold text-white truncate">{p.name}</p>
-                      <p className="text-xs text-gray-500 truncate">{p.dept}</p>
+                      <p className={`text-sm font-bold truncate ${eliminated ? 'text-red-400' : 'text-white'}`}>{p.name}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs text-gray-500 truncate">{p.dept}</p>
+                        {eliminated && <span className="text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded-full shrink-0">Eliminated</span>}
+                      </div>
                     </div>
-                    <span className="text-sm font-black tabular-nums text-right text-cyan-400">{p.score / 100}%</span>
+                    <span className={`text-sm font-black tabular-nums text-right ${eliminated ? 'text-red-400' : 'text-cyan-400'}`}>{p.score / 100}%</span>
                   </div>
                 )
               })}
