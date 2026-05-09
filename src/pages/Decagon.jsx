@@ -298,117 +298,40 @@ function useCountdown(target) {
   return timeLeft
 }
 
+// 0 = Preliminary done, 1 = 2nd Stage done, 2 = QF done, 3 = SF done, 4 = Final done
+const COMPLETED_STAGES = 1
+
 function CompetitionTab() {
-  const [form, setForm]       = useState({ fullName: '', email: '', phone: '', matric: '', department: '', otherDept: '', level: '' })
-  const [receipt, setReceipt] = useState(null)
-  const [biodata, setBiodata] = useState(null)
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError]     = useState('')
-  const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
+  const [leaders, setLeaders]           = useState([])
+  const [loadingLeaders, setLoadingLeaders] = useState(true)
 
-  if (REGISTRATION_CLOSED) return (
-    <div className="flex flex-col items-center justify-center gap-6 py-14 text-center">
-      <div className="w-14 h-14 rounded-full bg-red-500/20 flex items-center justify-center">
-        <XCircle size={26} className="text-red-400" />
-      </div>
-      <div>
-        <h3 className="text-xl font-black text-white mb-1">Registration is closed</h3>
-        <p className="text-gray-400 text-sm">The Decagon 5.0 competition registration period has ended.</p>
-      </div>
-      <p className="text-xs text-gray-600">Follow our announcements for competition updates.</p>
-    </div>
-  )
-
-  const handleSubmit = async e => {
-    e.preventDefault()
-    setError('')
-
-    if (!biodata) {
-      setError('Please upload your biodata before submitting.')
-      return
-    }
-    if (!receipt) {
-      setError('Please upload your payment receipt before submitting.')
-      return
-    }
-    if (biodata.size > 5 * 1024 * 1024) {
-      setError('biodata file is too large. Maximum size is 5 MB.')
-      return
-    }
-    if (receipt.size > 5 * 1024 * 1024) {
-      setError('Receipt file is too large. Maximum size is 5 MB.')
-      return
-    }
-
-    setLoading(true)
-
-    // 1. Upload biodata to Supabase Storage
-    let biodataUrl = ''
-    try {
-      const ext      = biodata.name.split('.').pop()
-      const filename = `${form.matric.toUpperCase()}_biodata_${Date.now()}.${ext}`
-      const res = await fetch(
-        `${SUPABASE_URL}/storage/v1/object/decagon-receipts/${filename}`,
-        {
-          method: 'POST',
-          headers: {
-            apikey:        SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-            'Content-Type': biodata.type || 'application/octet-stream',
-          },
-          body: biodata,
+  useEffect(() => {
+    if (!SUPABASE_URL) { setLoadingLeaders(false); return }
+    fetch(
+      `${SUPABASE_URL}/rest/v1/decagon_registrations?select=full_name,department,score&order=score.desc,created_at.asc`,
+      { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+    )
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          const scored = data.filter(p => (p.score ?? 0) > 0)
+          setLeaders(scored.map((p, i) => ({
+            rank: i + 1,
+            name: p.full_name,
+            dept: p.department,
+            score: p.score,
+          })))
         }
-      )
-      if (!res.ok) throw new Error('upload failed')
-      biodataUrl = `${SUPABASE_URL}/storage/v1/object/public/decagon-receipts/${filename}`
-    } catch {
-      setLoading(false)
-      setError('Could not upload your biodata. Please check your connection and try again.')
-      return
-    }
-
-    // 2. Upload receipt to Supabase Storage
-    let receiptUrl = ''
-    try {
-      receiptUrl = await uploadReceipt(receipt, form.matric)
-    } catch {
-      setLoading(false)
-      setError('Could not upload your receipt. Please check your connection and try again.')
-      return
-    }
-
-    // 3. Save registration record
-    try {
-      await saveRegistration({
-        full_name:       form.fullName,
-        email:           form.email,
-        phone:           form.phone,
-        matric:          form.matric.trim().toUpperCase(),
-        department:      form.department === 'Other' ? form.otherDept.trim() : form.department,
-        level:           form.level,
-        biodata_url: biodataUrl,
-        receipt_url:     receiptUrl,
-        payment_status:  'pending_review',
       })
-      setSubmitted(true)
-    } catch (err) {
-      setLoading(false)
-      if (err.message === 'duplicate') {
-        setError('This matric number is already registered. Contact us if this is an error.')
-      } else if (err.message === 'no-backend') {
-        setError('Registration system is temporarily unavailable. Please contact the Decagon team.')
-      } else {
-        setError('Something went wrong saving your registration. Please try again.')
-      }
-    }
-  }
+      .catch(() => {})
+      .finally(() => setLoadingLeaders(false))
+  }, [])
 
   const stages = [
-    { n: '01', title: 'Preliminary Stage', desc: 'All registered participants compete in the opening round of the competition.' },
-    { n: '02', title: '2nd Stage',         desc: 'Qualifiers from the Preliminary Stage advance to the second round.' },
-    { n: '03', title: 'Quarter Final',     desc: 'Top performers from Stage 2 battle it out in the quarter finals.' },
-    { n: '04', title: 'Semi Final',        desc: 'Quarter final winners advance to the semi final round.' },
+    { n: '01', title: 'Preliminary Stage',              desc: 'All registered participants compete in the opening round of the competition.' },
+    { n: '02', title: '2nd Stage',                      desc: 'Qualifiers from the Preliminary Stage advance to the second round.' },
+    { n: '03', title: 'Quarter Final',                  desc: 'Top performers from Stage 2 battle it out in the quarter finals.' },
+    { n: '04', title: 'Semi Final',                     desc: 'Quarter final winners advance to the semi final round.' },
     { n: 'GF', title: 'Final & Grand Finale (June 2026)', desc: 'The last competitors standing face off live on stage. Open audience of 200+. Winners crowned and prizes awarded.', finale: true },
   ]
 
@@ -418,13 +341,12 @@ function CompetitionTab() {
     { place: '3rd', amount: '₦70,000',  icon: '🥉' },
   ]
 
-  if (submitted) return (
-    <SuccessBanner
-      email={form.email}
-      message="Registration submitted!"
-      sub="Your receipt is under review. We'll confirm your spot via email at"
-    />
-  )
+  const rankStyle = rank => {
+    if (rank === 1) return { badge: 'bg-amber-400/15 text-amber-300 border-amber-400/30',   row: 'border-amber-400/20 bg-amber-400/[0.04]' }
+    if (rank === 2) return { badge: 'bg-gray-400/15  text-gray-300  border-gray-400/30',    row: 'border-gray-400/20  bg-gray-400/[0.03]'  }
+    if (rank === 3) return { badge: 'bg-orange-400/15 text-orange-300 border-orange-400/30', row: 'border-orange-400/20 bg-orange-400/[0.03]' }
+    return { badge: 'bg-white/5 text-gray-500 border-white/10', row: 'border-white/5 bg-white/[0.02]' }
+  }
 
   return (
     <div className="space-y-10">
@@ -433,19 +355,74 @@ function CompetitionTab() {
       <div>
         <SectionLabel>Competition Stages</SectionLabel>
         <div className="space-y-3">
-          {stages.map(s => (
-            <div key={s.n} className={`flex gap-4 p-4 rounded-xl border ${
-              s.finale ? 'bg-brand-orange/10 border-brand-orange/30' : 'bg-white/[0.03] border-white/10'
-            }`}>
-              <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-xs font-black ${
-                s.finale ? 'bg-brand-orange/20 text-brand-orange' : 'bg-white/5 text-cyan-400'
-              }`}>{s.n}</div>
-              <div>
-                <p className="text-sm font-bold text-white">{s.title}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{s.desc}</p>
+          {stages.map((s, i) => {
+            const done    = i < COMPLETED_STAGES
+            const current = i === COMPLETED_STAGES
+            return (
+              <div key={s.n} className={`flex gap-4 p-4 rounded-xl border ${
+                s.finale  ? 'bg-brand-orange/10 border-brand-orange/30' :
+                done      ? 'bg-green-500/5 border-green-500/20' :
+                current   ? 'bg-cyan-400/5 border-cyan-400/30' :
+                            'bg-white/[0.03] border-white/10'
+              }`}>
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-xs font-black ${
+                  s.finale  ? 'bg-brand-orange/20 text-brand-orange' :
+                  done      ? 'bg-green-500/20 text-green-400' :
+                  current   ? 'bg-cyan-400/20 text-cyan-400' :
+                              'bg-white/5 text-gray-600'
+                }`}>{done ? '✓' : s.n}</div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-bold text-white">{s.title}</p>
+                    {done    && <span className="text-[10px] font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full">Done</span>}
+                    {current && <span className="text-[10px] font-bold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-2 py-0.5 rounded-full">Results out</span>}
+                  </div>
+                  <p className="text-xs text-gray-400 mt-0.5">{s.desc}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Leaderboard */}
+      <div>
+        <SectionLabel>Preliminary Stage — Leaderboard</SectionLabel>
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 mb-3">
+            <div className={`w-2 h-2 rounded-full ${leaders.length > 0 ? 'bg-green-400 animate-pulse' : 'bg-gray-600'}`} />
+            <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">
+              {leaders.length > 0 ? 'Live scores · Preliminary Stage' : 'Scores not yet published'}
+            </span>
+          </div>
+
+          {loadingLeaders ? (
+            <p className="text-center text-xs text-gray-600 py-6">Loading scores…</p>
+          ) : leaders.length === 0 ? (
+            <p className="text-center text-xs text-gray-600 py-6">No scores published yet — check back soon.</p>
+          ) : (
+            <>
+              <div className="grid grid-cols-[2rem_1fr_auto] gap-2 px-2 mb-1">
+                <span className="text-xs text-gray-600">#</span>
+                <span className="text-xs text-gray-600">Competitor</span>
+                <span className="text-xs text-gray-600 text-right">Score</span>
+              </div>
+              {leaders.map(p => {
+                const { badge, row } = rankStyle(p.rank)
+                return (
+                  <div key={p.rank} className={`grid grid-cols-[2rem_1fr_auto] gap-2 items-center px-4 py-3 rounded-xl border ${row}`}>
+                    <span className={`text-xs font-black text-center border rounded-md px-1 py-0.5 ${badge}`}>#{p.rank}</span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-white truncate">{p.name}</p>
+                      <p className="text-xs text-gray-500 truncate">{p.dept}</p>
+                    </div>
+                    <span className="text-sm font-black tabular-nums text-right text-cyan-400">{p.score} pts</span>
+                  </div>
+                )
+              })}
+            </>
+          )}
+          <p className="text-center text-xs text-gray-600 pt-1">Scores are updated by the Decagon team after each stage</p>
         </div>
       </div>
 
@@ -465,64 +442,6 @@ function CompetitionTab() {
         </div>
       </div>
 
-      {/* Registration form */}
-      <div>
-        <SectionLabel>Register for the Competition</SectionLabel>
-        <form onSubmit={handleSubmit} className="space-y-5">
-
-          {/* Personal details */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Full Name"      placeholder="e.g. Amira Hassan"       value={form.fullName}   onChange={set('fullName')}   required />
-            <Field label="Email Address"  type="email" placeholder="you@example.com"  value={form.email}      onChange={set('email')}      required />
-            <Field label="Phone Number"   type="tel"   placeholder="+234 800 000 0000" value={form.phone}      onChange={set('phone')}      required />
-            <Field label="Matric Number"  placeholder="e.g. 190404001"          value={form.matric}     onChange={set('matric')}     required />
-            <SelectField label="Department" value={form.department} onChange={set('department')} required
-              placeholder="Select department" options={DEPARTMENTS} />
-            {form.department === 'Other' && (
-              <Field label="Specify your department" placeholder="e.g. Geology" value={form.otherDept} onChange={set('otherDept')} required />
-            )}
-            <SelectField label="Level"      value={form.level}       onChange={set('level')}       required
-              placeholder="Select level" options={['100', '200', '300'].map(l => `${l} Level`)} />
-          </div>
-
-          {/* biodata upload */}
-          <FileUpload
-            value={biodata}
-            onChange={setBiodata}
-            required
-            label="Step 2 — Upload biodata (confirms Year 1–3)"
-            placeholder="Click to upload biodata"
-            hint="JPG, PNG or PDF · max 5 MB"
-          />
-
-          {/* Bank details */}
-          <BankDetails />
-
-          {/* Receipt upload */}
-          <FileUpload
-            value={receipt}
-            onChange={setReceipt}
-            required
-            label="Step 4 — Upload Payment Receipt"
-            placeholder="Click to upload receipt"
-            hint="JPG, PNG or PDF · max 5 MB"
-          />
-
-          <ErrorBox message={error} />
-
-          <button type="submit" disabled={loading}
-            className="w-full bg-brand-orange hover:bg-brand-yellow hover:text-[#0D1B2A] text-white font-black py-4 rounded-xl
-                       transition-all flex items-center justify-center gap-2 disabled:opacity-60">
-            {loading
-              ? (receipt && !error ? 'Uploading receipt…' : 'Submitting…')
-              : <>Submit Registration <ChevronRight size={18} /></>}
-          </button>
-
-          <p className="text-center text-xs text-gray-600">
-            Your registration is confirmed once the Decagon team verifies your receipt.
-          </p>
-        </form>
-      </div>
     </div>
   )
 }
