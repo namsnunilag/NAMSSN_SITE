@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import {
-  Calendar, MapPin, Clock, ArrowLeft, ExternalLink,
+  Calendar, MapPin, Clock, ArrowLeft, ExternalLink, ChevronRight,
   Bell, CheckCircle2, Trophy, BookOpen, Mic, Zap, Users, Layers, Star,
 } from 'lucide-react'
 import { findEvent, registrationStatusConfig } from '../data/events'
@@ -351,7 +351,14 @@ function DecagonEventDetail({ event, navigate }) {
               )}
 
               {event.registrationStatus === 'closed' && (
-                <p className="text-gray-500 text-sm text-center py-2">Registration for this event has closed.</p>
+                event.registrationLink ? (
+                  <a href={event.registrationLink}
+                    className="w-full flex items-center justify-center gap-2 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 text-cyan-300 font-bold py-3 rounded-xl transition-colors text-sm">
+                    View Competition &amp; Leaderboard <ChevronRight size={15} />
+                  </a>
+                ) : (
+                  <p className="text-gray-500 text-sm text-center py-2">Registration for this event has closed.</p>
+                )
               )}
             </div>
 
@@ -491,9 +498,16 @@ export default function EventDetail() {
               )}
 
               {event.registrationStatus === 'closed' && (
-                <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-2">
-                  Registration for this event has closed.
-                </p>
+                event.registrationLink ? (
+                  <a href={event.registrationLink}
+                    className="w-full flex items-center justify-center gap-2 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 text-cyan-300 font-bold py-3 rounded-xl transition-colors text-sm">
+                    View Competition &amp; Leaderboard <ChevronRight size={15} />
+                  </a>
+                ) : (
+                  <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-2">
+                    Registration for this event has closed.
+                  </p>
+                )
               )}
 
               {event.registrationStatus === 'none' && (

@@ -301,9 +301,49 @@ function useCountdown(target) {
 // 0 = Preliminary done, 1 = 2nd Stage done, 2 = QF done, 3 = SF done, 4 = Final done
 const COMPLETED_STAGES = 2
 
+const STAGE_HISTORY = {
+  1: {
+    label: 'Preliminary Stage',
+    eliminatedCount: 6,
+    results: [
+      { name: 'Elumaro Adedoyin',                 dept: 'Chemical Engineering',                 pct: 100 },
+      { name: 'Gbesimowo Daniel Ayodele',          dept: 'Mathematics',                          pct: 97.5 },
+      { name: 'Nwoke Emeka Emmanuel',              dept: 'Electrical & Electronics Engineering', pct: 95 },
+      { name: 'Raphael Onyekachi Augustine',       dept: 'Civil Engineering',                    pct: 95 },
+      { name: 'Jubril Dokun',                      dept: 'Electrical & Electronics Engineering', pct: 95 },
+      { name: 'Jeffrey Salomi',                    dept: 'Mathematics',                          pct: 80 },
+      { name: 'Olaitan Abdulazeez Olamilekan',     dept: 'Physics',                              pct: 80 },
+      { name: 'Aina Emmanuel Timileyin',           dept: 'Mathematics',                          pct: 80 },
+      { name: 'Ifarajimi Taiwo Olamide',           dept: 'Mathematics',                          pct: 66.25 },
+      { name: 'Mumeen Shittu',                     dept: 'Chemical Engineering',                 pct: 65 },
+      { name: 'EL Mustapha Abimbola',              dept: 'Mathematics',                          pct: 60 },
+      { name: 'Gbokoyi Ayomide Moses',             dept: 'Mathematics',                          pct: 55 },
+      { name: 'Sadudeen Mubarak Olamilekan',       dept: 'Computer Science',                     pct: 50 },
+      { name: 'Ojokole Olalekan Emmanuel',         dept: 'Chemical Engineering',                 pct: 50 },
+      { name: 'Mbonu Emmanuel',                    dept: 'Medicine and Surgery',                 pct: 30 },
+      { name: 'Oluwadamilola Toyobo',              dept: 'Mathematics',                          pct: 27.5 },
+      { name: 'ITIE FAVOUR CHUKWUNEME',            dept: 'Mathematics',                          pct: 26.25 },
+      { name: 'Odumuyiwa Ayomikun Oluwatobiloba',  dept: 'Chemical Engineering',                 pct: 25 },
+      { name: 'Toluwanimi Jegede',                 dept: 'Medicine & Surgery',                   pct: 23.75 },
+      { name: 'John Emmanuel',                     dept: 'Chemical Engineering',                 pct: 10 },
+      { name: 'Tijani David Oluwabamise',          dept: 'Mathematics',                          pct: 10 },
+      { name: 'Obama Marvellous Elijah',           dept: 'Computer Science',                     pct: 10 },
+      { name: 'Chinecherem Ozowara',               dept: 'Statistics',                           pct: 10 },
+      { name: 'Daniel Toluwani Oluwadoro',         dept: 'Pharmacy',                             pct: 10 },
+      { name: 'Adebimpe Abdul-Azeez Idowu',        dept: 'Mechanical Engineering',               pct: 7.5 },
+      { name: 'Nzerem Chinaza-Ekpere Oluwayemisi', dept: 'Mathematics',                          pct: 6.25 },
+      { name: 'Peters Nmesoma Daniella',           dept: 'Mathematics',                          pct: 5 },
+      { name: 'Fashola Muqtadir',                  dept: 'Civil Engineering',                    pct: 2.5 },
+      { name: 'Oniyayi Oyindamola Joshua',         dept: 'Systems Engineering',                  pct: 2.5 },
+      { name: 'OLUWAJENYO OLUWAKOREDE',            dept: 'Systems Engineering',                  pct: 0.5 },
+    ],
+  },
+}
+
 function CompetitionTab() {
-  const [leaders, setLeaders]           = useState([])
+  const [leaders, setLeaders]               = useState([])
   const [loadingLeaders, setLoadingLeaders] = useState(true)
+  const [viewStage, setViewStage]           = useState(COMPLETED_STAGES)
 
   useEffect(() => {
     if (!SUPABASE_URL) { setLoadingLeaders(false); return }
@@ -317,9 +357,9 @@ function CompetitionTab() {
           const scored = data.filter(p => (p.score ?? 0) > 0)
           setLeaders(scored.map((p, i) => ({
             rank: i + 1,
-            name: p.full_name,
+            name: p.full_name.trim(),
             dept: p.department,
-            score: p.score,
+            pct:  p.score / 100,
           })))
         }
       })
@@ -387,49 +427,78 @@ function CompetitionTab() {
 
       {/* Leaderboard */}
       <div>
-        <SectionLabel>2nd Stage — Leaderboard</SectionLabel>
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 mb-3">
-            <div className={`w-2 h-2 rounded-full ${leaders.length > 0 ? 'bg-green-400 animate-pulse' : 'bg-gray-600'}`} />
-            <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">
-              {leaders.length > 0 ? 'Live scores · Preliminary Stage' : 'Scores not yet published'}
-            </span>
-          </div>
+        <SectionLabel>Stage Results</SectionLabel>
 
-          {loadingLeaders ? (
-            <p className="text-center text-xs text-gray-600 py-6">Loading scores…</p>
-          ) : leaders.length === 0 ? (
-            <p className="text-center text-xs text-gray-600 py-6">No scores published yet — check back soon.</p>
-          ) : (
-            <>
-              <div className="grid grid-cols-[2rem_1fr_auto] gap-2 px-2 mb-1">
-                <span className="text-xs text-gray-600">#</span>
-                <span className="text-xs text-gray-600">Competitor</span>
-                <span className="text-xs text-gray-600 text-right">Score</span>
-              </div>
-              {leaders.map((p, idx) => {
-                const eliminated = idx >= leaders.length - 10
-                const { badge, row } = eliminated
-                  ? { badge: 'bg-red-500/15 text-red-400 border-red-500/30', row: 'border-red-500/20 bg-red-500/[0.04]' }
-                  : rankStyle(p.rank)
-                return (
-                  <div key={p.rank} className={`grid grid-cols-[2rem_1fr_auto] gap-2 items-center px-4 py-3 rounded-xl border ${row}`}>
-                    <span className={`text-xs font-black text-center border rounded-md px-1 py-0.5 ${badge}`}>#{p.rank}</span>
-                    <div className="min-w-0">
-                      <p className={`text-sm font-bold truncate ${eliminated ? 'text-red-400' : 'text-white'}`}>{p.name}</p>
-                      <div className="flex items-center gap-2">
-                        <p className="text-xs text-gray-500 truncate">{p.dept}</p>
-                        {eliminated && <span className="text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded-full shrink-0">Eliminated</span>}
-                      </div>
-                    </div>
-                    <span className={`text-sm font-black tabular-nums text-right ${eliminated ? 'text-red-400' : 'text-cyan-400'}`}>{p.score / 100}%</span>
-                  </div>
-                )
-              })}
-            </>
-          )}
-          <p className="text-center text-xs text-gray-600 pt-1">Scores are updated by the Decagon team after each stage</p>
+        {/* Stage selector */}
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {Array.from({ length: COMPLETED_STAGES }, (_, i) => i + 1).map(s => (
+            <button key={s} onClick={() => setViewStage(s)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
+                viewStage === s
+                  ? 'bg-cyan-400/20 border-cyan-400/40 text-cyan-300'
+                  : 'bg-white/[0.03] border-white/10 text-gray-500 hover:border-white/20'
+              }`}>
+              {s === 1 ? 'Preliminary' : s === 2 ? '2nd Stage' : s === 3 ? 'Quarter Final' : s === 4 ? 'Semi Final' : 'Final'}
+            </button>
+          ))}
         </div>
+
+        {(() => {
+          const isLive   = viewStage === COMPLETED_STAGES
+          const history  = STAGE_HISTORY[viewStage]
+          const rows     = history
+            ? history.results.map((p, i) => ({ ...p, rank: i + 1 }))
+            : leaders
+          const elimCount = history ? history.eliminatedCount : 8
+          const loading  = isLive && !history && loadingLeaders
+
+          return (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 mb-3">
+                <div className={`w-2 h-2 rounded-full ${rows.length > 0 ? 'bg-green-400 animate-pulse' : 'bg-gray-600'}`} />
+                <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">
+                  {rows.length > 0
+                    ? `Results · ${viewStage === 1 ? 'Preliminary Stage' : viewStage === 2 ? '2nd Stage' : 'Stage ' + viewStage}`
+                    : 'Scores not yet published'}
+                </span>
+              </div>
+
+              {loading ? (
+                <p className="text-center text-xs text-gray-600 py-6">Loading scores…</p>
+              ) : rows.length === 0 ? (
+                <p className="text-center text-xs text-gray-600 py-6">No scores published yet — check back soon.</p>
+              ) : (
+                <>
+                  <div className="grid grid-cols-[2rem_1fr_auto] gap-2 px-2 mb-1">
+                    <span className="text-xs text-gray-600">#</span>
+                    <span className="text-xs text-gray-600">Competitor</span>
+                    <span className="text-xs text-gray-600 text-right">Score</span>
+                  </div>
+                  {rows.map((p, idx) => {
+                    const eliminated = idx >= rows.length - elimCount
+                    const { badge, row } = eliminated
+                      ? { badge: 'bg-red-500/15 text-red-400 border-red-500/30', row: 'border-red-500/20 bg-red-500/[0.04]' }
+                      : rankStyle(p.rank)
+                    return (
+                      <div key={idx} className={`grid grid-cols-[2rem_1fr_auto] gap-2 items-center px-4 py-3 rounded-xl border ${row}`}>
+                        <span className={`text-xs font-black text-center border rounded-md px-1 py-0.5 ${badge}`}>#{p.rank}</span>
+                        <div className="min-w-0">
+                          <p className={`text-sm font-bold truncate ${eliminated ? 'text-red-400' : 'text-white'}`}>{p.name}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="text-xs text-gray-500 truncate">{p.dept}</p>
+                            {eliminated && <span className="text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded-full shrink-0">Eliminated</span>}
+                          </div>
+                        </div>
+                        <span className={`text-sm font-black tabular-nums text-right ${eliminated ? 'text-red-400' : 'text-cyan-400'}`}>{p.pct}%</span>
+                      </div>
+                    )
+                  })}
+                </>
+              )}
+              <p className="text-center text-xs text-gray-600 pt-1">Scores are updated by the Decagon team after each stage</p>
+            </div>
+          )
+        })()}
       </div>
 
       {/* Prizes */}
