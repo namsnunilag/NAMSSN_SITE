@@ -299,7 +299,7 @@ function useCountdown(target) {
 }
 
 // 0 = Preliminary done, 1 = 2nd Stage done, 2 = QF done, 3 = SF done, 4 = Final done
-const COMPLETED_STAGES = 1
+const COMPLETED_STAGES = 2
 
 function CompetitionTab() {
   const [leaders, setLeaders]           = useState([])
@@ -387,7 +387,7 @@ function CompetitionTab() {
 
       {/* Leaderboard */}
       <div>
-        <SectionLabel>Preliminary Stage — Leaderboard</SectionLabel>
+        <SectionLabel>2nd Stage — Leaderboard</SectionLabel>
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-3">
             <div className={`w-2 h-2 rounded-full ${leaders.length > 0 ? 'bg-green-400 animate-pulse' : 'bg-gray-600'}`} />
@@ -408,7 +408,7 @@ function CompetitionTab() {
                 <span className="text-xs text-gray-600 text-right">Score</span>
               </div>
               {leaders.map((p, idx) => {
-                const eliminated = idx >= leaders.length - 6
+                const eliminated = idx >= leaders.length - 10
                 const { badge, row } = eliminated
                   ? { badge: 'bg-red-500/15 text-red-400 border-red-500/30', row: 'border-red-500/20 bg-red-500/[0.04]' }
                   : rankStyle(p.rank)
