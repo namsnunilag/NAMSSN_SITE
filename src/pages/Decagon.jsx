@@ -13,8 +13,8 @@ import usePageTitle from '../hooks/usePageTitle'
 // Registration is closed
 const REGISTRATION_CLOSED = true
 
-// 20-Day Challenge start date (Day 1 = May 4 2026)
-const CHALLENGE_START = new Date('2026-05-04T00:00:00')
+// 20-Day Challenge start date (Day 1 = May 6 2026)
+const CHALLENGE_START = new Date('2026-05-06T00:00:00')
 
 const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
@@ -589,7 +589,7 @@ function ChallengeTab() {
 
       <div className="grid sm:grid-cols-2 gap-3">
         {[
-          { icon: BookOpen, title: 'Daily Questions',   desc: 'One calculus question drops every day for 20 days. Started May 4, 2026.' },
+          { icon: BookOpen, title: 'Daily Questions',   desc: 'One calculus question drops every day for 20 days. Started May 6, 2026.' },
           { icon: Clock,    title: 'Submission Window', desc: 'Each question closes 1 hr 30 mins after it drops. Late submissions are not accepted.' },
           { icon: Zap,      title: 'Points for Speed',  desc: 'Correct answers earn points. Faster submissions earn bonus points.' },
           { icon: Trophy,   title: '₦20,000 Prize',     desc: 'The top participant on the leaderboard wins ₦20,000.' },
@@ -632,7 +632,7 @@ function ChallengeTab() {
             ? currentDay <= 20
               ? `Day ${currentDay} of 20 — challenge is live`
               : 'Challenge complete — all 20 days done'
-            : 'Challenge starts May 4, 2026 — stay tuned'}
+            : 'Challenge starts May 6, 2026 — stay tuned'}
         </p>
       </div>
 
