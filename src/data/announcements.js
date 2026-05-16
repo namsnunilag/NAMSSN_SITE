@@ -4,7 +4,7 @@
 export const siteAnnouncements = [
   {
     id: 4,
-    message: '🏆 Decagon 5.0 — 2nd Stage done! Results are live. Next: Quarter Final.',
+    message: '🏆 Decagon 5.0 — Quarter Final done! Results are live. Next: Semi Final.',
     type: 'info',
     href: '/decagon',
     linkText: 'View Leaderboard',

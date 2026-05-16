@@ -299,9 +299,37 @@ function useCountdown(target) {
 }
 
 // 0 = Preliminary done, 1 = 2nd Stage done, 2 = QF done, 3 = SF done, 4 = Final done
-const COMPLETED_STAGES = 2
+const COMPLETED_STAGES = 3
 
 const STAGE_HISTORY = {
+  2: {
+    label: '2nd Stage',
+    eliminatedCount: 8,
+    results: [
+      { name: 'Gbesimowo Daniel Ayodele',          dept: 'Mathematics',                          pct: 57.4 },
+      { name: 'Mumeen Shittu',                     dept: 'Chemical Engineering',                 pct: 55.6 },
+      { name: 'Jubril Dokun',                      dept: 'Electrical & Electronics Engineering', pct: 48.1 },
+      { name: 'Olaitan Abdulazeez Olamilekan',     dept: 'Physics',                              pct: 35.2 },
+      { name: 'Ojokole Olalekan Emmanuel',         dept: 'Chemical Engineering',                 pct: 27.8 },
+      { name: 'Nwoke Emeka Emmanuel',              dept: 'Electrical & Electronics Engineering', pct: 25.9 },
+      { name: 'Raphael Onyekachi Augustine',       dept: 'Civil Engineering',                    pct: 25.9 },
+      { name: 'Mbonu Emmanuel',                    dept: 'Medicine and Surgery',                 pct: 24.1 },
+      { name: 'Elumaro Adedoyin',                  dept: 'Chemical Engineering',                 pct: 22.2 },
+      { name: 'Odumuyiwa Ayomikun Oluwatobiloba',  dept: 'Chemical Engineering',                 pct: 22.2 },
+      { name: 'Sadudeen Mubarak Olamilekan',       dept: 'Computer Science',                     pct: 18.5 },
+      { name: 'Jeffrey Salomi',                    dept: 'Mathematics',                          pct: 14.8 },
+      { name: 'EL Mustapha Abimbola',              dept: 'Mathematics',                          pct: 14.8 },
+      { name: 'Aina Emmanuel Timileyin',           dept: 'Mathematics',                          pct: 13 },
+      { name: 'Ifarajimi Taiwo Olamide',           dept: 'Mathematics',                          pct: 11.1 },
+      { name: 'Gbokoyi Ayomide Moses',             dept: 'Mathematics',                          pct: 11.1 },
+      { name: 'Toluwanimi Jegede',                 dept: 'Medicine & Surgery',                   pct: 11.1 },
+      { name: 'John Emmanuel',                     dept: 'Chemical Engineering',                 pct: 11.1 },
+      { name: 'Oluwadamilola Toyobo',              dept: 'Mathematics',                          pct: 0.1 },
+      { name: 'ITIE FAVOUR CHUKWUNEME',            dept: 'Mathematics',                          pct: 0.1 },
+      { name: 'Obama Marvellous Elijah',           dept: 'Computer Science',                     pct: 0.1 },
+      { name: 'Daniel Toluwani Oluwadoro',         dept: 'Pharmacy',                             pct: 0.1 },
+    ],
+  },
   1: {
     label: 'Preliminary Stage',
     eliminatedCount: 6,
@@ -438,7 +466,7 @@ function CompetitionTab() {
                   ? 'bg-cyan-400/20 border-cyan-400/40 text-cyan-300'
                   : 'bg-white/[0.03] border-white/10 text-gray-500 hover:border-white/20'
               }`}>
-              {s === 1 ? 'Preliminary' : s === 2 ? '2nd Stage' : s === 3 ? 'Quarter Final' : s === 4 ? 'Semi Final' : 'Final'}
+              {s === 1 ? 'Preliminary' : s === 2 ? '2nd Stage' : s === 3 ? 'Quarter Final' : s === 4 ? 'Semi Final' : 'Grand Final'}
             </button>
           ))}
         </div>
@@ -449,7 +477,7 @@ function CompetitionTab() {
           const rows     = history
             ? history.results.map((p, i) => ({ ...p, rank: i + 1 }))
             : leaders
-          const elimCount = history ? history.eliminatedCount : 8
+          const elimCount = history ? history.eliminatedCount : 6
           const loading  = isLive && !history && loadingLeaders
 
           return (
