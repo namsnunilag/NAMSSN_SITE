@@ -477,7 +477,7 @@ function CompetitionTab() {
           const rows     = history
             ? history.results.map((p, i) => ({ ...p, rank: i + 1 }))
             : leaders
-          const elimCount = history ? history.eliminatedCount : 6
+          const elimCount = history ? history.eliminatedCount : 3
           const loading  = isLive && !history && loadingLeaders
 
           return (
