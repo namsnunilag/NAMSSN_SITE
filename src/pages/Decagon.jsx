@@ -517,7 +517,7 @@ function CompetitionTab() {
                             {eliminated && <span className="text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded-full shrink-0">Eliminated</span>}
                           </div>
                         </div>
-                        <span className={`text-sm font-black tabular-nums text-right ${eliminated ? 'text-red-400' : 'text-cyan-400'}`}>{p.pct}%</span>
+                        <span className={`text-sm font-black tabular-nums text-right ${eliminated ? 'text-red-400' : 'text-cyan-400'}`}>{p.pct < 0.05 ? '0.00' : p.pct}%</span>
                       </div>
                     )
                   })}
