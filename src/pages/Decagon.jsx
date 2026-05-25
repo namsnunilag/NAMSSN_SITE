@@ -299,9 +299,25 @@ function useCountdown(target) {
 }
 
 // 0 = Preliminary done, 1 = 2nd Stage done, 2 = QF done, 3 = SF done, 4 = Final done
-const COMPLETED_STAGES = 3
+const COMPLETED_STAGES = 4
 
 const STAGE_HISTORY = {
+  4: {
+    label: 'Semi Final',
+    eliminatedCount: 5,
+    results: [
+      { name: 'Jubril Dokun',                   dept: 'Electrical & Electronics Engineering', pct: 58.33 },
+      { name: 'Nwoke Emeka Emmanuel',            dept: 'Electrical & Electronics Engineering', pct: 56.67 },
+      { name: 'Mumeen Shittu',                   dept: 'Chemical Engineering',                 pct: 55.00 },
+      { name: 'Gbesimowo Daniel Ayodele',        dept: 'Mathematics',                          pct: 40.00 },
+      { name: 'Elumaro Adedoyin',                dept: 'Chemical Engineering',                 pct: 40.00 },
+      { name: 'Ojokole Olalekan Emmanuel',       dept: 'Chemical Engineering',                 pct: 38.33 },
+      { name: 'Aina Emmanuel Timileyin',         dept: 'Mathematics',                          pct: 13.33 },
+      { name: 'Sadudeen Mubarak Olamilekan',     dept: 'Computer Science',                     pct: 11.67 },
+      { name: 'Jeffrey Salomi',                  dept: 'Mathematics',                          pct: 10.00 },
+      { name: 'Raphael Onyekachi Augustine',     dept: 'Civil Engineering',                    pct: 1.67  },
+    ],
+  },
   2: {
     label: '2nd Stage',
     eliminatedCount: 8,
@@ -443,7 +459,7 @@ function CompetitionTab() {
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-bold text-white">{s.title}</p>
                     {done    && <span className="text-[10px] font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-full">Done</span>}
-                    {current && <span className="text-[10px] font-bold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-2 py-0.5 rounded-full">Results out</span>}
+                    {current && !s.finale && <span className="text-[10px] font-bold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-2 py-0.5 rounded-full">Results out</span>}
                   </div>
                   <p className="text-xs text-gray-400 mt-0.5">{s.desc}</p>
                 </div>
@@ -486,7 +502,7 @@ function CompetitionTab() {
                 <div className={`w-2 h-2 rounded-full ${rows.length > 0 ? 'bg-green-400 animate-pulse' : 'bg-gray-600'}`} />
                 <span className="text-xs text-cyan-400 font-semibold uppercase tracking-wider">
                   {rows.length > 0
-                    ? `Results · ${viewStage === 1 ? 'Preliminary Stage' : viewStage === 2 ? '2nd Stage' : 'Stage ' + viewStage}`
+                    ? `Results · ${viewStage === 1 ? 'Preliminary Stage' : viewStage === 2 ? '2nd Stage' : viewStage === 3 ? 'Quarter Final' : viewStage === 4 ? 'Semi Final' : 'Stage ' + viewStage}`
                     : 'Scores not yet published'}
                 </span>
               </div>
