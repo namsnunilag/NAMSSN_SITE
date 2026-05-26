@@ -842,15 +842,31 @@ function MerchBankDetails({ total }) {
   )
 }
 
+const EARLY_BIRD_PRICE = 6000
+const EARLY_BIRD_SLOTS = 5
+
 function MerchTab() {
-  const [form, setForm]         = useState({ fullName: '', email: '', phone: '', color: 'Black', size: '', quantity: 1 })
-  const [receipt, setReceipt]   = useState(null)
+  const [form, setForm]           = useState({ fullName: '', email: '', phone: '', color: 'Black', size: '', quantity: 1 })
+  const [receipt, setReceipt]     = useState(null)
   const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading]   = useState(false)
-  const [error, setError]       = useState('')
+  const [loading, setLoading]     = useState(false)
+  const [error, setError]         = useState('')
+  const [orderCount, setOrderCount] = useState(null)
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
-  const total = MERCH_PRICE * form.quantity
+  useEffect(() => {
+    if (!SUPABASE_URL) { setOrderCount(0); return }
+    fetch(`${SUPABASE_URL}/rest/v1/decagon_merch_orders?select=id`, {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, Prefer: 'count=exact' },
+    })
+      .then(r => { const c = r.headers.get('content-range'); setOrderCount(c ? parseInt(c.split('/')[1]) : 0) })
+      .catch(() => setOrderCount(0))
+  }, [])
+
+  const earlyBird   = orderCount !== null && orderCount < EARLY_BIRD_SLOTS
+  const spotsLeft   = orderCount !== null ? Math.max(0, EARLY_BIRD_SLOTS - orderCount) : null
+  const unitPrice   = earlyBird ? EARLY_BIRD_PRICE : MERCH_PRICE
+  const total       = unitPrice * form.quantity
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -891,12 +907,27 @@ function MerchTab() {
     <form onSubmit={handleSubmit} className="space-y-6">
 
       {/* Hero card */}
-      <div className="rounded-2xl border border-brand-orange/30 bg-brand-orange/5 p-6 text-center space-y-1">
-        <p className="text-[10px] font-bold text-brand-orange uppercase tracking-[0.2em]">Limited Edition Preorder</p>
+      <div className={`rounded-2xl border p-6 text-center space-y-1 ${earlyBird ? 'border-cyan-400/30 bg-cyan-400/5' : 'border-brand-orange/30 bg-brand-orange/5'}`}>
+        {earlyBird ? (
+          <p className="text-[10px] font-bold text-cyan-400 uppercase tracking-[0.2em]">
+            ⚡ Early Bird — {spotsLeft} spot{spotsLeft !== 1 ? 's' : ''} left
+          </p>
+        ) : (
+          <p className="text-[10px] font-bold text-brand-orange uppercase tracking-[0.2em]">Limited Edition Preorder</p>
+        )}
         <p className="text-2xl font-black text-white">Decagon 5.0 T-Shirt</p>
         <p className="text-gray-400 text-sm">Grand Finale is June 6th — get yours and show up in style.</p>
-        <p className="text-3xl font-black text-brand-orange pt-1">₦7,000</p>
-        <p className="text-xs text-gray-500">per shirt · limited stock available</p>
+        <div className="flex items-center justify-center gap-3 pt-1">
+          <p className={`text-3xl font-black ${earlyBird ? 'text-cyan-400' : 'text-brand-orange'}`}>
+            ₦{unitPrice.toLocaleString()}
+          </p>
+          {earlyBird && (
+            <span className="text-gray-500 line-through text-lg font-bold">₦{MERCH_PRICE.toLocaleString()}</span>
+          )}
+        </div>
+        <p className="text-xs text-gray-500">
+          {earlyBird ? `Early bird price · first ${EARLY_BIRD_SLOTS} orders only` : 'per shirt · limited stock available'}
+        </p>
       </div>
 
       {/* Color */}
