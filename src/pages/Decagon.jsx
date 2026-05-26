@@ -3,6 +3,7 @@ import {
   Trophy, Users, Layers, Star, ChevronRight, Lock,
   Medal, Clock, BookOpen, Mic, Zap, Calendar, MapPin,
   CheckCircle2, ArrowRight, AlertCircle, Upload, Copy, Check, XCircle,
+  ShoppingBag,
 } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 
@@ -87,6 +88,24 @@ async function saveChallengeSignup(data) {
   if (!res.ok) {
     const body = await res.json().catch(() => ({}))
     throw new Error(body.code === '23505' ? 'duplicate' : body.message || `HTTP ${res.status}`)
+  }
+}
+
+async function saveMerchOrder(data) {
+  if (!SUPABASE_URL) throw new Error('no-backend')
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/decagon_merch_orders`, {
+    method: 'POST',
+    headers: {
+      apikey:         SUPABASE_ANON_KEY,
+      Authorization:  `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer:         'return=minimal',
+    },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}))
+    throw new Error(body.message || `HTTP ${res.status}`)
   }
 }
 
@@ -784,6 +803,188 @@ function ConferenceTab() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Tab 4 — Merch Preorder
+// ─────────────────────────────────────────────────────────────────────────────
+
+const MERCH_PRICE = 7000
+const SIZES = ['S', 'M', 'L', 'XL', 'XXL']
+
+function MerchBankDetails({ total }) {
+  return (
+    <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 overflow-hidden">
+      <div className="px-4 py-3 border-b border-cyan-400/10">
+        <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
+          Transfer ₦{total.toLocaleString()} to this account
+        </p>
+      </div>
+      <div className="px-4 py-4 space-y-3">
+        {[
+          { label: 'Bank',         value: BANK.name,                    copy: false },
+          { label: 'Account No.',  value: BANK.account,                 copy: true  },
+          { label: 'Account Name', value: BANK.holder,                  copy: false },
+          { label: 'Amount',       value: `₦${total.toLocaleString()}`, copy: false },
+        ].map(({ label, value, copy }) => (
+          <div key={label} className="flex justify-between items-center gap-4">
+            <span className="text-xs text-gray-500 shrink-0">{label}</span>
+            <div className="flex items-center">
+              <span className={`text-sm font-bold text-right ${
+                label === 'Account No.' ? 'text-cyan-400 font-black tracking-wider' :
+                label === 'Amount'      ? 'text-brand-orange font-black' :
+                'text-white'
+              }`}>{value}</span>
+              {copy && <CopyButton text={value} />}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function MerchTab() {
+  const [form, setForm]         = useState({ fullName: '', email: '', phone: '', color: 'Black', size: '', quantity: 1 })
+  const [receipt, setReceipt]   = useState(null)
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading]   = useState(false)
+  const [error, setError]       = useState('')
+  const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
+
+  const total = MERCH_PRICE * form.quantity
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (!form.size)  { setError('Please select a size.'); return }
+    if (!receipt)    { setError('Please upload your payment receipt.'); return }
+    setLoading(true); setError('')
+    try {
+      const key = form.email.replace(/[@.]/g, '_')
+      const receiptUrl = await uploadReceipt(receipt, key)
+      await saveMerchOrder({
+        full_name:   form.fullName,
+        email:       form.email,
+        phone:       form.phone,
+        color:       form.color,
+        size:        form.size,
+        quantity:    Number(form.quantity),
+        amount:      total,
+        receipt_url: receiptUrl,
+      })
+      setSubmitted(true)
+    } catch (err) {
+      if (err.message === 'no-backend') setError('Order system is temporarily unavailable. Please contact the team.')
+      else setError('Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (submitted) return (
+    <SuccessBanner
+      message="Order received!"
+      sub="We'll confirm your order and arrange pickup before June 6th. Check your email:"
+      email={form.email}
+    />
+  )
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+
+      {/* Hero card */}
+      <div className="rounded-2xl border border-brand-orange/30 bg-brand-orange/5 p-6 text-center space-y-1">
+        <p className="text-[10px] font-bold text-brand-orange uppercase tracking-[0.2em]">Limited Edition Preorder</p>
+        <p className="text-2xl font-black text-white">Decagon 5.0 T-Shirt</p>
+        <p className="text-gray-400 text-sm">Grand Finale is June 6th — get yours and show up in style.</p>
+        <p className="text-3xl font-black text-brand-orange pt-1">₦7,000</p>
+        <p className="text-xs text-gray-500">per shirt · limited stock available</p>
+      </div>
+
+      {/* Color */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Color</label>
+        <div className="grid grid-cols-2 gap-3">
+          {['Black', 'White'].map(color => (
+            <button key={color} type="button"
+              onClick={() => setForm(f => ({ ...f, color }))}
+              className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${
+                form.color === color
+                  ? 'border-cyan-400/60 bg-cyan-400/10'
+                  : 'border-white/10 bg-white/[0.02] hover:border-white/20'
+              }`}>
+              <div className={`w-6 h-6 rounded-full border-2 shrink-0 ${
+                color === 'Black' ? 'bg-gray-900 border-gray-500' : 'bg-white border-gray-300'
+              }`} />
+              <span className="text-sm font-bold text-white">{color}</span>
+              {form.color === color && <div className="ml-auto w-2 h-2 rounded-full bg-cyan-400 shrink-0" />}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Size */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Size</label>
+        <div className="flex gap-2">
+          {SIZES.map(sz => (
+            <button key={sz} type="button"
+              onClick={() => setForm(f => ({ ...f, size: sz }))}
+              className={`w-12 h-12 rounded-xl border text-sm font-black transition-all ${
+                form.size === sz
+                  ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-300'
+                  : 'border-white/10 bg-white/[0.02] text-gray-400 hover:border-white/20'
+              }`}>
+              {sz}
+            </button>
+          ))}
+        </div>
+        {!form.size && <p className="text-xs text-gray-600">Select your size</p>}
+      </div>
+
+      {/* Quantity */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Quantity</label>
+        <div className="flex items-center gap-4">
+          <select value={form.quantity}
+            onChange={e => setForm(f => ({ ...f, quantity: Number(e.target.value) }))}
+            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white w-32
+                       focus:outline-none focus:ring-2 focus:ring-cyan-400/40 focus:border-cyan-400/40 transition">
+            {[1,2,3,4,5].map(n => (
+              <option key={n} value={n} className="bg-[#0D1B2A]">{n} shirt{n > 1 ? 's' : ''}</option>
+            ))}
+          </select>
+          <p className="text-sm text-gray-400">
+            Total: <span className="text-brand-orange font-black">₦{total.toLocaleString()}</span>
+          </p>
+        </div>
+      </div>
+
+      {/* Personal details */}
+      <Field label="Full Name"     placeholder="e.g. Jubril Dokun"       value={form.fullName} onChange={set('fullName')} required />
+      <Field label="Email Address" type="email" placeholder="your@email.com" value={form.email} onChange={set('email')} required />
+      <Field label="Phone Number"  type="tel"   placeholder="+234 800 000 0000" value={form.phone} onChange={set('phone')} required />
+
+      {/* Bank details */}
+      <MerchBankDetails total={total} />
+
+      {/* Receipt */}
+      <FileUpload label="Upload Payment Receipt" value={receipt} onChange={setReceipt} required
+        hint="JPG, PNG or PDF · max 5 MB" placeholder="Click to upload your receipt" />
+
+      <ErrorBox message={error} />
+
+      <button type="submit" disabled={loading}
+        className="w-full py-4 rounded-xl bg-brand-orange hover:bg-orange-500 text-white font-black text-sm
+                   transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+        {loading ? 'Placing order…' : `Place Order · ₦${total.toLocaleString()}`}
+      </button>
+
+      <p className="text-center text-xs text-gray-600">
+        Orders will be confirmed via email. Pickup/delivery details communicated before June 6th.
+      </p>
+    </form>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Shared small label
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -796,9 +997,10 @@ function SectionLabel({ children }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const TABS = [
-  { key: 'competition', label: 'Main Competition', icon: Trophy },
-  { key: 'challenge',   label: '20-Day Challenge', icon: BookOpen },
-  { key: 'conference',  label: 'Mini Conference',  icon: Mic },
+  { key: 'competition', label: 'Main Competition',  icon: Trophy },
+  { key: 'challenge',   label: '20-Day Challenge',  icon: BookOpen },
+  { key: 'conference',  label: 'Mini Conference',   icon: Mic },
+  { key: 'merch',       label: 'T-Shirt Preorder',  icon: ShoppingBag },
 ]
 
 const PHASES = [
@@ -936,6 +1138,7 @@ export default function Decagon() {
             {tab === 'competition' && <CompetitionTab />}
             {tab === 'challenge'   && <ChallengeTab />}
             {tab === 'conference'  && <ConferenceTab />}
+            {tab === 'merch'       && <MerchTab />}
           </div>
         </section>
 

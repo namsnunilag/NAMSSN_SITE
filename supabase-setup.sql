@@ -59,6 +59,32 @@ CREATE POLICY "anon can read signups"
 CREATE POLICY "anon can update signups"
   ON challenge_signups FOR UPDATE TO anon USING (true) WITH CHECK (true);
 
+-- 3b. Decagon merch orders table
+CREATE TABLE IF NOT EXISTS decagon_merch_orders (
+  id             UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  full_name      TEXT        NOT NULL,
+  email          TEXT        NOT NULL,
+  phone          TEXT        NOT NULL,
+  color          TEXT        NOT NULL,
+  size           TEXT        NOT NULL,
+  quantity       INT         NOT NULL DEFAULT 1,
+  amount         INT         NOT NULL,
+  receipt_url    TEXT,
+  status         TEXT        NOT NULL DEFAULT 'pending_review',
+  created_at     TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE decagon_merch_orders ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "anon can place merch order"
+  ON decagon_merch_orders FOR INSERT TO anon WITH CHECK (true);
+
+CREATE POLICY "anon can read merch orders"
+  ON decagon_merch_orders FOR SELECT TO anon USING (true);
+
+CREATE POLICY "anon can update merch order status"
+  ON decagon_merch_orders FOR UPDATE TO anon USING (true) WITH CHECK (true);
+
 -- ── Score columns (run once if tables already exist) ──────────────────────────
 -- If you created the tables before this update, run these ALTER statements:
 --   ALTER TABLE decagon_registrations ADD COLUMN IF NOT EXISTS score INT DEFAULT 0;
