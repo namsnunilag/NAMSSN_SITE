@@ -3,12 +3,20 @@
 
 export const siteAnnouncements = [
   {
+    id: 5,
+    message: '👕 Decagon 5.0 T-Shirt — Limited edition preorder. ₦7,000. Grand Finale is June 6th!',
+    type: 'info',
+    href: '/decagon?tab=merch',
+    linkText: 'Order Now',
+    active: true,
+  },
+  {
     id: 4,
     message: '🏆 Decagon 5.0 — Quarter Final done! Results are live. Next: Semi Final.',
     type: 'info',
     href: '/decagon',
     linkText: 'View Leaderboard',
-    active: true,
+    active: false,
   },
   {
     id: 3,

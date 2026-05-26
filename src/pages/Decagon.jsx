@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   Trophy, Users, Layers, Star, ChevronRight, Lock,
   Medal, Clock, BookOpen, Mic, Zap, Calendar, MapPin,
@@ -1032,7 +1033,10 @@ const PHASES = [
 
 export default function Decagon() {
   usePageTitle('Decagon 5.0 — The Ultimate Calculus Competition')
-  const [tab, setTab] = useState('competition')
+  const [searchParams] = useSearchParams()
+  const validTabs = TABS.map(t => t.key)
+  const initialTab = validTabs.includes(searchParams.get('tab')) ? searchParams.get('tab') : 'competition'
+  const [tab, setTab] = useState(initialTab)
 
   return (
     <div className="min-h-screen" style={{ background: '#0D1B2A', color: '#fff' }}>
