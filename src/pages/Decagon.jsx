@@ -851,19 +851,23 @@ function MerchTab() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading]     = useState(false)
   const [error, setError]         = useState('')
-  const [orderCount, setOrderCount] = useState(null)
+  const [orderCount, setOrderCount] = useState(0)
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
   useEffect(() => {
-    if (!SUPABASE_URL) { setOrderCount(0); return }
+    if (!SUPABASE_URL) return
     fetch(`${SUPABASE_URL}/rest/v1/decagon_merch_orders?select=id`, {
       headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, Prefer: 'count=exact' },
     })
-      .then(r => { const c = r.headers.get('content-range'); setOrderCount(c ? parseInt(c.split('/')[1]) : 0) })
-      .catch(() => setOrderCount(0))
+      .then(r => {
+        const c = r.headers.get('content-range')
+        const n = c ? parseInt(c.split('/')[1]) : 0
+        setOrderCount(isNaN(n) ? 0 : n)
+      })
+      .catch(() => {})
   }, [])
 
-  const earlyBird   = orderCount !== null && orderCount < EARLY_BIRD_SLOTS
+  const earlyBird   = orderCount < EARLY_BIRD_SLOTS
   const spotsLeft   = orderCount !== null ? Math.max(0, EARLY_BIRD_SLOTS - orderCount) : null
   const unitPrice   = earlyBird ? EARLY_BIRD_PRICE : MERCH_PRICE
   const total       = unitPrice * form.quantity
