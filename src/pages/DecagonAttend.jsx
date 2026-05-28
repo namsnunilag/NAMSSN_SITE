@@ -59,7 +59,7 @@ function TicketCard({ ticket }) {
     <div className="w-full rounded-2xl border border-white/20 bg-white/[0.04] overflow-hidden">
       <div className="bg-brand-orange/20 border-b border-white/10 px-5 py-3">
         <p className="text-[10px] font-bold text-brand-orange uppercase tracking-[0.2em]">Decagon 5.0 — Grand Finale</p>
-        <p className="text-xs text-gray-400 mt-0.5">June 6th, 2026 · University of Lagos</p>
+        <p className="text-xs text-gray-400 mt-0.5">June 6th, 2026 · 10:00 AM · LT018, Faculty of Science, UNILAG</p>
       </div>
       <div className="px-5 py-4 space-y-3">
         {[
@@ -136,8 +136,8 @@ export default function DecagonAttend() {
           student_type: form.studentType === 'unilag' ? 'Unilag Student' : 'Non-Unilag Student',
           meal_ticket:  '×1',
           freebie:      willGetFreebie ? 'Yes — collect at the venue 🎁' : 'No',
-          event_date:   'June 6th, 2026',
-          event_venue:  'University of Lagos',
+          event_date:   'June 6th, 2026 · 10:00 AM',
+          event_venue:  'LT018, Faculty of Science, University of Lagos',
         }, EMAILJS_PUBLIC_KEY)
       }
       setTicketData({ ...form, ticketId, isFreebie: willGetFreebie })
@@ -163,7 +163,7 @@ export default function DecagonAttend() {
         <div className="relative max-w-xl mx-auto">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-orange mb-3">Decagon 5.0</p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-3">Grand Finale</h1>
-          <p className="text-gray-400 text-base mb-2">June 6th, 2026 · University of Lagos</p>
+          <p className="text-gray-400 text-base mb-2">June 6th, 2026 · 10am · LT018, Faculty of Science, UNILAG</p>
           <p className="text-gray-500 text-sm">Free entry · Register to secure your spot & meal ticket</p>
 
           {freebieLeft > 0 ? (
