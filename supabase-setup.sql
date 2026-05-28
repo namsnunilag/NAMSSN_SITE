@@ -85,6 +85,26 @@ CREATE POLICY "anon can read merch orders"
 CREATE POLICY "anon can update merch order status"
   ON decagon_merch_orders FOR UPDATE TO anon USING (true) WITH CHECK (true);
 
+-- 3c. Grand Finale attendance registrations
+CREATE TABLE IF NOT EXISTS decagon_attendance (
+  id           UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  full_name    TEXT        NOT NULL,
+  email        TEXT        NOT NULL UNIQUE,
+  student_type TEXT        NOT NULL,   -- 'unilag' or 'non-unilag'
+  ticket_id    TEXT        NOT NULL UNIQUE,
+  meal_ticket  INT         NOT NULL DEFAULT 1,
+  is_freebie   BOOLEAN     NOT NULL DEFAULT false,
+  created_at   TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE decagon_attendance ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "anon can register attendance"
+  ON decagon_attendance FOR INSERT TO anon WITH CHECK (true);
+
+CREATE POLICY "anon can read attendance"
+  ON decagon_attendance FOR SELECT TO anon USING (true);
+
 -- ── Score columns (run once if tables already exist) ──────────────────────────
 -- If you created the tables before this update, run these ALTER statements:
 --   ALTER TABLE decagon_registrations ADD COLUMN IF NOT EXISTS score INT DEFAULT 0;

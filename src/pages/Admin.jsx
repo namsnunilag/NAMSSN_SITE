@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
-  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil, Medal, ShoppingBag,
+  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil, Medal, ShoppingBag, Ticket, UserCheck, Gift,
 } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -152,6 +152,15 @@ async function setMerchOrderStatus(id, status) {
     }
   )
   if (!res.ok) throw new Error(`Update failed (${res.status})`)
+}
+
+async function fetchAttendance() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/decagon_attendance?select=*&order=created_at.asc`,
+    { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+  )
+  if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
+  return res.json()
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -996,6 +1005,162 @@ function MerchOrdersTab() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Attendance tab
+// ─────────────────────────────────────────────────────────────────────────────
+
+function AttendanceAdminTab() {
+  const [rows, setRows]       = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError]     = useState('')
+  const [filter, setFilter]   = useState('all')
+  const [search, setSearch]   = useState('')
+
+  const load = useCallback(async () => {
+    setLoading(true); setError('')
+    try { setRows(await fetchAttendance()) }
+    catch (e) { setError(e.message) }
+    finally { setLoading(false) }
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  const total      = rows.length
+  const unilag     = rows.filter(r => r.student_type === 'unilag').length
+  const nonUnilag  = rows.filter(r => r.student_type === 'non-unilag').length
+  const freebies   = rows.filter(r => r.is_freebie).length
+
+  const visible = rows.filter(r => {
+    const matchFilter = filter === 'all'
+      || (filter === 'unilag'     && r.student_type === 'unilag')
+      || (filter === 'non-unilag' && r.student_type === 'non-unilag')
+      || (filter === 'freebie'    && r.is_freebie)
+    const q = search.toLowerCase()
+    return matchFilter && (!q
+      || r.full_name?.toLowerCase().includes(q)
+      || r.email?.toLowerCase().includes(q)
+      || r.ticket_id?.toLowerCase().includes(q))
+  })
+
+  return (
+    <div className="space-y-5">
+      {/* Stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[
+          { label: 'Total Registered', value: total,     icon: Users,      cls: 'text-white'     },
+          { label: 'Unilag',           value: unilag,    icon: UserCheck,  cls: 'text-cyan-400'  },
+          { label: 'Non-Unilag',       value: nonUnilag, icon: Users,      cls: 'text-violet-400'},
+          { label: 'Freebies',         value: `${freebies}/50`, icon: Gift, cls: 'text-amber-400' },
+        ].map(({ label, value, icon: Icon, cls }) => (
+          <div key={label} className="bg-white/[0.04] border border-white/10 rounded-2xl p-4 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
+              <Icon size={16} className={cls} />
+            </div>
+            <div>
+              <p className="text-2xl font-black text-white">{value}</p>
+              <p className="text-xs text-gray-500">{label}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filter + Search + Export */}
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+        <div className="flex gap-2 flex-wrap">
+          {[
+            { key: 'all',        label: 'All'         },
+            { key: 'unilag',     label: 'Unilag'      },
+            { key: 'non-unilag', label: 'Non-Unilag'  },
+            { key: 'freebie',    label: 'Freebie'     },
+          ].map(({ key, label }) => (
+            <button key={key} onClick={() => setFilter(key)}
+              className={`text-xs font-bold px-4 py-2 rounded-xl border transition ${
+                filter === key
+                  ? 'bg-cyan-400/15 border-cyan-400/40 text-cyan-300'
+                  : 'bg-white/5 border-white/10 text-gray-400 hover:border-white/20'
+              }`}>
+              {label}
+            </button>
+          ))}
+        </div>
+        <div className="relative flex-1 sm:max-w-xs ml-auto">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+          <input value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Name, email, ticket ID…"
+            className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-gray-600
+                       focus:outline-none focus:ring-2 focus:ring-cyan-400/30 transition" />
+        </div>
+        <button onClick={() => exportCSV(rows, [
+          { label: '#',            key: (_, i) => i + 1, key: 'id' },
+          { label: 'Full Name',    key: 'full_name'    },
+          { label: 'Email',        key: 'email'        },
+          { label: 'Type',         key: 'student_type' },
+          { label: 'Ticket ID',    key: 'ticket_id'    },
+          { label: 'Meal Ticket',  key: 'meal_ticket'  },
+          { label: 'Freebie',      key: 'is_freebie'   },
+          { label: 'Registered At',key: 'created_at'   },
+        ], 'decagon_attendance.csv')}
+          className="flex items-center gap-1.5 text-xs font-bold text-cyan-400 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 px-3 py-2 rounded-xl transition shrink-0">
+          <Download size={13} /> Export CSV
+        </button>
+      </div>
+
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400">{error}</div>
+      )}
+
+      {loading ? (
+        <div className="text-center py-20 text-gray-500 text-sm">Loading…</div>
+      ) : visible.length === 0 ? (
+        <div className="text-center py-20 text-gray-600 text-sm">
+          {rows.length === 0 ? 'No registrations yet.' : 'No results match your filter.'}
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {visible.map((r, i) => (
+            <div key={r.id}
+              className="bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
+              <span className="text-xs text-gray-600 font-bold w-5 shrink-0 hidden sm:block">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4">
+                <div>
+                  <p className="text-sm font-bold text-white truncate">{r.full_name}</p>
+                  <p className="text-xs text-gray-500 truncate">{r.email}</p>
+                </div>
+                <div>
+                  <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
+                    r.student_type === 'unilag'
+                      ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
+                      : 'bg-violet-500/10 text-violet-400 border-violet-500/20'
+                  }`}>
+                    {r.student_type === 'unilag' ? 'Unilag' : 'Non-Unilag'}
+                  </span>
+                  {r.is_freebie && (
+                    <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-400 border-amber-500/20">
+                      🎁 Freebie
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs font-mono text-cyan-400 tracking-wider">{r.ticket_id}</p>
+                  <p className="text-xs text-gray-600">{fmt(r.created_at)}</p>
+                </div>
+              </div>
+              <div className="shrink-0">
+                <span className="text-xs text-gray-500 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
+                  Meal ×{r.meal_ticket}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <p className="text-xs text-gray-700 text-center">Showing {visible.length} of {total} registrations</p>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Dashboard shell
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1032,6 +1197,7 @@ function Dashboard({ onLogout }) {
             { key: 'signups',       label: '20-Day Challenge Signups',  icon: BookOpen    },
             { key: 'leaderboard',   label: 'Leaderboard',               icon: Medal       },
             { key: 'merch',         label: 'Merch Orders',              icon: ShoppingBag },
+            { key: 'attendance',    label: 'Attendance',                icon: Ticket      },
           ].map(({ key, label, icon: Icon }) => (
             <button key={key} onClick={() => setTab(key)}
               className={`flex items-center gap-2 text-sm font-bold px-4 py-3 border-b-2 transition -mb-px ${
@@ -1051,6 +1217,7 @@ function Dashboard({ onLogout }) {
         {tab === 'signups'       && <SignupsTab />}
         {tab === 'leaderboard'   && <LeaderboardTab />}
         {tab === 'merch'         && <MerchOrdersTab />}
+        {tab === 'attendance'    && <AttendanceAdminTab />}
       </div>
     </div>
   )
