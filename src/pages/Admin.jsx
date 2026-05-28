@@ -703,7 +703,7 @@ function SignupsTab() {
                   <p className="text-xs text-gray-600">{fmt(r.created_at)}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-2 shrink-0 flex-wrap">
                 <span className="text-xs font-bold px-2.5 py-1 rounded-full border bg-cyan-500/10 text-cyan-400 border-cyan-500/20">
                   Signed Up
                 </span>
@@ -793,22 +793,20 @@ function LeaderboardTab() {
         </div>
       )}
 
-      {/* Column headers */}
-      {!loading && rows.length > 0 && (
-        <div className="grid grid-cols-[2.5rem_1fr_5rem_5rem] gap-2 px-4 mb-1">
-          <span className="text-xs text-gray-600">#</span>
-          <span className="text-xs text-gray-600">Participant</span>
-          <span className="text-xs text-gray-600 text-center">Days</span>
-          <span className="text-xs text-gray-600 text-right">Score</span>
-        </div>
-      )}
-
       {loading ? (
         <div className="text-center py-20 text-gray-500 text-sm">Loading…</div>
       ) : rows.length === 0 ? (
         <div className="text-center py-20 text-gray-600 text-sm">No sign-ups yet.</div>
       ) : (
-        <div className="space-y-2">
+        <div className="overflow-x-auto">
+          {/* Column headers */}
+          <div className="grid grid-cols-[2.5rem_1fr_5rem_5rem] gap-2 px-4 mb-1 min-w-[280px]">
+            <span className="text-xs text-gray-600">#</span>
+            <span className="text-xs text-gray-600">Participant</span>
+            <span className="text-xs text-gray-600 text-center">Days</span>
+            <span className="text-xs text-gray-600 text-right">Score</span>
+          </div>
+        <div className="space-y-2 min-w-[280px]">
           {rows.map(p => {
             const { badge, row } = rankStyle(p.rank)
             return (
@@ -830,6 +828,7 @@ function LeaderboardTab() {
               </div>
             )
           })}
+        </div>
         </div>
       )}
       <p className="text-xs text-gray-700 text-center">Scores update as you edit them in the Challenge Signups tab</p>
@@ -1174,7 +1173,7 @@ function AttendanceAdminTab() {
                   <p className="text-xs text-gray-600">{fmt(r.created_at)}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-2 shrink-0 flex-wrap">
                 <span className="text-xs text-gray-500 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
                   Meal ×{r.meal_ticket}
                 </span>
@@ -1223,23 +1222,25 @@ function Dashboard({ onLogout }) {
 
       {/* Tab selector */}
       <div className="px-4 sm:px-8 pt-6">
-        <div className="flex gap-3 border-b border-white/10 pb-0">
-          {[
-            { key: 'registrations', label: 'Competition Registrations', icon: Trophy      },
-            { key: 'signups',       label: '20-Day Challenge Signups',  icon: BookOpen    },
-            { key: 'leaderboard',   label: 'Leaderboard',               icon: Medal       },
-            { key: 'merch',         label: 'Merch Orders',              icon: ShoppingBag },
-            { key: 'attendance',    label: 'Attendance',                icon: Ticket      },
-          ].map(({ key, label, icon: Icon }) => (
-            <button key={key} onClick={() => setTab(key)}
-              className={`flex items-center gap-2 text-sm font-bold px-4 py-3 border-b-2 transition -mb-px ${
-                tab === key
-                  ? 'border-cyan-400 text-cyan-400'
-                  : 'border-transparent text-gray-500 hover:text-gray-300'
-              }`}>
-              <Icon size={15} /> {label}
-            </button>
-          ))}
+        <div className="overflow-x-auto">
+          <div className="flex gap-1 border-b border-white/10 pb-0 min-w-max">
+            {[
+              { key: 'registrations', label: 'Competition',  icon: Trophy      },
+              { key: 'signups',       label: 'Challenge',    icon: BookOpen    },
+              { key: 'leaderboard',   label: 'Leaderboard',  icon: Medal       },
+              { key: 'merch',         label: 'Merch',        icon: ShoppingBag },
+              { key: 'attendance',    label: 'Attendance',   icon: Ticket      },
+            ].map(({ key, label, icon: Icon }) => (
+              <button key={key} onClick={() => setTab(key)}
+                className={`flex items-center gap-2 text-xs sm:text-sm font-bold px-3 sm:px-4 py-3 border-b-2 transition -mb-px whitespace-nowrap shrink-0 ${
+                  tab === key
+                    ? 'border-cyan-400 text-cyan-400'
+                    : 'border-transparent text-gray-500 hover:text-gray-300'
+                }`}>
+                <Icon size={14} /> {label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
