@@ -163,6 +163,21 @@ async function fetchAttendance() {
   return res.json()
 }
 
+async function deleteAttendee(id) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/decagon_attendance?id=eq.${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        apikey:        SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        Prefer:        'return=minimal',
+      },
+    }
+  )
+  if (!res.ok) throw new Error(`Delete failed (${res.status})`)
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1014,6 +1029,7 @@ function AttendanceAdminTab() {
   const [error, setError]     = useState('')
   const [filter, setFilter]   = useState('all')
   const [search, setSearch]   = useState('')
+  const [deleting, setDeleting] = useState(null)
 
   const load = useCallback(async () => {
     setLoading(true); setError('')
@@ -1021,6 +1037,19 @@ function AttendanceAdminTab() {
     catch (e) { setError(e.message) }
     finally { setLoading(false) }
   }, [])
+
+  const handleDelete = async (id, name) => {
+    if (!window.confirm(`Remove ${name} from the attendance list? This cannot be undone.`)) return
+    setDeleting(id)
+    try {
+      await deleteAttendee(id)
+      setRows(r => r.filter(x => x.id !== id))
+    } catch {
+      alert('Failed to delete. Please try again.')
+    } finally {
+      setDeleting(null)
+    }
+  }
 
   useEffect(() => { load() }, [load])
 
@@ -1090,9 +1119,9 @@ function AttendanceAdminTab() {
                        focus:outline-none focus:ring-2 focus:ring-cyan-400/30 transition" />
         </div>
         <button onClick={() => exportCSV(rows, [
-          { label: '#',            key: (_, i) => i + 1, key: 'id' },
           { label: 'Full Name',    key: 'full_name'    },
           { label: 'Email',        key: 'email'        },
+          { label: 'Phone',        key: 'phone'        },
           { label: 'Type',         key: 'student_type' },
           { label: 'Ticket ID',    key: 'ticket_id'    },
           { label: 'Meal Ticket',  key: 'meal_ticket'  },
@@ -1104,9 +1133,7 @@ function AttendanceAdminTab() {
         </button>
       </div>
 
-      {error && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400">{error}</div>
-      )}
+      {error && <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400">{error}</div>}
 
       {loading ? (
         <div className="text-center py-20 text-gray-500 text-sm">Loading…</div>
@@ -1126,6 +1153,7 @@ function AttendanceAdminTab() {
                 <div>
                   <p className="text-sm font-bold text-white truncate">{r.full_name}</p>
                   <p className="text-xs text-gray-500 truncate">{r.email}</p>
+                  {r.phone && <p className="text-xs text-gray-600">{r.phone}</p>}
                 </div>
                 <div>
                   <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
@@ -1146,10 +1174,14 @@ function AttendanceAdminTab() {
                   <p className="text-xs text-gray-600">{fmt(r.created_at)}</p>
                 </div>
               </div>
-              <div className="shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 <span className="text-xs text-gray-500 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
                   Meal ×{r.meal_ticket}
                 </span>
+                <button onClick={() => handleDelete(r.id, r.full_name)} disabled={deleting === r.id}
+                  className="flex items-center gap-1 text-xs text-gray-500 hover:text-white hover:bg-red-600 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg disabled:opacity-40">
+                  <Trash2 size={12} /> {deleting === r.id ? '…' : 'Remove'}
+                </button>
               </div>
             </div>
           ))}

@@ -89,7 +89,7 @@ function TicketCard({ ticket }) {
 export default function DecagonAttend() {
   usePageTitle('Attend — Decagon 5.0 Grand Finale')
 
-  const [form, setForm]             = useState({ fullName: '', email: '', studentType: 'unilag' })
+  const [form, setForm]             = useState({ fullName: '', email: '', phone: '', studentType: 'unilag' })
   const [submitted, setSubmitted]   = useState(false)
   const [ticketData, setTicketData] = useState(null)
   const [loading, setLoading]       = useState(false)
@@ -123,6 +123,7 @@ export default function DecagonAttend() {
       await saveAttendance({
         full_name:    form.fullName,
         email:        form.email,
+        phone:        form.phone,
         student_type: form.studentType,
         ticket_id:    ticketId,
         meal_ticket:  1,
@@ -143,7 +144,7 @@ export default function DecagonAttend() {
       setTicketData({ ...form, ticketId, isFreebie: willGetFreebie })
       setSubmitted(true)
     } catch (err) {
-      if (err.message === 'duplicate')       setError('This email is already registered. Check your inbox for your ticket.')
+      if (err.message === 'duplicate')       setError('This email or phone number is already registered. Check your inbox for your ticket.')
       else if (err.message === 'no-backend') setError('Registration system is temporarily unavailable. Please try again.')
       else                                   setError('Something went wrong. Please try again.')
     } finally {
@@ -207,6 +208,9 @@ export default function DecagonAttend() {
 
             <Field label="Email Address" type="email" placeholder="your@email.com"
               value={form.email} onChange={set('email')} required />
+
+            <Field label="Phone Number" type="tel" placeholder="+234 800 000 0000"
+              value={form.phone} onChange={set('phone')} required />
 
             {/* Student type */}
             <div className="flex flex-col gap-1.5">
