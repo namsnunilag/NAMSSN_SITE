@@ -23,6 +23,7 @@ import Eid from './pages/Eid'
 import StudentExecutives from './pages/StudentExecutives'
 import StudentExecutiveDetail from './pages/StudentExecutiveDetail'
 import Decagon from './pages/Decagon'
+import DecagonAttend from './pages/DecagonAttend'
 import Admin from './pages/Admin'
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
@@ -114,6 +115,7 @@ export default function App() {
                   <Route path="/student-executives"        element={<StudentExecutives />} />
                   <Route path="/student-executives/:id"    element={<StudentExecutiveDetail />} />
                   <Route path="/decagon"                   element={<Decagon />} />
+                  <Route path="/decagon/attend"            element={<DecagonAttend />} />
                 </Routes>
               </main>
               <Footer />

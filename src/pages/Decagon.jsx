@@ -4,9 +4,8 @@ import {
   Trophy, Users, Layers, Star, ChevronRight, Lock,
   Medal, Clock, BookOpen, Mic, Zap, Calendar, MapPin,
   CheckCircle2, ArrowRight, AlertCircle, Upload, Copy, Check, XCircle,
-  ShoppingBag, Ticket,
+  ShoppingBag,
 } from 'lucide-react'
-import emailjs from '@emailjs/browser'
 import usePageTitle from '../hooks/usePageTitle'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -22,9 +21,6 @@ const CHALLENGE_START = new Date('2026-05-04T00:00:00')
 const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || ''
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
-const EMAILJS_TICKET_TID = import.meta.env.VITE_EMAILJS_TICKET_TEMPLATE_ID || ''
 
 const BANK = {
   name:    'Moniepoint MFB',
@@ -115,23 +111,6 @@ async function saveMerchOrder(data) {
   }
 }
 
-async function saveAttendance(data) {
-  if (!SUPABASE_URL) throw new Error('no-backend')
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/decagon_attendance`, {
-    method: 'POST',
-    headers: {
-      apikey:         SUPABASE_ANON_KEY,
-      Authorization:  `Bearer ${SUPABASE_ANON_KEY}`,
-      'Content-Type': 'application/json',
-      Prefer:         'return=minimal',
-    },
-    body: JSON.stringify(data),
-  })
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}))
-    throw new Error(body.code === '23505' ? 'duplicate' : body.message || `HTTP ${res.status}`)
-  }
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Shared UI helpers
@@ -827,200 +806,7 @@ function ConferenceTab() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Tab 4 — Attend (Grand Finale Ticket)
-// ─────────────────────────────────────────────────────────────────────────────
-
-const FREEBIE_SLOTS = 50
-
-function TicketCard({ ticket }) {
-  const typeLabel = ticket.studentType === 'unilag' ? 'Unilag Student' : 'Non-Unilag Student'
-  return (
-    <div className="w-full rounded-2xl border border-white/20 bg-white/[0.04] overflow-hidden">
-      <div className="bg-brand-orange/20 border-b border-white/10 px-5 py-3">
-        <p className="text-[10px] font-bold text-brand-orange uppercase tracking-[0.2em]">Decagon 5.0 — Grand Finale</p>
-        <p className="text-xs text-gray-400 mt-0.5">June 6th, 2026 · University of Lagos</p>
-      </div>
-      <div className="px-5 py-4 space-y-3">
-        {[
-          { label: 'Name',        value: ticket.fullName },
-          { label: 'Type',        value: typeLabel },
-          { label: 'Meal Ticket', value: '×1' },
-          { label: 'Ticket ID',   value: ticket.ticketId, mono: true },
-        ].map(({ label, value, mono }) => (
-          <div key={label} className="flex justify-between items-center gap-4">
-            <span className="text-xs text-gray-500 shrink-0">{label}</span>
-            <span className={`text-sm font-bold text-right ${mono ? 'text-cyan-400 font-mono tracking-widest' : 'text-white'}`}>{value}</span>
-          </div>
-        ))}
-      </div>
-      {ticket.isFreebie && (
-        <div className="border-t border-white/10 px-5 py-3 bg-cyan-400/5 flex items-center gap-2">
-          <span className="text-base">🎁</span>
-          <span className="text-xs font-bold text-cyan-400">You qualify for a freebie! Collect at the venue.</span>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function AttendanceTab() {
-  const [form, setForm]           = useState({ fullName: '', email: '', studentType: 'unilag' })
-  const [submitted, setSubmitted] = useState(false)
-  const [ticketData, setTicketData] = useState(null)
-  const [loading, setLoading]     = useState(false)
-  const [error, setError]         = useState('')
-  const [attendeeCount, setAttendeeCount] = useState(0)
-  const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
-
-  useEffect(() => {
-    if (!SUPABASE_URL) return
-    fetch(`${SUPABASE_URL}/rest/v1/decagon_attendance?select=id`, {
-      headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, Prefer: 'count=exact' },
-    })
-      .then(r => {
-        const c = r.headers.get('content-range')
-        const n = c ? parseInt(c.split('/')[1]) : 0
-        setAttendeeCount(isNaN(n) ? 0 : n)
-      })
-      .catch(() => {})
-  }, [])
-
-  const freebieLeft  = Math.max(0, FREEBIE_SLOTS - attendeeCount)
-  const willGetFreebie = attendeeCount < FREEBIE_SLOTS
-
-  const generateTicketId = () => 'DCG-' + Math.random().toString(36).substring(2, 8).toUpperCase()
-
-  const handleSubmit = async e => {
-    e.preventDefault()
-    setLoading(true); setError('')
-    const ticketId = generateTicketId()
-    try {
-      await saveAttendance({
-        full_name:    form.fullName,
-        email:        form.email,
-        student_type: form.studentType,
-        ticket_id:    ticketId,
-        meal_ticket:  1,
-        is_freebie:   willGetFreebie,
-      })
-      if (EMAILJS_SERVICE_ID && EMAILJS_TICKET_TID) {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TICKET_TID, {
-          to_name:      form.fullName,
-          to_email:     form.email,
-          ticket_id:    ticketId,
-          student_type: form.studentType === 'unilag' ? 'Unilag Student' : 'Non-Unilag Student',
-          meal_ticket:  '×1',
-          freebie:      willGetFreebie ? 'Yes — collect at the venue 🎁' : 'No',
-          event_date:   'June 6th, 2026',
-          event_venue:  'University of Lagos',
-        }, EMAILJS_PUBLIC_KEY)
-      }
-      setTicketData({ ...form, ticketId, isFreebie: willGetFreebie })
-      setSubmitted(true)
-    } catch (err) {
-      if (err.message === 'duplicate')   setError('This email is already registered. Check your inbox for your ticket.')
-      else if (err.message === 'no-backend') setError('Registration system is temporarily unavailable.')
-      else setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  if (submitted && ticketData) return (
-    <div className="flex flex-col items-center gap-6 py-4 max-w-sm mx-auto">
-      <div className="w-14 h-14 rounded-full bg-green-400/20 flex items-center justify-center">
-        <CheckCircle2 size={28} className="text-green-400" />
-      </div>
-      <div className="text-center">
-        <h3 className="text-xl font-black text-white">You're registered!</h3>
-        <p className="text-sm text-gray-400 mt-1">
-          Your ticket has been sent to <span className="text-cyan-400">{ticketData.email}</span>
-        </p>
-      </div>
-      <TicketCard ticket={ticketData} />
-      <p className="text-xs text-gray-600 text-center">Show this ticket or your email at the venue on June 6th.</p>
-    </div>
-  )
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto">
-
-      {/* Event hero */}
-      <div className="rounded-2xl border border-brand-orange/30 bg-brand-orange/5 p-6 text-center space-y-2">
-        <p className="text-[10px] font-bold text-brand-orange uppercase tracking-[0.2em]">Decagon 5.0</p>
-        <p className="text-2xl font-black text-white">Grand Finale</p>
-        <p className="text-gray-400 text-sm">June 6th, 2026 · University of Lagos</p>
-        <p className="text-xs text-gray-500">Free entry — register to secure your spot</p>
-        {freebieLeft > 0 ? (
-          <div className="mt-1 inline-flex items-center gap-1.5 bg-cyan-400/10 border border-cyan-400/20 px-3 py-1.5 rounded-full">
-            <span className="text-xs font-bold text-cyan-400">
-              🎁 {freebieLeft} freebie spot{freebieLeft !== 1 ? 's' : ''} left — first {FREEBIE_SLOTS} attendees
-            </span>
-          </div>
-        ) : (
-          <div className="mt-1 inline-flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-            <span className="text-xs text-gray-500">Freebie spots filled · {FREEBIE_SLOTS}/{FREEBIE_SLOTS}</span>
-          </div>
-        )}
-      </div>
-
-      {/* Name */}
-      <Field label="Full Name" placeholder="e.g. Jubril Dokun" value={form.fullName} onChange={set('fullName')} required />
-
-      {/* Email */}
-      <Field label="Email Address" type="email" placeholder="your@email.com" value={form.email} onChange={set('email')} required />
-
-      {/* Student type */}
-      <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">I am a</label>
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            { value: 'unilag',     label: 'Unilag Student' },
-            { value: 'non-unilag', label: 'Non-Unilag Student' },
-          ].map(({ value, label }) => (
-            <button key={value} type="button"
-              onClick={() => setForm(f => ({ ...f, studentType: value }))}
-              className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${
-                form.studentType === value
-                  ? 'border-cyan-400/60 bg-cyan-400/10'
-                  : 'border-white/10 bg-white/[0.02] hover:border-white/20'
-              }`}>
-              <div className={`w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center ${
-                form.studentType === value ? 'border-cyan-400' : 'border-gray-600'
-              }`}>
-                {form.studentType === value && <div className="w-2 h-2 rounded-full bg-cyan-400" />}
-              </div>
-              <span className="text-sm font-bold text-white">{label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Meal ticket (locked) */}
-      <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Meal Ticket</label>
-        <div className="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 cursor-not-allowed">
-          <span className="text-sm text-white flex-1">Included with registration</span>
-          <span className="text-cyan-400 font-black text-sm">×1</span>
-          <span className="text-[10px] text-gray-600 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">Fixed</span>
-        </div>
-      </div>
-
-      <ErrorBox message={error} />
-
-      <button type="submit" disabled={loading}
-        className="w-full py-4 rounded-xl bg-brand-orange hover:bg-orange-500 text-white font-black text-sm
-                   transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-        <Ticket size={16} />
-        {loading ? 'Registering…' : 'Register & Get Ticket'}
-      </button>
-      <p className="text-center text-xs text-gray-600">Your ticket will be sent to your email address.</p>
-    </form>
-  )
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Tab 5 — Merch Preorder
+// Tab 4 — Merch Preorder
 // ─────────────────────────────────────────────────────────────────────────────
 
 const MERCH_PRICE = 7000
@@ -1253,7 +1039,6 @@ const TABS = [
   { key: 'challenge',   label: '20-Day Challenge',  icon: BookOpen    },
   { key: 'conference',  label: 'Mini Conference',   icon: Mic         },
   { key: 'merch',       label: 'T-Shirt Preorder',  icon: ShoppingBag },
-  { key: 'attend',      label: 'Attend',            icon: Ticket      },
 ]
 
 const PHASES = [
@@ -1395,7 +1180,6 @@ export default function Decagon() {
             {tab === 'challenge'   && <ChallengeTab />}
             {tab === 'conference'  && <ConferenceTab />}
             {tab === 'merch'       && <MerchTab />}
-            {tab === 'attend'      && <AttendanceTab />}
           </div>
         </section>
 
