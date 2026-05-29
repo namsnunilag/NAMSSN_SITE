@@ -144,7 +144,7 @@ export default function DecagonAttend() {
       setTicketData({ ...form, ticketId, isFreebie: willGetFreebie })
       setSubmitted(true)
     } catch (err) {
-      if (err.message === 'duplicate')       setError('This email or phone number is already registered. Check your inbox for your ticket.')
+      if (err.message === 'duplicate')       setError('This name, email, or phone number is already registered. Check your inbox for your ticket.')
       else if (err.message === 'no-backend') setError('Registration system is temporarily unavailable. Please try again.')
       else                                   setError('Something went wrong. Please try again.')
     } finally {

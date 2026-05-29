@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS decagon_attendance (
   id           UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
   full_name    TEXT        NOT NULL,
   email        TEXT        NOT NULL UNIQUE,
+  phone        TEXT        NOT NULL UNIQUE,
   student_type TEXT        NOT NULL,   -- 'unilag' or 'non-unilag'
   ticket_id    TEXT        NOT NULL UNIQUE,
   meal_ticket  INT         NOT NULL DEFAULT 1,
