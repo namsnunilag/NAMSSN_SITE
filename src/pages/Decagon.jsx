@@ -15,8 +15,8 @@ import usePageTitle from '../hooks/usePageTitle'
 // Registration is closed
 const REGISTRATION_CLOSED = true
 
-// 20-Day Challenge start date (Day 1 = May 4 2026, weekdays only)
-const CHALLENGE_START = new Date('2026-05-04T00:00:00')
+// Update this manually when results for a new day are posted
+const CURRENT_CHALLENGE_DAY = 17
 
 const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
@@ -643,19 +643,8 @@ function ChallengeTab() {
     }
   }
 
-  const todayStart = new Date(); todayStart.setHours(0,0,0,0)
-  const challengeStarted = todayStart >= CHALLENGE_START
-  const countWeekdays = (start, end) => {
-    let count = 0
-    const d = new Date(start)
-    while (d <= end) {
-      const day = d.getDay()
-      if (day !== 0 && day !== 6) count++
-      d.setDate(d.getDate() + 1)
-    }
-    return count
-  }
-  const currentDay = challengeStarted ? Math.min(20, countWeekdays(CHALLENGE_START, todayStart)) : 0
+  const currentDay = CURRENT_CHALLENGE_DAY
+  const challengeStarted = currentDay > 0
 
   const days = Array.from({ length: 20 }, (_, i) => i + 1)
 
@@ -703,11 +692,11 @@ function ChallengeTab() {
           })}
         </div>
         <p className="text-xs text-gray-600 mt-3">
-          {challengeStarted
-            ? currentDay <= 20
-              ? `Day ${currentDay} of 20 — challenge is live`
-              : 'Challenge complete — all 20 days done'
-            : 'Challenge starts May 4, 2026 — stay tuned'}
+          {currentDay === 0
+            ? 'Challenge not started yet — stay tuned'
+            : currentDay >= 20
+              ? 'Challenge complete — all 20 days done'
+              : `Day ${currentDay} of 20 — challenge is live`}
         </p>
       </div>
 
