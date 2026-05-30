@@ -106,6 +106,35 @@ CREATE POLICY "anon can register attendance"
 CREATE POLICY "anon can read attendance"
   ON decagon_attendance FOR SELECT TO anon USING (true);
 
+-- 3d. Dean's Games jersey preorders
+CREATE TABLE IF NOT EXISTS deans_games_jersey_orders (
+  id             UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  full_name      TEXT        NOT NULL,
+  email          TEXT        NOT NULL,
+  phone          TEXT        NOT NULL,
+  jersey_name    TEXT        NOT NULL,
+  jersey_number  TEXT        NOT NULL,
+  size           TEXT        NOT NULL,
+  amount         INT         NOT NULL DEFAULT 12000,
+  receipt_url    TEXT,
+  status         TEXT        NOT NULL DEFAULT 'pending_review',
+  created_at     TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE deans_games_jersey_orders ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "anon can place jersey order"
+  ON deans_games_jersey_orders FOR INSERT TO anon WITH CHECK (true);
+
+CREATE POLICY "anon can read jersey orders"
+  ON deans_games_jersey_orders FOR SELECT TO anon USING (true);
+
+CREATE POLICY "anon can update jersey order status"
+  ON deans_games_jersey_orders FOR UPDATE TO anon USING (true) WITH CHECK (true);
+
+CREATE POLICY "anon can delete jersey order"
+  ON deans_games_jersey_orders FOR DELETE TO anon USING (true);
+
 -- ── Score columns (run once if tables already exist) ──────────────────────────
 -- If you created the tables before this update, run these ALTER statements:
 --   ALTER TABLE decagon_registrations ADD COLUMN IF NOT EXISTS score INT DEFAULT 0;

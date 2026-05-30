@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
-  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil, Medal, ShoppingBag, Ticket, UserCheck, Gift,
+  Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil, Medal, ShoppingBag, Ticket, UserCheck, Gift, Shirt,
 } from 'lucide-react'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -140,6 +140,32 @@ async function fetchMerchOrders() {
 async function setMerchOrderStatus(id, status) {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/decagon_merch_orders?id=eq.${id}`,
+    {
+      method: 'PATCH',
+      headers: {
+        apikey:         SUPABASE_ANON_KEY,
+        Authorization:  `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer:         'return=minimal',
+      },
+      body: JSON.stringify({ status }),
+    }
+  )
+  if (!res.ok) throw new Error(`Update failed (${res.status})`)
+}
+
+async function fetchJerseyOrders() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?select=*&order=created_at.desc`,
+    { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+  )
+  if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
+  return res.json()
+}
+
+async function setJerseyOrderStatus(id, status) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?id=eq.${id}`,
     {
       method: 'PATCH',
       headers: {
@@ -1019,6 +1045,184 @@ function MerchOrdersTab() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Dean's Games Jersey Orders tab
+// ─────────────────────────────────────────────────────────────────────────────
+
+function JerseyOrdersTab() {
+  const [rows, setRows]         = useState([])
+  const [loading, setLoading]   = useState(true)
+  const [error, setError]       = useState('')
+  const [filter, setFilter]     = useState('all')
+  const [search, setSearch]     = useState('')
+  const [updating, setUpdating] = useState(null)
+
+  const load = useCallback(async () => {
+    setLoading(true); setError('')
+    try { setRows(await fetchJerseyOrders()) }
+    catch (e) { setError(e.message) }
+    finally { setLoading(false) }
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  const handleStatus = async (id, status) => {
+    setUpdating(id)
+    try {
+      await setJerseyOrderStatus(id, status)
+      setRows(r => r.map(x => x.id === id ? { ...x, status } : x))
+    } catch {
+      alert('Failed to update. Please try again.')
+    } finally {
+      setUpdating(null)
+    }
+  }
+
+  const total     = rows.length
+  const pending   = rows.filter(r => r.status === 'pending_review').length
+  const confirmed = rows.filter(r => r.status === 'confirmed').length
+  const revenue   = rows.filter(r => r.status === 'confirmed').reduce((s, r) => s + (r.amount ?? 0), 0)
+
+  const visible = rows.filter(r => {
+    const matchFilter = filter === 'all' || r.status === filter
+    const q = search.toLowerCase()
+    const matchSearch = !q
+      || r.full_name?.toLowerCase().includes(q)
+      || r.email?.toLowerCase().includes(q)
+      || r.jersey_name?.toLowerCase().includes(q)
+      || r.jersey_number?.toLowerCase().includes(q)
+      || r.size?.toLowerCase().includes(q)
+    return matchFilter && matchSearch
+  })
+
+  return (
+    <div className="space-y-5">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[
+          { label: 'Total Orders', value: total,                          icon: Shirt,       cls: 'text-white'     },
+          { label: 'Pending',      value: pending,                        icon: Clock,       cls: 'text-amber-400' },
+          { label: 'Confirmed',    value: confirmed,                      icon: CheckCheck,  cls: 'text-green-400' },
+          { label: 'Revenue',      value: `₦${revenue.toLocaleString()}`, icon: CheckCircle2, cls: 'text-red-400'  },
+        ].map(({ label, value, icon: Icon, cls }) => (
+          <div key={label} className="bg-white/[0.04] border border-white/10 rounded-2xl p-4 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
+              <Icon size={16} className={cls} />
+            </div>
+            <div>
+              <p className="text-xl font-black text-white">{value}</p>
+              <p className="text-xs text-gray-500">{label}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+        <div className="flex gap-2 flex-wrap">
+          {[
+            { key: 'all',            label: 'All'       },
+            { key: 'pending_review', label: 'Pending'   },
+            { key: 'confirmed',      label: 'Confirmed' },
+            { key: 'rejected',       label: 'Rejected'  },
+          ].map(({ key, label }) => (
+            <button key={key} onClick={() => setFilter(key)}
+              className={`text-xs font-bold px-4 py-2 rounded-xl border transition ${
+                filter === key
+                  ? 'bg-red-400/15 border-red-400/40 text-red-300'
+                  : 'bg-white/5 border-white/10 text-gray-400 hover:border-white/20'
+              }`}>
+              {label}
+            </button>
+          ))}
+        </div>
+        <div className="relative flex-1 sm:max-w-xs ml-auto">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+          <input value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Search name, size, number…"
+            className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-gray-600
+                       focus:outline-none focus:ring-2 focus:ring-red-400/30 transition" />
+        </div>
+        <button onClick={() => exportCSV(rows, [
+          { label: 'Full Name',     key: 'full_name'     },
+          { label: 'Email',         key: 'email'         },
+          { label: 'Phone',         key: 'phone'         },
+          { label: 'Jersey Name',   key: 'jersey_name'   },
+          { label: 'Jersey Number', key: 'jersey_number' },
+          { label: 'Size',          key: 'size'          },
+          { label: 'Amount',        key: 'amount'        },
+          { label: 'Status',        key: 'status'        },
+          { label: 'Receipt URL',   key: 'receipt_url'   },
+          { label: 'Ordered At',    key: 'created_at'    },
+        ], 'deans_games_jersey_orders.csv')}
+          className="flex items-center gap-1.5 text-xs font-bold text-red-400 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 px-3 py-2 rounded-xl transition shrink-0">
+          <Download size={13} /> Export CSV
+        </button>
+      </div>
+
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400">{error}</div>
+      )}
+
+      {loading ? (
+        <div className="text-center py-20 text-gray-500 text-sm">Loading…</div>
+      ) : visible.length === 0 ? (
+        <div className="text-center py-20 text-gray-600 text-sm">
+          {rows.length === 0 ? 'No orders yet.' : 'No results match your filter.'}
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {visible.map((r, i) => (
+            <div key={r.id}
+              className="bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
+              <span className="text-xs text-gray-600 font-bold w-5 shrink-0 hidden sm:block">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4">
+                <div>
+                  <p className="text-sm font-bold text-white truncate">{r.full_name}</p>
+                  <p className="text-xs text-gray-500 truncate">{r.email}</p>
+                  <p className="text-xs text-gray-600">{r.phone}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-white">
+                    {r.jersey_name} · #{r.jersey_number}
+                  </p>
+                  <p className="text-xs text-gray-400">Size: {r.size}</p>
+                  <p className="text-xs text-red-400 font-bold">₦{(r.amount ?? 0).toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600">{fmt(r.created_at)}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                <StatusBadge status={r.status} />
+                {r.receipt_url && (
+                  <a href={r.receipt_url} target="_blank" rel="noreferrer"
+                    className="flex items-center gap-1 text-xs text-gray-400 hover:text-red-400 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
+                    <ExternalLink size={12} /> Receipt
+                  </a>
+                )}
+                {r.status !== 'confirmed' && (
+                  <button onClick={() => handleStatus(r.id, 'confirmed')} disabled={updating === r.id}
+                    className="flex items-center gap-1 text-xs text-green-400 hover:text-white hover:bg-green-500 transition bg-green-500/10 border border-green-500/20 px-3 py-1.5 rounded-lg disabled:opacity-40">
+                    <CheckCircle2 size={12} /> {updating === r.id ? '…' : 'Confirm'}
+                  </button>
+                )}
+                {r.status !== 'rejected' && (
+                  <button onClick={() => handleStatus(r.id, 'rejected')} disabled={updating === r.id}
+                    className="flex items-center gap-1 text-xs text-red-400 hover:text-white hover:bg-red-500 transition bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-lg disabled:opacity-40">
+                    <XCircle size={12} /> {updating === r.id ? '…' : 'Reject'}
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <p className="text-xs text-gray-700 text-center">Showing {visible.length} of {total} orders</p>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Attendance tab
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1229,6 +1433,7 @@ function Dashboard({ onLogout }) {
               { key: 'signups',       label: 'Challenge',    icon: BookOpen    },
               { key: 'leaderboard',   label: 'Leaderboard',  icon: Medal       },
               { key: 'merch',         label: 'Merch',        icon: ShoppingBag },
+              { key: 'jersey',        label: 'Jersey',       icon: Shirt       },
               { key: 'attendance',    label: 'Attendance',   icon: Ticket      },
             ].map(({ key, label, icon: Icon }) => (
               <button key={key} onClick={() => setTab(key)}
@@ -1250,6 +1455,7 @@ function Dashboard({ onLogout }) {
         {tab === 'signups'       && <SignupsTab />}
         {tab === 'leaderboard'   && <LeaderboardTab />}
         {tab === 'merch'         && <MerchOrdersTab />}
+        {tab === 'jersey'        && <JerseyOrdersTab />}
         {tab === 'attendance'    && <AttendanceAdminTab />}
       </div>
     </div>

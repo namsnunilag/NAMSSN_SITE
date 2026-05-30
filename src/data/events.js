@@ -84,9 +84,9 @@ export const upcomingEvents = [
       'Faculty-wide event with prizes',
       'Social networking opportunity',
     ],
-    registrationStatus: 'coming-soon',
+    registrationStatus: 'open',
     registrationDate: null,
-    registrationLink: null,
+    registrationLink: '/deans-games/jersey',
   },
 ]
 

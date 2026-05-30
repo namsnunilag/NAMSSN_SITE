@@ -24,6 +24,7 @@ import StudentExecutives from './pages/StudentExecutives'
 import StudentExecutiveDetail from './pages/StudentExecutiveDetail'
 import Decagon from './pages/Decagon'
 import DecagonAttend from './pages/DecagonAttend'
+import DeansGamesJersey from './pages/DeansGamesJersey'
 import Admin from './pages/Admin'
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
@@ -116,6 +117,7 @@ export default function App() {
                   <Route path="/student-executives/:id"    element={<StudentExecutiveDetail />} />
                   <Route path="/decagon"                   element={<Decagon />} />
                   <Route path="/decagon/attend"            element={<DecagonAttend />} />
+                  <Route path="/deans-games/jersey"       element={<DeansGamesJersey />} />
                 </Routes>
               </main>
               <Footer />
