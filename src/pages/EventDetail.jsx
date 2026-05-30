@@ -339,7 +339,7 @@ function DecagonEventDetail({ event, navigate }) {
               {event.registrationStatus === 'open' && event.registrationLink && (
                 <a href={event.registrationLink} target="_blank" rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2 bg-brand-orange hover:bg-brand-yellow hover:text-[#0D1B2A] text-white font-bold py-3 rounded-xl transition-colors">
-                  Register Now <ExternalLink size={14} />
+                  {event.ctaLabel || 'Register Now'} <ExternalLink size={14} />
                 </a>
               )}
 
@@ -486,7 +486,7 @@ export default function EventDetail() {
               {event.registrationStatus === 'open' && event.registrationLink && (
                 <a href={event.registrationLink} target="_blank" rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white font-bold py-3 rounded-xl transition-colors">
-                  Register Now <ExternalLink size={14} />
+                  {event.ctaLabel || 'Register Now'} <ExternalLink size={14} />
                 </a>
               )}
 

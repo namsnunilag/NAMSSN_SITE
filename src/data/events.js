@@ -70,8 +70,8 @@ export const upcomingEvents = [
   },
   {
     id: 2,
-    title: "Dean's Games 2025",
-    date: 'May 3, 2025',
+    title: "Dean's Games 2026",
+    date: 'June 12, 2026',
     time: '10:00 AM',
     location: 'UNILAG Sports Complex',
     category: 'Sports',
@@ -87,6 +87,7 @@ export const upcomingEvents = [
     registrationStatus: 'open',
     registrationDate: null,
     registrationLink: '/deans-games/jersey',
+    ctaLabel: 'Get Your Jersey Now',
   },
 ]
 
