@@ -241,7 +241,7 @@ export default function DeansGamesJersey() {
       </section>
 
       {/* Form / Success */}
-      <section className="max-w-lg mx-auto px-4 pb-24">
+      <section className="max-w-2xl mx-auto px-4 pb-24">
         {submitted ? (
           <div className="flex flex-col items-center gap-6 py-4 text-center">
             <div className="w-16 h-16 rounded-full bg-cyan-400/20 flex items-center justify-center">
