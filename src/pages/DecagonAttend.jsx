@@ -10,6 +10,7 @@ const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
 const EMAILJS_TICKET_TID = import.meta.env.VITE_EMAILJS_TICKET_TEMPLATE_ID || ''
 
 const FREEBIE_SLOTS = 50
+const MAX_ATTENDEES = 150
 
 async function saveAttendance(data) {
   if (!SUPABASE_URL) throw new Error('no-backend')
@@ -110,6 +111,7 @@ export default function DecagonAttend() {
       .catch(() => {})
   }, [])
 
+  const isFull         = attendeeCount >= MAX_ATTENDEES
   const freebieLeft    = Math.max(0, FREEBIE_SLOTS - attendeeCount)
   const willGetFreebie = attendeeCount < FREEBIE_SLOTS
 
@@ -167,7 +169,11 @@ export default function DecagonAttend() {
           <p className="text-gray-400 text-base mb-2">June 6th, 2026 · 10am · LT018, Faculty of Science, UNILAG</p>
           <p className="text-gray-500 text-sm">Free entry · Register to secure your spot & meal ticket</p>
 
-          {freebieLeft > 0 ? (
+          {isFull ? (
+            <div className="mt-5 inline-flex items-center gap-2 bg-red-500/10 border border-red-500/20 px-4 py-2 rounded-full">
+              <span className="text-sm font-bold text-red-400">Registration closed · {MAX_ATTENDEES}/{MAX_ATTENDEES} spots filled</span>
+            </div>
+          ) : freebieLeft > 0 ? (
             <div className="mt-5 inline-flex items-center gap-2 bg-cyan-400/10 border border-cyan-400/20 px-4 py-2 rounded-full">
               <span className="text-sm font-bold text-cyan-400">
                 🎁 {freebieLeft} freebie spot{freebieLeft !== 1 ? 's' : ''} remaining — first {FREEBIE_SLOTS} attendees
@@ -183,7 +189,17 @@ export default function DecagonAttend() {
 
       {/* Form / Success */}
       <section className="max-w-lg mx-auto px-4 pb-24">
-        {submitted && ticketData ? (
+        {isFull && !submitted ? (
+          <div className="flex flex-col items-center gap-4 py-12 text-center bg-white/[0.03] border border-white/10 rounded-2xl p-8">
+            <div className="w-14 h-14 rounded-full bg-red-500/20 flex items-center justify-center">
+              <AlertCircle size={28} className="text-red-400" />
+            </div>
+            <h2 className="text-2xl font-black text-white">Registration Closed</h2>
+            <p className="text-gray-400 text-sm max-w-xs">
+              All {MAX_ATTENDEES} spots have been filled. We look forward to seeing you at future NAMSSN events.
+            </p>
+          </div>
+        ) : submitted && ticketData ? (
           <div className="flex flex-col items-center gap-6 py-4">
             <div className="w-16 h-16 rounded-full bg-green-400/20 flex items-center justify-center">
               <CheckCircle2 size={30} className="text-green-400" />
@@ -260,6 +276,7 @@ export default function DecagonAttend() {
           </form>
         )}
       </section>
+
     </div>
   )
 }
