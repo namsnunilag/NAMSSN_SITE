@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { CheckCircle2, AlertCircle, Copy, Check, Upload, Shirt } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 
@@ -63,7 +63,7 @@ function Field({ label, type = 'text', placeholder, value, onChange, required, m
         type={type} placeholder={placeholder} value={value}
         onChange={onChange} required={required} maxLength={maxLength}
         className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500
-                   focus:outline-none focus:ring-2 focus:ring-red-400/40 focus:border-red-400/40 transition"
+                   focus:outline-none focus:ring-2 focus:ring-cyan-400/40 focus:border-cyan-400/40 transition"
       />
     </div>
   )
@@ -77,17 +77,17 @@ function CopyButton({ text }) {
     setTimeout(() => setCopied(false), 2000)
   }
   return (
-    <button type="button" onClick={copy} className="ml-2 text-gray-500 hover:text-red-400 transition shrink-0">
-      {copied ? <Check size={13} className="text-red-400" /> : <Copy size={13} />}
+    <button type="button" onClick={copy} className="ml-2 text-gray-500 hover:text-cyan-400 transition shrink-0">
+      {copied ? <Check size={13} className="text-cyan-400" /> : <Copy size={13} />}
     </button>
   )
 }
 
 function BankDetails() {
   return (
-    <div className="rounded-xl border border-red-400/20 bg-red-400/5 overflow-hidden">
-      <div className="px-4 py-3 border-b border-red-400/10">
-        <p className="text-xs font-bold text-red-400 uppercase tracking-wider">
+    <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 overflow-hidden">
+      <div className="px-4 py-3 border-b border-cyan-400/10">
+        <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
           Transfer ₦{JERSEY_PRICE.toLocaleString()} to this account
         </p>
       </div>
@@ -102,8 +102,8 @@ function BankDetails() {
             <span className="text-xs text-gray-500 shrink-0">{label}</span>
             <div className="flex items-center">
               <span className={`text-sm font-bold text-right ${
-                label === 'Account No.' ? 'text-red-400 font-black tracking-wider' :
-                label === 'Amount'      ? 'text-red-400 font-black' : 'text-white'
+                label === 'Account No.' ? 'text-cyan-400 font-black tracking-wider' :
+                label === 'Amount'      ? 'text-brand-orange font-black' : 'text-white'
               }`}>{value}</span>
               {copy && <CopyButton text={value} />}
             </div>
@@ -122,7 +122,7 @@ function FileUpload({ value, onChange, required }) {
       <button type="button" onClick={() => inputRef.current?.click()}
         className={`flex items-center gap-3 border rounded-xl px-4 py-3 transition text-left ${
           value
-            ? 'border-red-400/40 bg-red-400/5 text-red-300'
+            ? 'border-cyan-400/40 bg-cyan-400/5 text-cyan-300'
             : 'border-white/10 bg-white/5 text-gray-500 hover:border-white/20'
         }`}>
         <Upload size={15} className="shrink-0" />
@@ -130,7 +130,11 @@ function FileUpload({ value, onChange, required }) {
       </button>
       <p className="text-xs text-gray-600">JPG, PNG or PDF · max 5 MB</p>
       <input ref={inputRef} type="file" accept="image/*,.pdf" className="hidden" required={required}
-        onChange={e => { const f = e.target.files?.[0]; if (f && f.size <= 5 * 1024 * 1024) onChange(f); else if (f) alert('File too large. Max 5 MB.') }} />
+        onChange={e => {
+          const f = e.target.files?.[0]
+          if (f && f.size <= 5 * 1024 * 1024) onChange(f)
+          else if (f) alert('File too large. Max 5 MB.')
+        }} />
     </div>
   )
 }
@@ -148,6 +152,7 @@ function ErrorBox({ message }) {
 export default function DeansGamesJersey() {
   usePageTitle("Dean's Games Jersey — Preorder")
 
+  const [view, setView]           = useState('front')
   const [form, setForm]           = useState({ fullName: '', email: '', phone: '', jerseyName: '', jerseyNumber: '', size: '' })
   const [receipt, setReceipt]     = useState(null)
   const [submitted, setSubmitted] = useState(false)
@@ -157,21 +162,21 @@ export default function DeansGamesJersey() {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    if (!form.size)    { setError('Please select a size.'); return }
-    if (!receipt)      { setError('Please upload your payment receipt.'); return }
+    if (!form.size)  { setError('Please select a size.'); return }
+    if (!receipt)    { setError('Please upload your payment receipt.'); return }
     setLoading(true); setError('')
     try {
       const key = form.email.replace(/[@.]/g, '_')
       const receiptUrl = await uploadReceipt(receipt, key)
       await saveJerseyOrder({
-        full_name:      form.fullName,
-        email:          form.email,
-        phone:          form.phone,
-        jersey_name:    form.jerseyName,
-        jersey_number:  form.jerseyNumber,
-        size:           form.size,
-        amount:         JERSEY_PRICE,
-        receipt_url:    receiptUrl,
+        full_name:     form.fullName,
+        email:         form.email,
+        phone:         form.phone,
+        jersey_name:   form.jerseyName,
+        jersey_number: form.jerseyNumber,
+        size:          form.size,
+        amount:        JERSEY_PRICE,
+        receipt_url:   receiptUrl,
       })
       setSubmitted(true)
     } catch (err) {
@@ -186,43 +191,78 @@ export default function DeansGamesJersey() {
     <div className="min-h-screen" style={{ background: '#0D1B2A', color: '#fff' }}>
 
       {/* Hero */}
-      <section className="relative overflow-hidden px-4 pt-16 pb-14 text-center">
+      <section className="relative overflow-hidden px-4 pt-16 pb-10 text-center">
         <div className="absolute inset-0 opacity-[0.03]"
-          style={{ backgroundImage: 'linear-gradient(#ef4444 1px,transparent 1px),linear-gradient(90deg,#ef4444 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[280px] rounded-full blur-[120px] opacity-10 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse,#ef4444,transparent)' }} />
+          style={{ backgroundImage: 'linear-gradient(#00CCFF 1px,transparent 1px),linear-gradient(90deg,#00CCFF 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[260px] rounded-full blur-[120px] opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse,#00CCFF,transparent)' }} />
         <div className="relative max-w-xl mx-auto">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-400 mb-3">Dean's Games 2026</p>
-          <h1 className="text-4xl sm:text-5xl font-black text-white mb-3">Jersey Preorder</h1>
-          <p className="text-gray-400 text-base mb-2">Red jersey · Your name & number on the back</p>
-          <p className="text-3xl font-black text-red-400 mt-4">₦{JERSEY_PRICE.toLocaleString()}</p>
-          <p className="text-gray-500 text-sm mt-1">per jersey · limited stock</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-400 mb-3">Dean's Games 2026</p>
+          <h1 className="text-4xl sm:text-5xl font-black text-white mb-2">NAMSSN Jersey</h1>
+          <p className="text-gray-400 text-sm mb-1">Your name & number printed on the back</p>
+          <p className="text-3xl font-black text-cyan-400 mt-4">₦{JERSEY_PRICE.toLocaleString()}</p>
+          <p className="text-gray-500 text-sm mt-1">per jersey · limited stock · preorder now</p>
         </div>
+      </section>
+
+      {/* Jersey preview */}
+      <section className="max-w-2xl mx-auto px-4 pb-6">
+        <div className="flex gap-2 justify-center mb-4">
+          {[{ key: 'front', label: 'Front' }, { key: 'back', label: 'Back' }].map(({ key, label }) => (
+            <button key={key} onClick={() => setView(key)}
+              className={`text-xs font-bold px-5 py-2 rounded-xl border transition ${
+                view === key
+                  ? 'bg-cyan-400/15 border-cyan-400/40 text-cyan-300'
+                  : 'bg-white/5 border-white/10 text-gray-500 hover:border-white/20'
+              }`}>
+              {label}
+            </button>
+          ))}
+        </div>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02]">
+            <img
+              src={view === 'front' ? '/images/jersey/jersey-front.png' : '/images/jersey/jersey-back.png'}
+              alt={`Jersey ${view}`}
+              className="w-full object-contain"
+            />
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02]">
+            <img
+              src={view === 'front' ? '/images/jersey/jersey-model-front.png' : '/images/jersey/jersey-model-back.png'}
+              alt={`Jersey ${view} on model`}
+              className="w-full object-cover"
+            />
+          </div>
+        </div>
+        <p className="text-xs text-gray-600 text-center mt-2">
+          Navy blue · Cyan accents · Your name & number on back
+        </p>
       </section>
 
       {/* Form / Success */}
       <section className="max-w-lg mx-auto px-4 pb-24">
         {submitted ? (
           <div className="flex flex-col items-center gap-6 py-4 text-center">
-            <div className="w-16 h-16 rounded-full bg-red-400/20 flex items-center justify-center">
-              <CheckCircle2 size={30} className="text-red-400" />
+            <div className="w-16 h-16 rounded-full bg-cyan-400/20 flex items-center justify-center">
+              <CheckCircle2 size={30} className="text-cyan-400" />
             </div>
             <div>
               <h2 className="text-2xl font-black text-white">Order received!</h2>
               <p className="text-gray-400 text-sm mt-1">
-                We'll confirm your order via <span className="text-red-400">{form.email}</span>
+                We'll confirm your order via <span className="text-cyan-400">{form.email}</span>
               </p>
             </div>
             <div className="w-full rounded-2xl border border-white/20 bg-white/[0.04] overflow-hidden">
-              <div className="bg-red-500/20 border-b border-white/10 px-5 py-3">
-                <p className="text-[10px] font-bold text-red-400 uppercase tracking-[0.2em]">Dean's Games — Jersey Order</p>
+              <div className="bg-cyan-400/10 border-b border-white/10 px-5 py-3">
+                <p className="text-[10px] font-bold text-cyan-400 uppercase tracking-[0.2em]">Dean's Games — Jersey Order</p>
               </div>
               <div className="px-5 py-4 space-y-3">
                 {[
-                  { label: 'Name',          value: form.fullName },
-                  { label: 'Jersey Name',   value: form.jerseyName },
+                  { label: 'Name',          value: form.fullName    },
+                  { label: 'Jersey Name',   value: form.jerseyName  },
                   { label: 'Jersey No.',    value: form.jerseyNumber },
-                  { label: 'Size',          value: form.size },
+                  { label: 'Size',          value: form.size        },
                   { label: 'Amount Paid',   value: `₦${JERSEY_PRICE.toLocaleString()}` },
                 ].map(({ label, value }) => (
                   <div key={label} className="flex justify-between items-center gap-4">
@@ -247,7 +287,7 @@ export default function DeansGamesJersey() {
                     onClick={() => setForm(f => ({ ...f, size: sz }))}
                     className={`w-12 h-12 rounded-xl border text-sm font-black transition-all ${
                       form.size === sz
-                        ? 'border-red-400/60 bg-red-400/10 text-red-300'
+                        ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-300'
                         : 'border-white/10 bg-white/[0.02] text-gray-400 hover:border-white/20'
                     }`}>
                     {sz}
@@ -257,9 +297,9 @@ export default function DeansGamesJersey() {
               {!form.size && <p className="text-xs text-gray-600">Select your size</p>}
             </div>
 
-            {/* Jersey name + number */}
-            <Field label="Name on Jersey Back" placeholder="e.g. JUBRIL"
-              value={form.jerseyName} onChange={set('jerseyName')} required maxLength={20} />
+            {/* Jersey personalisation */}
+            <Field label="Name on Jersey Back" placeholder="e.g. JUBRIL (max 15 chars)"
+              value={form.jerseyName} onChange={set('jerseyName')} required maxLength={15} />
             <Field label="Number on Jersey Back" placeholder="e.g. 10"
               value={form.jerseyNumber} onChange={set('jerseyNumber')} required maxLength={3} />
 
@@ -280,7 +320,7 @@ export default function DeansGamesJersey() {
             <ErrorBox message={error} />
 
             <button type="submit" disabled={loading}
-              className="w-full py-4 rounded-xl bg-red-500 hover:bg-red-600 text-white font-black text-sm
+              className="w-full py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-[#0D1B2A] font-black text-sm
                          transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
               <Shirt size={16} />
               {loading ? 'Placing order…' : `Place Order · ₦${JERSEY_PRICE.toLocaleString()}`}
