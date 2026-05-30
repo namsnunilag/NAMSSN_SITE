@@ -220,11 +220,11 @@ export default function DeansGamesJersey() {
           ))}
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
-          <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02]">
+          <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02] aspect-[4/5]">
             <img
               src={view === 'front' ? '/images/jersey/jersey-front.png' : '/images/jersey/jersey-back.png'}
               alt={`Jersey ${view}`}
-              className="w-full object-contain"
+              className="w-full h-full object-cover scale-110"
             />
           </div>
           <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02]">
