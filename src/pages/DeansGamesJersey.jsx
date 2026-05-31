@@ -181,7 +181,7 @@ export default function DeansGamesJersey() {
       setSubmitted(true)
     } catch (err) {
       if (err.message === 'no-backend') setError('Order system is temporarily unavailable. Please contact the team.')
-      else setError('Something went wrong. Please try again.')
+      else setError(`Something went wrong: ${err.message}`)
     } finally {
       setLoading(false)
     }
