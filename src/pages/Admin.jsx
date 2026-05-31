@@ -1433,7 +1433,9 @@ function AttendanceAdminTab() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function Dashboard({ onLogout }) {
-  const [tab, setTab] = useState('registrations')
+  const [tab, setTab] = useState(() => localStorage.getItem('admin_tab') || 'registrations')
+
+  const switchTab = t => { setTab(t); localStorage.setItem('admin_tab', t) }
 
   const reload = () => {
     // trigger re-mount of the active tab by toggling a key — simplest approach
@@ -1469,7 +1471,7 @@ function Dashboard({ onLogout }) {
               { key: 'jersey',        label: 'Jersey',       icon: Shirt       },
               { key: 'attendance',    label: 'Attendance',   icon: Ticket      },
             ].map(({ key, label, icon: Icon }) => (
-              <button key={key} onClick={() => setTab(key)}
+              <button key={key} onClick={() => switchTab(key)}
                 className={`flex items-center gap-2 text-xs sm:text-sm font-bold px-3 sm:px-4 py-3 border-b-2 transition -mb-px whitespace-nowrap shrink-0 ${
                   tab === key
                     ? 'border-cyan-400 text-cyan-400'
