@@ -16,7 +16,9 @@ const BANK = {
 
 async function uploadReceipt(file, key) {
   if (!SUPABASE_URL) throw new Error('no-backend')
-  const ext      = file.name.split('.').pop()
+  const ext      = (file.name.split('.').pop() || 'jpg').toLowerCase()
+  const mimeMap  = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', pdf: 'application/pdf', heic: 'image/heic', heif: 'image/heif' }
+  const mime     = file.type || mimeMap[ext] || 'application/octet-stream'
   const filename = `jersey_${key}_${Date.now()}.${ext}`
   const res = await fetch(
     `${SUPABASE_URL}/storage/v1/object/decagon-receipts/${filename}`,
@@ -25,7 +27,7 @@ async function uploadReceipt(file, key) {
       headers: {
         apikey:         SUPABASE_ANON_KEY,
         Authorization:  `Bearer ${SUPABASE_ANON_KEY}`,
-        'Content-Type': file.type || 'application/octet-stream',
+        'Content-Type': mime,
       },
       body: file,
     }
@@ -129,7 +131,7 @@ function FileUpload({ value, onChange, required }) {
         <span className="text-sm truncate">{value ? value.name : 'Click to upload your receipt'}</span>
       </button>
       <p className="text-xs text-gray-600">JPG, PNG or PDF · max 5 MB</p>
-      <input ref={inputRef} type="file" accept="image/*,.pdf" className="hidden" required={required}
+      <input ref={inputRef} type="file" accept="image/*,.pdf,.heic,.heif" className="hidden" required={required}
         onChange={e => {
           const f = e.target.files?.[0]
           if (f && f.size <= 5 * 1024 * 1024) onChange(f)
