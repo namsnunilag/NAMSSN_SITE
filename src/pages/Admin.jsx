@@ -163,6 +163,21 @@ async function fetchJerseyOrders() {
   return res.json()
 }
 
+async function deleteJerseyOrder(id) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?id=eq.${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        apikey:        SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        Prefer:        'return=minimal',
+      },
+    }
+  )
+  if (!res.ok) throw new Error(`Delete failed (${res.status})`)
+}
+
 async function setJerseyOrderStatus(id, status) {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?id=eq.${id}`,
@@ -1055,6 +1070,7 @@ function JerseyOrdersTab() {
   const [filter, setFilter]     = useState('all')
   const [search, setSearch]     = useState('')
   const [updating, setUpdating] = useState(null)
+  const [deleting, setDeleting] = useState(null)
 
   const load = useCallback(async () => {
     setLoading(true); setError('')
@@ -1074,6 +1090,19 @@ function JerseyOrdersTab() {
       alert('Failed to update. Please try again.')
     } finally {
       setUpdating(null)
+    }
+  }
+
+  const handleDelete = async (id, name) => {
+    if (!window.confirm(`Delete jersey order for ${name}? This cannot be undone.`)) return
+    setDeleting(id)
+    try {
+      await deleteJerseyOrder(id)
+      setRows(r => r.filter(x => x.id !== id))
+    } catch {
+      alert('Failed to delete. Please try again.')
+    } finally {
+      setDeleting(null)
     }
   }
 
@@ -1212,6 +1241,10 @@ function JerseyOrdersTab() {
                     <XCircle size={12} /> {updating === r.id ? '…' : 'Reject'}
                   </button>
                 )}
+                <button onClick={() => handleDelete(r.id, r.full_name)} disabled={deleting === r.id}
+                  className="flex items-center gap-1 text-xs text-gray-500 hover:text-white hover:bg-red-600 transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg disabled:opacity-40">
+                  <Trash2 size={12} /> {deleting === r.id ? '…' : 'Delete'}
+                </button>
               </div>
             </div>
           ))}
