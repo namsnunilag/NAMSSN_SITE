@@ -277,8 +277,8 @@ function ScoreModal({ type, person, onSave, onClose }) {
           <div>
             <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Points / Score</label>
             <input
-              type="number" min="0" value={score}
-              onChange={e => setScore(Number(e.target.value))}
+              type="number" min="0" step="0.01" value={score}
+              onChange={e => setScore(parseFloat(e.target.value) || 0)}
               className="mt-1.5 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white
                          focus:outline-none focus:ring-2 focus:ring-cyan-400/40 transition"
             />
