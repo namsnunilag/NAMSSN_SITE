@@ -6,7 +6,7 @@ const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 const JERSEY_PRICE = 12000
-const SIZES = ['L', 'XL']
+const SIZES = ['S', 'M', 'L', 'XL', 'XXL']
 
 const BANK = {
   name:    'Moniepoint MFB',
