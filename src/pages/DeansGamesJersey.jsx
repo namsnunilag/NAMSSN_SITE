@@ -246,18 +246,18 @@ export default function DeansGamesJersey() {
       <section className="max-w-2xl mx-auto px-4 pb-24">
         {submitted ? (
           <div className="flex flex-col items-center gap-6 py-4 text-center">
-            <div className="w-16 h-16 rounded-full bg-cyan-400/20 flex items-center justify-center">
-              <CheckCircle2 size={30} className="text-cyan-400" />
+            <div className="w-16 h-16 rounded-full bg-amber-400/20 flex items-center justify-center">
+              <AlertCircle size={30} className="text-amber-400" />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-white">Order received!</h2>
-              <p className="text-gray-400 text-sm mt-1">
-                We'll confirm your order via <span className="text-cyan-400">{form.email}</span>
+              <h2 className="text-2xl font-black text-white">Order submitted!</h2>
+              <p className="text-gray-400 text-sm mt-1 max-w-xs">
+                Your order is <span className="text-amber-400 font-bold">pending payment verification</span>. We'll confirm via <span className="text-cyan-400">{form.email}</span> once payment is verified.
               </p>
             </div>
             <div className="w-full rounded-2xl border border-white/20 bg-white/[0.04] overflow-hidden">
               <div className="bg-cyan-400/10 border-b border-white/10 px-5 py-3">
-                <p className="text-[10px] font-bold text-cyan-400 uppercase tracking-[0.2em]">Dean's Games — Jersey Order</p>
+                <p className="text-[10px] font-bold text-amber-400 uppercase tracking-[0.2em]">Dean's Games — Pending Verification</p>
               </div>
               <div className="px-5 py-4 space-y-3">
                 {[
@@ -274,7 +274,7 @@ export default function DeansGamesJersey() {
                 ))}
               </div>
             </div>
-            <p className="text-xs text-gray-600">Pickup/delivery details will be communicated before the event.</p>
+            <p className="text-xs text-gray-600">You will receive a confirmation email once your payment is verified by our team.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5 bg-white/[0.03] border border-white/10 rounded-2xl p-6 sm:p-8">
