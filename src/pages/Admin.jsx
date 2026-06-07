@@ -17,6 +17,7 @@ const SESSION_KEY       = 'decagon_admin_auth'
 const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID || ''
 const EMAILJS_CONFIRM_TID = import.meta.env.VITE_EMAILJS_CONFIRM_TEMPLATE_ID || ''
 const EMAILJS_REJECT_TID  = import.meta.env.VITE_EMAILJS_REJECT_TEMPLATE_ID || ''
+const EMAILJS_JERSEY_TID  = import.meta.env.VITE_EMAILJS_JERSEY_TEMPLATE_ID || ''
 const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
 const WHATSAPP_LINK       = 'https://chat.whatsapp.com/IGMTNSA8zP1DPCx2dow56o?mode=hqctswi'
 
@@ -1086,6 +1087,19 @@ function JerseyOrdersTab() {
     try {
       await setJerseyOrderStatus(id, status)
       setRows(r => r.map(x => x.id === id ? { ...x, status } : x))
+      if (status === 'confirmed') {
+        const order = rows.find(r => r.id === id)
+        if (order) {
+          await sendEmail(EMAILJS_JERSEY_TID, {
+            to_name:       order.full_name,
+            to_email:      order.email,
+            jersey_name:   order.jersey_name,
+            jersey_number: order.jersey_number,
+            size:          order.size,
+            amount:        `₦${(order.amount ?? 0).toLocaleString()}`,
+          })
+        }
+      }
     } catch {
       alert('Failed to update. Please try again.')
     } finally {
