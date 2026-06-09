@@ -249,9 +249,10 @@ function fmt(dateStr) {
 
 function StatusBadge({ status }) {
   const map = {
-    pending_review: { label: 'Pending',   cls: 'bg-amber-500/15 text-amber-400  border-amber-500/20' },
-    confirmed:      { label: 'Confirmed', cls: 'bg-green-500/15 text-green-400  border-green-500/20' },
-    rejected:       { label: 'Rejected',  cls: 'bg-red-500/15   text-red-400    border-red-500/20'   },
+    pending_review: { label: 'Pending',   cls: 'bg-amber-500/15  text-amber-400   border-amber-500/20'  },
+    confirmed:      { label: 'Confirmed', cls: 'bg-green-500/15  text-green-400   border-green-500/20'  },
+    rejected:       { label: 'Rejected',  cls: 'bg-red-500/15    text-red-400     border-red-500/20'    },
+    sorted:         { label: 'Sorted',    cls: 'bg-purple-500/15 text-purple-400  border-purple-500/20' },
   }
   const { label, cls } = map[status] ?? { label: status, cls: 'bg-white/5 text-gray-400 border-white/10' }
   return <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${cls}`}>{label}</span>
@@ -1123,8 +1124,8 @@ function JerseyOrdersTab() {
   const total     = rows.length
   const pending   = rows.filter(r => r.status === 'pending_review').length
   const confirmed = rows.filter(r => r.status === 'confirmed').length
-  const revenue   = rows.filter(r => r.status === 'confirmed').reduce((s, r) => s + (r.amount ?? 0), 0)
-
+  const sorted    = rows.filter(r => r.status === 'sorted').length
+  const revenue   = rows.filter(r => r.status === 'confirmed' || r.status === 'sorted').reduce((s, r) => s + (r.amount ?? 0), 0)
   const visible = rows.filter(r => {
     const matchFilter = filter === 'all' || r.status === filter
     const q = search.toLowerCase()
@@ -1141,10 +1142,10 @@ function JerseyOrdersTab() {
     <div className="space-y-5">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'Total Orders', value: total,                          icon: Shirt,       cls: 'text-white'     },
-          { label: 'Pending',      value: pending,                        icon: Clock,       cls: 'text-amber-400' },
-          { label: 'Confirmed',    value: confirmed,                      icon: CheckCheck,  cls: 'text-green-400' },
-          { label: 'Revenue',      value: `₦${revenue.toLocaleString()}`, icon: CheckCircle2, cls: 'text-red-400'  },
+          { label: 'Total Orders', value: total,                          icon: Shirt,        cls: 'text-white'      },
+          { label: 'Pending',      value: pending,                        icon: Clock,        cls: 'text-amber-400'  },
+          { label: 'Confirmed',    value: confirmed,                      icon: CheckCheck,   cls: 'text-green-400'  },
+          { label: 'Sorted',       value: sorted,                         icon: CheckCircle2, cls: 'text-purple-400' },
         ].map(({ label, value, icon: Icon, cls }) => (
           <div key={label} className="bg-white/[0.04] border border-white/10 rounded-2xl p-4 flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
@@ -1164,6 +1165,7 @@ function JerseyOrdersTab() {
             { key: 'all',            label: 'All'       },
             { key: 'pending_review', label: 'Pending'   },
             { key: 'confirmed',      label: 'Confirmed' },
+            { key: 'sorted',         label: 'Sorted'    },
             { key: 'rejected',       label: 'Rejected'  },
           ].map(({ key, label }) => (
             <button key={key} onClick={() => setFilter(key)}
@@ -1183,18 +1185,11 @@ function JerseyOrdersTab() {
             className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-gray-600
                        focus:outline-none focus:ring-2 focus:ring-red-400/30 transition" />
         </div>
-        <button onClick={() => exportCSV(rows, [
-          { label: 'Full Name',     key: 'full_name'     },
-          { label: 'Email',         key: 'email'         },
-          { label: 'Phone',         key: 'phone'         },
+        <button onClick={() => exportCSV(rows.filter(r => r.status === 'confirmed'), [
           { label: 'Jersey Name',   key: 'jersey_name'   },
           { label: 'Jersey Number', key: 'jersey_number' },
           { label: 'Size',          key: 'size'          },
-          { label: 'Amount',        key: 'amount'        },
-          { label: 'Status',        key: 'status'        },
-          { label: 'Receipt URL',   key: 'receipt_url'   },
-          { label: 'Ordered At',    key: 'created_at'    },
-        ], 'deans_games_jersey_orders.csv')}
+        ], 'deans_games_jersey_confirmed.csv')}
           className="flex items-center gap-1.5 text-xs font-bold text-red-400 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20 px-3 py-2 rounded-xl transition shrink-0">
           <Download size={13} /> Export CSV
         </button>
@@ -1243,13 +1238,19 @@ function JerseyOrdersTab() {
                     <ExternalLink size={12} /> Receipt
                   </a>
                 )}
-                {r.status !== 'confirmed' && (
+                {r.status !== 'confirmed' && r.status !== 'sorted' && (
                   <button onClick={() => handleStatus(r.id, 'confirmed')} disabled={updating === r.id}
                     className="flex items-center gap-1 text-xs text-green-400 hover:text-white hover:bg-green-500 transition bg-green-500/10 border border-green-500/20 px-3 py-1.5 rounded-lg disabled:opacity-40">
                     <CheckCircle2 size={12} /> {updating === r.id ? '…' : 'Confirm'}
                   </button>
                 )}
-                {r.status !== 'rejected' && (
+                {r.status === 'confirmed' && (
+                  <button onClick={() => handleStatus(r.id, 'sorted')} disabled={updating === r.id}
+                    className="flex items-center gap-1 text-xs text-purple-400 hover:text-white hover:bg-purple-500 transition bg-purple-500/10 border border-purple-500/20 px-3 py-1.5 rounded-lg disabled:opacity-40">
+                    <CheckCheck size={12} /> {updating === r.id ? '…' : 'Mark Sorted'}
+                  </button>
+                )}
+                {r.status !== 'rejected' && r.status !== 'sorted' && (
                   <button onClick={() => handleStatus(r.id, 'rejected')} disabled={updating === r.id}
                     className="flex items-center gap-1 text-xs text-red-400 hover:text-white hover:bg-red-500 transition bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-lg disabled:opacity-40">
                     <XCircle size={12} /> {updating === r.id ? '…' : 'Reject'}

@@ -6,7 +6,7 @@ const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 const JERSEY_PRICE = 12000
-const SIZES = ['S', 'M', 'L', 'XL', 'XXL']
+const SIZES = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL']
 
 const BANK = {
   name:    'Moniepoint MFB',
@@ -283,11 +283,11 @@ export default function DeansGamesJersey() {
             {/* Size */}
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Size</label>
-              <div className="flex gap-2 flex-wrap">
+              <div className="grid grid-cols-4 gap-2">
                 {SIZES.map(sz => (
                   <button key={sz} type="button"
                     onClick={() => setForm(f => ({ ...f, size: sz }))}
-                    className={`w-12 h-12 rounded-xl border text-sm font-black transition-all ${
+                    className={`py-3 rounded-xl border text-sm font-black transition-all ${
                       form.size === sz
                         ? 'border-cyan-400/60 bg-cyan-400/10 text-cyan-300'
                         : 'border-white/10 bg-white/[0.02] text-gray-400 hover:border-white/20'
