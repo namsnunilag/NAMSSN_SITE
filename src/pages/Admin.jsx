@@ -157,7 +157,7 @@ async function setMerchOrderStatus(id, status) {
 
 async function fetchJerseyOrders() {
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?select=*&order=created_at.desc`,
+    `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?select=*&order=created_at.asc`,
     { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
   )
   if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
