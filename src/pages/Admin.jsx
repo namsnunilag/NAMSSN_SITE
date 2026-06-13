@@ -1209,28 +1209,27 @@ function JerseyOrdersTab() {
         <div className="space-y-2">
           {visible.map((r, i) => (
             <div key={r.id}
-              className="bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
-              <span className="text-xs text-gray-600 font-bold w-5 shrink-0 hidden sm:block">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4">
-                <div>
-                  <p className="text-sm font-bold text-white truncate">{r.full_name}</p>
-                  <p className="text-xs text-gray-500 truncate">{r.email}</p>
-                  <p className="text-xs text-gray-600">{r.phone}</p>
+              className="bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 flex flex-col gap-3">
+              {/* Row 1: number + name + date */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="text-xs text-gray-600 font-bold shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-white truncate">{r.full_name}</p>
+                    <p className="text-xs text-gray-500 truncate">{r.email}</p>
+                    <p className="text-xs text-gray-600">{r.phone}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-white">
-                    {r.jersey_name} · #{r.jersey_number}
-                  </p>
-                  <p className="text-xs text-gray-400">Size: {r.size}</p>
-                  <p className="text-xs text-red-400 font-bold">₦{(r.amount ?? 0).toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-600">{fmt(r.created_at)}</p>
-                </div>
+                <p className="text-xs text-gray-600 shrink-0">{fmt(r.created_at)}</p>
               </div>
-              <div className="flex items-center gap-2 shrink-0 flex-wrap">
+              {/* Row 2: jersey details */}
+              <div className="flex items-center gap-4 pl-6">
+                <p className="text-sm font-bold text-white">{r.jersey_name} · #{r.jersey_number}</p>
+                <span className="text-xs text-gray-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">{r.size}</span>
+                <p className="text-xs text-red-400 font-bold">₦{(r.amount ?? 0).toLocaleString()}</p>
+              </div>
+              {/* Row 3: actions */}
+              <div className="flex items-center gap-2 flex-wrap pl-6">
                 <StatusBadge status={r.status} />
                 {r.receipt_url && (
                   <a href={r.receipt_url} target="_blank" rel="noreferrer"
