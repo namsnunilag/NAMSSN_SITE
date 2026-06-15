@@ -1250,6 +1250,12 @@ function JerseyOrdersTab() {
                     <CheckCheck size={12} /> {updating === r.id ? '…' : 'Mark Sorted'}
                   </button>
                 )}
+                {r.status === 'sorted' && (
+                  <button onClick={() => handleStatus(r.id, 'confirmed')} disabled={updating === r.id}
+                    className="flex items-center gap-1 text-xs text-amber-400 hover:text-white hover:bg-amber-500 transition bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg disabled:opacity-40">
+                    <XCircle size={12} /> {updating === r.id ? '…' : 'Undo Sorted'}
+                  </button>
+                )}
                 {r.status !== 'rejected' && r.status !== 'sorted' && (
                   <button onClick={() => handleStatus(r.id, 'rejected')} disabled={updating === r.id}
                     className="flex items-center gap-1 text-xs text-red-400 hover:text-white hover:bg-red-500 transition bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-lg disabled:opacity-40">
