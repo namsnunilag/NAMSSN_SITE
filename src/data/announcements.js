@@ -3,12 +3,20 @@
 
 export const siteAnnouncements = [
   {
+    id: 6,
+    message: "🏃 Dean's Games Jersey — Get your name & number on the back. ₦12,000. Limited stock!",
+    type: 'info',
+    href: '/deans-games/jersey',
+    linkText: 'Order Now',
+    active: true,
+  },
+  {
     id: 5,
     message: '👕 Decagon 5.0 T-Shirt — Limited edition preorder. ₦7,000. Grand Finale is June 6th!',
     type: 'info',
     href: '/decagon?tab=merch',
     linkText: 'Order Now',
-    active: true,
+    active: false,
   },
   {
     id: 4,
