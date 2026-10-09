@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { CheckCircle2, AlertCircle, Copy, Check, Upload, Shirt } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 
@@ -152,7 +153,7 @@ function ErrorBox({ message }) {
 }
 
 export default function DeansGamesJersey() {
-  usePageTitle("Dean's Games Jersey — Preorder")
+  usePageTitle("Dean's Games Jersey — Out of Stock")
 
   const [view, setView]           = useState('front')
   const [form, setForm]           = useState({ fullName: '', email: '', phone: '', jerseyName: '', jerseyNumber: '', size: '' })
@@ -188,6 +189,20 @@ export default function DeansGamesJersey() {
       setLoading(false)
     }
   }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: '#0D1B2A', color: '#fff' }}>
+      <div className="max-w-lg text-center py-20">
+        <Shirt size={40} className="mx-auto mb-5 text-cyan-400" />
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-400 mb-3">Dean's Games 2026</p>
+        <h1 className="text-3xl sm:text-4xl font-black mb-4">Jersey Out of Stock</h1>
+        <p className="text-gray-400 mb-8">Jersey orders are currently unavailable. Please check the merchandise page for current availability.</p>
+        <Link to="/merchandise" className="inline-flex items-center justify-center rounded-lg bg-cyan-400 px-5 py-3 font-bold text-[#0D1B2A] hover:bg-cyan-300 transition-colors">
+          View Merchandise
+        </Link>
+      </div>
+    </div>
+  )
 
   return (
     <div className="min-h-screen" style={{ background: '#0D1B2A', color: '#fff' }}>

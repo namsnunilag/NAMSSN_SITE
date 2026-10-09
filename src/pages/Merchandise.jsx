@@ -32,7 +32,7 @@ function MerchCard({ item }) {
         )}
         {!item.available && (
           <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
-            <span className="bg-gray-700 text-white text-xs font-bold px-3 py-1 rounded-full">Sold Out</span>
+            <span className="bg-gray-700 text-white text-xs font-bold px-3 py-1 rounded-full">Out of Stock</span>
           </div>
         )}
         {item.category && (
@@ -94,11 +94,11 @@ export default function Merchandise() {
         </p>
       </section>
 
-      {/* How to order banner */}
+      {/* Availability notice */}
       <div className="bg-brand-orange/10 border-b border-brand-orange/20">
         <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2 text-sm text-brand-blueDark dark:text-gray-200">
           <ShoppingCart size={16} className="text-brand-orange shrink-0" />
-          <span><strong>How to order:</strong> Click WhatsApp or Email on any item, and we'll respond with availability and payment details.</span>
+          <span>All current merchandise is out of stock. Availability will be updated when items return.</span>
         </div>
       </div>
 

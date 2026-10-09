@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react'
-import { upcomingEvents, registrationStatusConfig } from '../data/events'
+import { upcomingEvents, pastEvents, registrationStatusConfig } from '../data/events'
 import usePageTitle from '../hooks/usePageTitle'
 
 function RegistrationBadge({ status }) {
@@ -123,12 +123,22 @@ export default function Events() {
           <h2 className="reveal text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Upcoming Events</h2>
           <p className="reveal text-gray-500 dark:text-gray-400 mb-8">Don't miss out — register before spots fill up!</p>
           {upcomingEvents.length === 0 ? (
-            <p className="text-gray-400 italic">No upcoming events at the moment. Check back soon!</p>
+            <p className="text-gray-400 italic">The 2026/2027 event calendar is being prepared. Check back soon.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
               {upcomingEvents.map(e => <EventCard key={e.id} event={e} />)}
             </div>
           )}
+
+          <details className="mt-12 border-t border-gray-200 dark:border-gray-700 pt-6">
+            <summary className="cursor-pointer text-lg font-bold text-brand-blueDark dark:text-white">Past Events</summary>
+            <details className="mt-4 ml-4">
+              <summary className="cursor-pointer font-semibold text-gray-600 dark:text-gray-300">2025/2026 Session</summary>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 stagger">
+                {pastEvents.map(event => <EventCard key={event.id} event={event} />)}
+              </div>
+            </details>
+          </details>
         </div>
       </section>
 

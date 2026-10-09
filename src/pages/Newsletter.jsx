@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { X, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
-import { newsletters } from '../data/newsletters'
+import { archivedNewsletters, newsletters } from '../data/newsletters'
 
 // Lightbox for a single newsletter — flips through its pages (images)
 function Lightbox({ newsletter, onClose }) {
@@ -102,7 +102,7 @@ export default function Newsletter() {
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
         <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Newsletter</h1>
         <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto">
-          Stay in the loop with NAMSSN UNILAG's weekly digest — announcements, events, highlights, and more.
+          Updates and highlights from the 2026/2027 session.
         </p>
       </section>
 
@@ -115,9 +115,9 @@ export default function Newsletter() {
               <div className="w-20 h-20 rounded-full bg-brand-blue/10 flex items-center justify-center mb-4">
                 <Newspaper size={36} className="text-brand-blue/40" />
               </div>
-              <h3 className="text-xl font-bold text-gray-400 mb-2">No newsletters yet</h3>
+              <h3 className="text-xl font-bold text-gray-400 mb-2">2026/2027 newsletters are coming soon</h3>
               <p className="text-gray-400 text-sm max-w-sm">
-                Check back soon — newsletters will appear here as they are published each week.
+                Previous issues remain available in the session archive below.
               </p>
             </div>
           ) : (
@@ -167,6 +167,46 @@ export default function Newsletter() {
               })}
             </div>
           )}
+
+          <details className="mt-12 border-t border-gray-200 dark:border-gray-700 pt-6">
+            <summary className="cursor-pointer text-lg font-bold text-brand-blueDark dark:text-white">Past Newsletters</summary>
+            <details className="mt-4 ml-4">
+              <summary className="cursor-pointer font-semibold text-gray-600 dark:text-gray-300">2025/2026 Session</summary>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 stagger">
+                {archivedNewsletters.map((item) => {
+                  const isMulti = item.images.length > 1
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setOpen(item)}
+                      className="reveal group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 hover:border-brand-blue/20 transition-all duration-200 hover:-translate-y-1 text-left"
+                    >
+                      <div className="h-64 bg-brand-blue/10 overflow-hidden relative">
+                        <img
+                          src={item.images[0]}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                          onError={e => { e.currentTarget.style.display = 'none' }}
+                        />
+                        {isMulti && (
+                          <span className="absolute top-3 right-3 bg-brand-orange text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+                            Front &amp; Back
+                          </span>
+                        )}
+                      </div>
+                      <div className="p-5">
+                        <span className="text-xs font-semibold text-brand-orange uppercase tracking-wider">{item.week}</span>
+                        <h3 className="font-bold text-brand-blueDark dark:text-white mt-1 mb-1">{item.title}</h3>
+                        <p className="text-gray-400 dark:text-gray-500 text-xs mb-2">{item.date}</p>
+                        <p className="mt-3 text-brand-orange text-sm font-semibold">{isMulti ? 'View Full Issue (2 pages) →' : 'View Full Issue →'}</p>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </details>
+          </details>
         </div>
       </section>
 

@@ -1,31 +1,32 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
-import { useState, useEffect, useRef, createContext, useContext } from 'react'
+import { useState, useEffect, useRef, createContext, useContext, lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AnnouncementBanner from './components/AnnouncementBanner'
-import Home from './pages/Home'
-import About from './pages/About'
-import Events from './pages/Events'
-import EventDetail from './pages/EventDetail'
-import Executives from './pages/Executives'
-import Gallery from './pages/Gallery'
-import Contact from './pages/Contact'
-import Newsletter from './pages/Newsletter'
-import Academics from './pages/Academics'
-import Resources from './pages/Resources'
-import Community from './pages/Community'
-import Merchandise from './pages/Merchandise'
-import Research from './pages/Research'
-import PiDay from './pages/PiDay'
-import Giveaway from './pages/Giveaway'
-import Eid from './pages/Eid'
-import StudentExecutives from './pages/StudentExecutives'
-import StudentExecutiveDetail from './pages/StudentExecutiveDetail'
-import Decagon from './pages/Decagon'
-import DecagonAttend from './pages/DecagonAttend'
-import DeansGamesJersey from './pages/DeansGamesJersey'
-import Admin from './pages/Admin'
+
+const Home = lazy(() => import('./pages/Home'))
+const About = lazy(() => import('./pages/About'))
+const Events = lazy(() => import('./pages/Events'))
+const EventDetail = lazy(() => import('./pages/EventDetail'))
+const Executives = lazy(() => import('./pages/Executives'))
+const Gallery = lazy(() => import('./pages/Gallery'))
+const Contact = lazy(() => import('./pages/Contact'))
+const Newsletter = lazy(() => import('./pages/Newsletter'))
+const Academics = lazy(() => import('./pages/Academics'))
+const Resources = lazy(() => import('./pages/Resources'))
+const Community = lazy(() => import('./pages/Community'))
+const Merchandise = lazy(() => import('./pages/Merchandise'))
+const Research = lazy(() => import('./pages/Research'))
+const PiDay = lazy(() => import('./pages/PiDay'))
+const Giveaway = lazy(() => import('./pages/Giveaway'))
+const Eid = lazy(() => import('./pages/Eid'))
+const StudentExecutives = lazy(() => import('./pages/StudentExecutives'))
+const StudentExecutiveDetail = lazy(() => import('./pages/StudentExecutiveDetail'))
+const Decagon = lazy(() => import('./pages/Decagon'))
+const DecagonAttend = lazy(() => import('./pages/DecagonAttend'))
+const DeansGamesJersey = lazy(() => import('./pages/DeansGamesJersey'))
+const Admin = lazy(() => import('./pages/Admin'))
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
 export const useTheme = () => useContext(ThemeContext)
@@ -86,7 +87,7 @@ export default function App() {
         <ScrollToTop />
         <Routes>
           {/* Admin — standalone, no navbar/footer */}
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<Suspense fallback={<PageLoading />}><Admin /></Suspense>} />
 
           {/* All other pages — wrapped in nav + footer */}
           <Route path="/*" element={
@@ -96,29 +97,31 @@ export default function App() {
                 <Navbar onToggleDark={toggle} isDark={isDark} />
               </div>
               <main className="flex-grow" style={{ paddingTop: 'var(--header-h, 64px)' }}>
-                <Routes>
-                  <Route path="/"             element={<Home />} />
-                  <Route path="/about"        element={<About />} />
-                  <Route path="/events"       element={<Events />} />
-                  <Route path="/events/:id"   element={<EventDetail />} />
-                  <Route path="/executives"   element={<Executives />} />
-                  <Route path="/gallery"      element={<Gallery />} />
-                  <Route path="/contact"      element={<Contact />} />
-                  <Route path="/newsletter"   element={<Newsletter />} />
-                  <Route path="/academics"    element={<Academics />} />
-                  <Route path="/resources"    element={<Resources />} />
-                  <Route path="/community"    element={<Community />} />
-                  <Route path="/merchandise"  element={<Merchandise />} />
-                  <Route path="/research"     element={<Research />} />
-                  <Route path="/celebration/pi-day"        element={<PiDay />} />
-                  <Route path="/giveaway"                  element={<Giveaway />} />
-                  <Route path="/eid"                       element={<Eid />} />
-                  <Route path="/student-executives"        element={<StudentExecutives />} />
-                  <Route path="/student-executives/:id"    element={<StudentExecutiveDetail />} />
-                  <Route path="/decagon"                   element={<Decagon />} />
-                  <Route path="/decagon/attend"            element={<DecagonAttend />} />
-                  <Route path="/deans-games/jersey"       element={<DeansGamesJersey />} />
-                </Routes>
+                <Suspense fallback={<PageLoading />}>
+                  <Routes>
+                    <Route path="/"             element={<Home />} />
+                    <Route path="/about"        element={<About />} />
+                    <Route path="/events"       element={<Events />} />
+                    <Route path="/events/:id"   element={<EventDetail />} />
+                    <Route path="/executives"   element={<Executives />} />
+                    <Route path="/gallery"      element={<Gallery />} />
+                    <Route path="/contact"      element={<Contact />} />
+                    <Route path="/newsletter"   element={<Newsletter />} />
+                    <Route path="/academics"    element={<Academics />} />
+                    <Route path="/resources"    element={<Resources />} />
+                    <Route path="/community"    element={<Community />} />
+                    <Route path="/merchandise"  element={<Merchandise />} />
+                    <Route path="/research"     element={<Research />} />
+                    <Route path="/celebration/pi-day"        element={<PiDay />} />
+                    <Route path="/giveaway"                  element={<Giveaway />} />
+                    <Route path="/eid"                       element={<Eid />} />
+                    <Route path="/student-executives"        element={<StudentExecutives />} />
+                    <Route path="/student-executives/:id"    element={<StudentExecutiveDetail />} />
+                    <Route path="/decagon"                   element={<Decagon />} />
+                    <Route path="/decagon/attend"            element={<DecagonAttend />} />
+                    <Route path="/deans-games/jersey"        element={<DeansGamesJersey />} />
+                  </Routes>
+                </Suspense>
               </main>
               <Footer />
             </div>
@@ -128,4 +131,8 @@ export default function App() {
       </BrowserRouter>
     </ThemeContext.Provider>
   )
+}
+
+function PageLoading() {
+  return <div className="flex min-h-[50vh] items-center justify-center" role="status">Loading page...</div>
 }

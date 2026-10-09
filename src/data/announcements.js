@@ -8,7 +8,7 @@ export const siteAnnouncements = [
     type: 'info',
     href: '/deans-games/jersey',
     linkText: 'Order Now',
-    active: true,
+    active: false,
   },
   {
     id: 5,

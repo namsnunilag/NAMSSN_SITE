@@ -7,7 +7,7 @@
 //   Front only:    images: ['/images/newsletters/week2.jpg']
 //   Front + back:  images: ['/images/newsletters/week1-front.jpg', '/images/newsletters/week1-back.jpg']
 
-export const newsletters = [
+export const archivedNewsletters = [
   {
     id: 1,
     title: 'NAMSSN Weekly Digest',
@@ -76,3 +76,5 @@ export const newsletters = [
     description: 'Latest happenings in NAMSSN UNILAG.',
   },
 ]
+
+export const newsletters = []

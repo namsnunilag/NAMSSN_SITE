@@ -2,7 +2,7 @@
 // Edit this file to add/update/remove events.
 // registrationStatus: 'open' | 'coming-soon' | 'closed' | 'none'
 
-export const upcomingEvents = [
+export const pastEvents = [
   {
     id: 1,
     title: 'Decagon 5.0',
@@ -84,14 +84,12 @@ export const upcomingEvents = [
       'Faculty-wide event with prizes',
       'Social networking opportunity',
     ],
-    registrationStatus: 'open',
+    registrationStatus: 'closed',
     registrationDate: null,
-    registrationLink: '/deans-games/jersey',
-    ctaLabel: 'Get Your Jersey Now',
   },
 ]
 
-export const pastEvents = []
+export const upcomingEvents = []
 
 export const registrationStatusConfig = {
   'open':        { label: 'Registration Open',   color: 'bg-green-100 text-green-800 border-green-200' },

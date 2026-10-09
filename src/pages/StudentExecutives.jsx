@@ -37,24 +37,31 @@ function ExecCard({ exec }) {
 }
 
 export default function StudentExecutives() {
-  usePageTitle('Student Executives', 'Meet the elected NAMSSN UNILAG student executives for the 2025/2026 session.')
+  usePageTitle('Student Executives', 'Meet the elected NAMSSN UNILAG student executives for the 2026/2027 session and browse past executives.')
 
   return (
     <div>
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-20 px-4 text-center">
         <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Student Executives</h1>
         <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto">
-          Your elected NAMSSN UNILAG leaders for the 2025/2026 session. Click any card to learn more and get in touch.
+          Your elected NAMSSN UNILAG leaders for the 2026/2027 session.
         </p>
       </section>
 
       <section className="py-16 bg-gray-50 dark:bg-gray-900 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 stagger">
-            {studentExecutives.map(exec => (
-              <ExecCard key={exec.id} exec={exec} />
-            ))}
-          </div>
+          <p className="text-center text-gray-500 dark:text-gray-400 py-12">
+            The 2026/2027 executive roster will be published when the details are confirmed.
+          </p>
+          <details id="past-executives" className="border-t border-gray-200 dark:border-gray-700 pt-6">
+            <summary className="cursor-pointer text-lg font-bold text-brand-blueDark dark:text-white">Past Executives</summary>
+            <details className="mt-4 ml-4">
+              <summary className="cursor-pointer font-semibold text-gray-600 dark:text-gray-300">2025/2026 Session</summary>
+              <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 stagger mt-6">
+                {studentExecutives.map(exec => <ExecCard key={exec.id} exec={exec} />)}
+              </div>
+            </details>
+          </details>
         </div>
       </section>
     </div>

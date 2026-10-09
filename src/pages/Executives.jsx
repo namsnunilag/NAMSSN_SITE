@@ -3,10 +3,10 @@ import { useSearchParams, Link } from 'react-router-dom'
 import usePageTitle from '../hooks/usePageTitle'
 
 // ── Lecturers ────────────────────────────────────────────────────────────────
-// Prof. ABIALA first (HOD), then remaining Profs, then Drs. ADETUNJI in middle.
+// Department lecturers, with the current HOD listed first.
 const lecturers = [
-  { name: 'Prof. ABIALA I.O',    image: '/images/lecturers/abiala.jpg',      initials: 'AI' },
   { name: 'Prof. Akewe H',       image: '/images/lecturers/akewe.jpg',       initials: 'AH' },
+  { name: 'Prof. ABIALA I.O',    image: '/images/lecturers/abiala.jpg',      initials: 'AI' },
   { name: 'Prof. Olaleru J.O',   image: '/images/lecturers/olaleru.jpg',     initials: 'OJ' },
   { name: 'Prof. OKUNUGA S.A',   image: '/images/lecturers/okunuga.jpg',     initials: 'OS' },
   { name: 'Prof. MOGBADEMU A.A', image: '/images/lecturers/prof mogbademu.jpg', initials: 'MA' },
@@ -39,10 +39,10 @@ const patrons = [
     initials: 'OA',
   },
   {
-    name: 'Prof. ABIALA I.O',
+    name: 'Prof. Akewe H',
     role: 'Head of Department, Mathematics',
-    image: '/images/executives/hd.jpg',
-    initials: 'AI',
+    image: '/images/lecturers/akewe.jpg',
+    initials: 'AH',
   },
   {
     name: 'Dr. ADETUNJI P',
@@ -172,7 +172,7 @@ export default function Executives() {
       <section className="bg-gradient-to-br from-brand-blueDark to-brand-blue text-white py-16 px-4 text-center">
         <h1 className="hero-anim hero-anim-1 text-4xl md:text-5xl font-black mb-4">Our Leadership</h1>
         <p className="hero-anim hero-anim-2 text-blue-100 max-w-xl mx-auto mb-8">
-          Meet the patrons, lecturers, and student executives of NAMSSN UNILAG 2025/2026.
+          Meet the patrons, lecturers, and student executives of NAMSSN UNILAG 2026/2027.
         </p>
 
         {/* Tab buttons */}
@@ -210,10 +210,9 @@ export default function Executives() {
           {tab === 'executives' && (
             <div key="executives" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
-              <p className="text-gray-500 dark:text-gray-400 mb-8">Your elected NAMSSN UNILAG executives for the 2025/2026 session</p>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 stagger">
-                {executives.map((e) => <ExecCard key={e.role} exec={e} />)}
-              </div>
+              <p className="text-gray-500 dark:text-gray-400 mb-8">The 2026/2027 roster will be published when executive details are confirmed.</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-4">Previous leadership remains available in the archive.</p>
+              <Link to="/student-executives#past-executives" className="text-brand-orange font-semibold hover:underline">Browse Past Executives: 2025/2026</Link>
             </div>
           )}
 
