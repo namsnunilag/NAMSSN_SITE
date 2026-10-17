@@ -54,7 +54,7 @@ export default function Navbar({ onToggleDark, isDark }) {
   const goToSection = (tab) => {
     setDropOpen(false)
     setOpen(false)
-    navigate(`/executives?tab=${tab}`)
+    navigate(tab === 'executives' ? '/student-executives' : `/executives?tab=${tab}`)
   }
 
   const activeClass   = 'text-brand-orange font-semibold'
