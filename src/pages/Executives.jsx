@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import usePageTitle from '../hooks/usePageTitle'
-import { pastStudentExecutives, studentExecutives } from '../data/studentExecutives'
 
 // ── Lecturers ────────────────────────────────────────────────────────────────
 // Department lecturers, with the current HOD listed first.
@@ -51,6 +50,23 @@ const patrons = [
     image: '/images/executives/ca.jpg',
     initials: 'PA',
   },
+]
+
+// ── Student Executives ───────────────────────────────────────────────────────
+// Update names and image filenames as needed
+const executives = [
+  { id: 'president',              name: 'McDonald Amure',                  role: 'President',                image: '/images/executives/AMURE.jpeg',        initials: 'MA' },
+  { id: 'vice-president',         name: 'Akapo Sandra',                    role: 'Vice President',           image: '/images/executives/SANDRA.jpeg',       initials: 'AS' },
+  { id: 'general-secretary',      name: 'Aiyenero Boluwatife',             role: 'General Secretary',        image: '/images/executives/BOLUWATIFE.jpeg',   initials: 'AB' },
+  { id: 'asst-general-secretary', name: 'Owoade Opeyemi',                  role: 'Assistant General Secretary', image: '/images/executives/OPEYEMI.jpeg',   initials: 'OO' },
+  { id: 'pro',                    name: 'Chidiebere Marydoris',           role: 'Public Relations Officer', image: '/images/executives/MARYDORIS.jpeg',    initials: 'CM' },
+  { id: 'financial-secretary',    name: 'Oguntuga Demilade Gabriel',      role: 'Financial Secretary',      image: '/images/executives/DEMILADE.jpeg',     initials: 'OD' },
+  { id: 'treasurer',              name: 'Soetan Oreoluwa',                role: 'Treasurer',                image: '/images/executives/OREOLUWA.jpeg',     initials: 'SO' },
+  { id: 'social-secretary',       name: 'Adetimehin Anuoluwa Mercy',      role: 'Social Secretary',         image: '/images/executives/ADETIMEHIN.jpeg',   initials: 'AA' },
+  { id: 'welfare-director',       name: 'Torrey Adebanjo',                role: 'Welfare Secretary',        image: '/images/executives/TORREY.jpeg',       initials: 'TA' },
+  { id: 'sports-secretary',       name: 'Olajide-Oke Oluwatobiloba',      role: 'Sports Secretary',         image: '/images/executives/OLUWATOBILOBA.jpeg', initials: 'OO' },
+  { id: 'director-of-studies',    name: 'Alimi Tawakalitu Motunrayo',     role: 'Director of Studies',      image: '/images/executives/TAWAKALITU.jpeg',   initials: 'AT' },
+  { id: 'librarian',              name: 'Akpeji Jeremiah',                role: 'Librarian',                image: '/images/executives/JEREMIAH.jpeg',     initials: 'AJ' },
 ]
 
 function PatronCard({ patron }) {
@@ -194,19 +210,9 @@ export default function Executives() {
           {tab === 'executives' && (
             <div key="executives" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
-              <p className="text-gray-500 dark:text-gray-400 mb-8">The 2026/2027 NAMSSN UNILAG executive team.</p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 stagger">
-                {studentExecutives.map(exec => <ExecCard key={exec.id} exec={exec} />)}
-              </div>
-              <details id="past-executives" className="border-t border-gray-200 dark:border-gray-700 mt-10 pt-6">
-                <summary className="cursor-pointer text-lg font-bold text-brand-blueDark dark:text-white">Past Executives</summary>
-                <div className="mt-5">
-                  <h3 className="font-semibold text-gray-600 dark:text-gray-300 mb-4">2025/2026 Session</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 stagger">
-                    {pastStudentExecutives.map(exec => <ExecCard key={exec.id} exec={exec} />)}
-                  </div>
-                </div>
-              </details>
+              <p className="text-gray-500 dark:text-gray-400 mb-8">The 2026/2027 roster will be published when executive details are confirmed.</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-4">Previous leadership remains available in the archive.</p>
+              <Link to="/student-executives#past-executives" className="text-brand-orange font-semibold hover:underline">Browse Past Executives: 2025/2026</Link>
             </div>
           )}
 
