@@ -3,7 +3,7 @@ export const studentExecutives = [
     id: 'president',
     name: 'McDonald Amure',
     role: 'President',
-    image: '/images/executives/AMURE.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/AMURE.jpg',
     initials: 'MA',
     bio: `McDonald Amure is a final-year Pure Mathematics student at the University of Lagos and President of NAMSSN UNILAG. He combines a strong interest in mathematics with practical experience in software engineering and problem-solving.
 
@@ -18,7 +18,7 @@ He has worked with Python, FastAPI and PostgreSQL on backend systems, including 
     id: 'vice-president',
     name: 'Akapo Sandra',
     role: 'Vice President',
-    image: '/images/executives/SANDRA.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/SANDRA.jpg',
     initials: 'AS',
     bio: `Akapo Sandra serves as Vice President of NAMSSN UNILAG. Her background in academic coordination, event planning and student advocacy gives her a practical view of how to support a student community.
 
@@ -33,7 +33,7 @@ She is interested in technology, digital content and education, and brings a cre
     id: 'general-secretary',
     name: 'Aiyenero Boluwatife',
     role: 'General Secretary',
-    image: '/images/executives/BOLUWATIFE.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/BOLUWATIFE.jpg',
     initials: 'AB',
     bio: `Aiyenero Boluwatife is the General Secretary of NAMSSN UNILAG. She is interested in the organising work that keeps a student association running smoothly, from coordination to communication and follow-up.
 
@@ -48,7 +48,7 @@ Her background includes mentorship and event coordination, with a focus on struc
     id: 'asst-general-secretary',
     name: 'Owoade Opeyemi',
     role: 'Assistant General Secretary',
-    image: '/images/executives/OPEYEMI.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/OPEYEMI.jpg',
     initials: 'OO',
     bio: `Owoade Opeyemi is a 300-level Mathematics student at the University of Lagos and Assistant General Secretary of NAMSSN UNILAG. He combines an interest in technology with entrepreneurship and community leadership.
 
@@ -63,7 +63,7 @@ He founded Forge Academy, a technology education platform, and has also been rec
     id: 'pro',
     name: 'Chidiebere Marydoris',
     role: 'Public Relations Officer',
-    image: '/images/executives/MARYDORIS.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/MARYDORIS.jpg',
     initials: 'CM',
     bio: `Chidiebere Marydoris is a 400-level Mathematics student at the University of Lagos and Public Relations Officer of NAMSSN UNILAG. Her interests bring together data engineering, communication and community management.
 
@@ -78,7 +78,7 @@ She has worked with Python, SQL, Pandas, PostgreSQL and Docker, and is expanding
     id: 'financial-secretary',
     name: 'Oguntuga Demilade Gabriel',
     role: 'Financial Secretary',
-    image: '/images/executives/DEMILADE.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/DEMILADE.jpg',
     initials: 'OD',
     bio: `Oguntuga Demilade Gabriel, also known as MINOR, is a Mathematics student at the University of Lagos and Financial Secretary of NAMSSN UNILAG. He previously served as Treasurer, bringing financial experience and accountability to his current role.
 
@@ -93,7 +93,7 @@ He is also a data analyst with an eye for careful record keeping and sound decis
     id: 'treasurer',
     name: 'Soetan Oreoluwa',
     role: 'Treasurer',
-    image: '/images/executives/OREOLUWA.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/OREOLUWA.jpg',
     initials: 'SO',
     bio: `Soetan Oreoluwa, known as Little Soetan, is a Mathematics student at the University of Lagos and Treasurer of NAMSSN UNILAG. She combines an analytical background with experience in financial coordination, business management and event planning.
 
@@ -108,7 +108,7 @@ She is also pursuing ICAN certification while exploring software development. In
     id: 'social-secretary',
     name: 'Adetimehin Anuoluwa Mercy',
     role: 'Social Secretary',
-    image: '/images/executives/ADETIMEHIN.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/ADETIMEHIN.jpg',
     initials: 'AA',
     bio: `Adetimehin Anuoluwa Mercy is the Social Secretary of NAMSSN UNILAG. She is interested in creating a welcoming student community and making space for people to connect, take part and enjoy campus life.
 
@@ -123,7 +123,7 @@ Her experience extends to content writing, customer service and inventory manage
     id: 'welfare-director',
     name: 'Torrey Adebanjo',
     role: 'Welfare Secretary',
-    image: '/images/executives/TORREY.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/TORREY.jpg',
     initials: 'TA',
     bio: `Torrey Adebanjo is a final-year Pure Mathematics student at the University of Lagos and Welfare Secretary of NAMSSN UNILAG. Her background combines mathematics, education and entrepreneurship with a practical interest in service.
 
@@ -138,7 +138,7 @@ She is passionate about student wellbeing, teamwork and thoughtful support for t
     id: 'sports-secretary',
     name: 'Olajide-Oke Oluwatobiloba',
     role: 'Sports Secretary',
-    image: '/images/executives/OLUWATOBILOBA.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/OLUWATOBILOBA.jpg',
     initials: 'OO',
     bio: `Olajide-Oke Oluwatobiloba is a final-year Pure Mathematics student at the University of Lagos and Sports Secretary of NAMSSN UNILAG. He brings an active interest in sport together with curiosity about technology and financial markets.
 
@@ -153,7 +153,7 @@ A Web3 enthusiast and financial market trader, he is interested in quantitative 
     id: 'director-of-studies',
     name: 'Alimi Tawakalitu Motunrayo',
     role: 'Director of Studies',
-    image: '/images/executives/TAWAKALITU.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/DOS.jpg',
     initials: 'AT',
     bio: `Alimi Tawakalitu Motunrayo is a Mathematics student at the University of Lagos and Director of Studies of NAMSSN UNILAG. She is interested in academic development, teaching and the role learning plays in student growth.
 
@@ -168,7 +168,7 @@ She is also building her analytical skills through data analysis and explores cr
     id: 'librarian',
     name: 'Akpeji Jeremiah',
     role: 'Librarian',
-    image: '/images/executives/JEREMIAH.jpeg',
+    image: '/images/executives/NAMSSN EXCOS - 26/JEREMIAH.jpg',
     initials: 'AJ',
     bio: `Akpeji Jeremiah is a Mathematics undergraduate at the University of Lagos and Librarian of NAMSSN UNILAG. His interests connect mathematics with data analysis and the practical use of information.
 

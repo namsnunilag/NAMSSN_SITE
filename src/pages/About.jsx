@@ -13,7 +13,7 @@ function AboutImage() {
   }
   return (
     <img
-      src="/images/events/excos.jpg"
+      src="/images/executives/NAMSSN EXCOS - 26/EXCOS.jpg"
       alt="NAMSSN UNILAG Executive team"
       className="w-full h-full object-cover rounded-2xl shadow-xl" loading="lazy"
       onError={() => setFailed(true)}
