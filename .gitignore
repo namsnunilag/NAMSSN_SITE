@@ -12,6 +12,8 @@ build/
 .env
 .env.local
 .env.*.local
+Secretfile
+Secretfile.*
 
 # macOS
 .DS_Store
