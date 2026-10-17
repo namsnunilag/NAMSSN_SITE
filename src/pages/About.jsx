@@ -13,9 +13,11 @@ function AboutImage() {
   }
   return (
     <img
-      src="/images/executives/NAMSSN EXCOS - 26/EXCOS.jpg"
+      src="/images/executives/web_optimised_images/profiles/EXCOS.webp"
       alt="NAMSSN UNILAG Executive team"
-      className="w-full h-full object-cover rounded-2xl shadow-xl" loading="lazy"
+      className="w-full h-full object-cover object-center rounded-2xl shadow-xl"
+      loading="eager"
+      decoding="sync"
       onError={() => setFailed(true)}
     />
   )

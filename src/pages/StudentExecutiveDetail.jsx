@@ -16,7 +16,7 @@ export default function StudentExecutiveDetail() {
   // Reset failed state and preload adjacent images on navigation
   useEffect(() => {
     setFailed(false)
-    const toPreload = [prev?.image, next?.image].filter(Boolean)
+    const toPreload = [prev?.profileImage, next?.profileImage].filter(Boolean)
     toPreload.forEach(src => { const img = new Image(); img.src = src })
   }, [id, prev?.image, next?.image])
 
@@ -57,7 +57,7 @@ export default function StudentExecutiveDetail() {
               <div className="w-40 h-40 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-brand-blueDark to-brand-blue mb-4">
                 {!failed ? (
                   <img
-                    src={exec.image}
+                    src={exec.profileImage || exec.image}
                     alt={exec.name}
                     className="w-full h-full object-cover object-top"
                     onError={() => setFailed(true)}
