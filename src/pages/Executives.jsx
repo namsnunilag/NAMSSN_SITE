@@ -55,18 +55,18 @@ const patrons = [
 // ── Student Executives ───────────────────────────────────────────────────────
 // Update names and image filenames as needed
 const executives = [
-  { id: 'president',              name: 'McDonald Amure',                  role: 'President',                image: '/images/executives/AMURE.jpeg',        initials: 'MA' },
-  { id: 'vice-president',         name: 'Akapo Sandra',                    role: 'Vice President',           image: '/images/executives/SANDRA.jpeg',       initials: 'AS' },
-  { id: 'general-secretary',      name: 'Aiyenero Boluwatife',             role: 'General Secretary',        image: '/images/executives/BOLUWATIFE.jpeg',   initials: 'AB' },
-  { id: 'asst-general-secretary', name: 'Owoade Opeyemi',                  role: 'Assistant General Secretary', image: '/images/executives/OPEYEMI.jpeg',   initials: 'OO' },
-  { id: 'pro',                    name: 'Chidiebere Marydoris',           role: 'Public Relations Officer', image: '/images/executives/MARYDORIS.jpeg',    initials: 'CM' },
-  { id: 'financial-secretary',    name: 'Oguntuga Demilade Gabriel',      role: 'Financial Secretary',      image: '/images/executives/DEMILADE.jpeg',     initials: 'OD' },
-  { id: 'treasurer',              name: 'Soetan Oreoluwa',                role: 'Treasurer',                image: '/images/executives/OREOLUWA.jpeg',     initials: 'SO' },
-  { id: 'social-secretary',       name: 'Adetimehin Anuoluwa Mercy',      role: 'Social Secretary',         image: '/images/executives/ADETIMEHIN.jpeg',   initials: 'AA' },
-  { id: 'welfare-director',       name: 'Torrey Adebanjo',                role: 'Welfare Secretary',        image: '/images/executives/TORREY.jpeg',       initials: 'TA' },
-  { id: 'sports-secretary',       name: 'Olajide-Oke Oluwatobiloba',      role: 'Sports Secretary',         image: '/images/executives/OLUWATOBILOBA.jpeg', initials: 'OO' },
-  { id: 'director-of-studies',    name: 'Alimi Tawakalitu Motunrayo',     role: 'Director of Studies',      image: '/images/executives/TAWAKALITU.jpeg',   initials: 'AT' },
-  { id: 'librarian',              name: 'Akpeji Jeremiah',                role: 'Librarian',                image: '/images/executives/JEREMIAH.jpeg',     initials: 'AJ' },
+  { id: 'president',              name: 'Oludare Samuel Oladapo',          role: 'President',                image: '/images/executives/NAMSSN EXCOS - 25/president.jpg',  initials: 'OO' },
+  { id: 'vice-president',         name: 'Amure McDonald Oluwatunmibewo',   role: 'Vice President',           image: '/images/executives/NAMSSN EXCOS - 25/vp.jpg',          initials: 'AM' },
+  { id: 'general-secretary',      name: 'Chukwuma Miran-Ambrose',          role: 'General Secretary',        image: '/images/executives/NAMSSN EXCOS - 25/gs.jpg',          initials: 'CM' },
+  { id: 'asst-general-secretary', name: 'Akesinro Damilola Gold',          role: 'Asst. General Secretary',  image: '/images/executives/NAMSSN EXCOS - 25/ags.jpg',          initials: 'AG' },
+  { id: 'pro',                    name: 'Olowolayemo Temiloluwa Mercy',    role: 'Public Relations Officer', image: '/images/executives/NAMSSN EXCOS - 25/pro.jpg',          initials: 'OT' },
+  { id: 'financial-secretary',    name: 'Azeezat Abdulazeez Temitope',     role: 'Financial Secretary',      image: '/images/executives/NAMSSN EXCOS - 25/fin.jpg',          initials: 'AR' },
+  { id: 'treasurer',              name: 'Oguntuga Demilade Gabriel',       role: 'Treasurer',                image: '/images/executives/NAMSSN EXCOS - 25/treasurer.jpg',    initials: 'OD' },
+  { id: 'social-secretary',       name: 'Salami Malik Demola',             role: 'Social Secretary',         image: '/images/executives/NAMSSN EXCOS - 25/social.jpg',       initials: 'SM' },
+  { id: 'welfare-director',       name: 'Adesanya Racheal Teniola',        role: 'Welfare Director',         image: '/images/executives/NAMSSN EXCOS - 25/welfare.jpg',      initials: 'AA' },
+  { id: 'sports-secretary',       name: 'George Ademola Samuel',           role: 'Sports Secretary',         image: '/images/executives/NAMSSN EXCOS - 25/sport.jpg',        initials: 'GA' },
+  { id: 'director-of-studies',    name: 'Adebisi Oluwaseye Christopher',   role: 'Director of Studies',      image: '/images/executives/NAMSSN EXCOS - 25/academic.jpg',     initials: 'AO' },
+  { id: 'librarian',              name: 'Aderibigbe Michael Oloruntomiwa', role: 'Librarian',                image: '/images/executives/NAMSSN EXCOS - 25/library.jpg',      initials: 'AM' },
 ]
 
 function PatronCard({ patron }) {

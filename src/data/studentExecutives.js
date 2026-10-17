@@ -57,7 +57,7 @@ He founded Forge Academy, a technology education platform, and has also been rec
     whatsapp: '',
     instagram: '',
     twitter: '',
-    linkedin: '',
+    linkedin: 'owoadeopeyemi',
   },
   {
     id: 'pro',
@@ -72,7 +72,7 @@ She has worked with Python, SQL, Pandas, PostgreSQL and Docker, and is expanding
     whatsapp: '',
     instagram: '',
     twitter: '',
-    linkedin: '',
+    linkedin: 'marydoris-chidiebere-2b858a254',
   },
   {
     id: 'financial-secretary',
@@ -177,6 +177,6 @@ He is developing skills in SQL and Python, with a growing interest in data, fina
     whatsapp: '',
     instagram: '',
     twitter: '',
-    linkedin: '',
+    linkedin: 'jeremiah-akpeji',
   },
 ]
