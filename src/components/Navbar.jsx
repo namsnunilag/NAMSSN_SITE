@@ -147,7 +147,7 @@ export default function Navbar({ onToggleDark, isDark }) {
               <button
                 onClick={() => { setDropOpen(o => !o); setExploreOpen(false) }}
                 className={`flex items-center gap-1 transition-colors duration-200 ${
-                  window.location.pathname === '/executives' ? activeClass : inactiveClass
+                  (window.location.pathname.startsWith('/executives') || window.location.pathname.startsWith('/student-executives')) ? activeClass : inactiveClass
                 }`}
               >
                 Executives

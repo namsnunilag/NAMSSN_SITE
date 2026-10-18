@@ -21,6 +21,16 @@
     <changefreq>yearly</changefreq>
   </url>
   <url>
+    <loc>https://www.namssnunilag.one/student-executives</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.namssnunilag.one/gallery</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://www.namssnunilag.one/newsletter</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>

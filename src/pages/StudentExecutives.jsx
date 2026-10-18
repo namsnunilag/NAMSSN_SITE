@@ -14,9 +14,9 @@ function ExecCard({ exec }) {
       <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/20 to-brand-blueDark/20 overflow-hidden">
         {!failed ? (
           <img
-            src={exec.image}
+            src={exec.image || exec.profileImage}
             alt={exec.name}
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
             onError={() => setFailed(true)}
           />

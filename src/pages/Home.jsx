@@ -6,7 +6,7 @@ import { ArrowRight, Trophy, Users, BookOpen, Star, Zap, Heart, Globe, Graduatio
 // ── Hero slideshow images ───────────────────────────────────────────────────
 // Drop your images in public/images/hero/ and list them here
 const SLIDES = [
-  { src: '/images/executives/web_optimised_images/profiles/EXCOS.webp',  caption: 'NAMSSN UNILAG Executives 2026/2027' },
+  { src: '/images/executives/NAMSSN EXCOS - 26/EXCOS.png',  caption: 'NAMSSN UNILAG Executives 2026/2027' },
   { src: '/images/hero/past_excos/ind.jpg',   caption: 'INAUGURATION TO OFFICE' },
   { src: '/images/hero/past_excos/HOD.jpg',   caption: 'HOD GAMES' },
   { src: '/images/hero/past_excos/deans.jpg', caption: "Dean's Games 2026" },
@@ -241,9 +241,9 @@ export default function Home() {
       <section className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="reveal from-left h-72 md:h-[400px] rounded-2xl overflow-hidden shadow-xl bg-brand-blue/10">
+            <div className="reveal from-left w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-brand-blue/10">
               <img
-                src="/images/executives/web_optimised_images/profiles/EXCOS.webp"
+                src="/images/executives/NAMSSN EXCOS - 26/EXCOS.png"
                 alt="NAMSSN UNILAG"
                 className="w-full h-full object-cover object-center"
                 loading="eager"

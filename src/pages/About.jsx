@@ -13,7 +13,7 @@ function AboutImage() {
   }
   return (
     <img
-      src="/images/executives/web_optimised_images/profiles/EXCOS.webp"
+      src="/images/executives/NAMSSN EXCOS - 26/EXCOS.png"
       alt="NAMSSN UNILAG Executive team"
       className="w-full h-full object-cover object-center rounded-2xl shadow-xl"
       loading="eager"
@@ -63,7 +63,7 @@ export default function About() {
       {/* About section */}
       <section className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-          <div className="reveal from-left h-80 md:h-[420px]">
+          <div className="reveal from-left w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
             <AboutImage />
           </div>
           <div className="reveal from-right">
