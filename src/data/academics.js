@@ -3,10 +3,10 @@
 export const announcements = [
   {
     id: 1,
-    title: 'First Semester Examination Timetable Released',
-    date: '2026-01-15',
-    type: 'exam',
-    content: 'The 2025/2026 first semester examination timetable has been released. Please check the department notice board or contact your class rep for details.',
+    title: '2026/2027 First Semester Resumption and Hostel Registration',
+    date: '2026-10-19',
+    type: 'general',
+    content: 'The 2026/2027 First Semester resumes on Monday, October 19, 2026. Hostel registration also opens on Monday.',
   },
   // Add more announcements below by copying the block above ↑
   // Types available: 'exam', 'general', 'deadline', 'result'

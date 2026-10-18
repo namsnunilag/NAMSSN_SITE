@@ -3,6 +3,14 @@
 
 export const siteAnnouncements = [
   {
+    id: 7,
+    message: 'The 2026/2027 First Semester resumes Monday, October 19, 2026. Hostel registration also opens Monday.',
+    type: 'info',
+    href: '',
+    linkText: '',
+    active: true,
+  },
+  {
     id: 6,
     message: "🏃 Dean's Games Jersey — Get your name & number on the back. ₦12,000. Limited stock!",
     type: 'info',
