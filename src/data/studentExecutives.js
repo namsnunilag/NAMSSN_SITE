@@ -8,9 +8,11 @@ export const studentExecutives = [
     image: '/images/executives/NAMSSN EXCOS - 26/cards/AMURE.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/AMURE.webp',
     initials: 'MA',
-    bio: `McDonald Amure is a final-year Pure Mathematics student at the University of Lagos and President of NAMSSN UNILAG. He combines a strong interest in mathematics with practical experience in software engineering and problem-solving.
+    bio: `Meet McDonald Amure, a final-year Pure Mathematics student at the University of Lagos and President of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-He has worked with Python, FastAPI and PostgreSQL on backend systems, including infrastructure for Vrede, an education technology platform. As President, he brings leadership, mentorship and technical experience to the service of the mathematics community.`,
+  He is an ALX-certified Software Engineer, technical writer, and backend architect. On the side, he builds the backend infrastructure for Vrede, an all-in-one edtech platform streamlining workflows for modern educators, engineering scalable APIs and database systems using Python, FastAPI, and PostgreSQL.
+
+  Committed to leadership, service, and technical mentorship, McDonald bridges mathematical logic with engineering to build impactful solutions and empower his community.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -19,14 +21,16 @@ He has worked with Python, FastAPI and PostgreSQL on backend systems, including 
   },
   {
     id: 'vice-president',
-    name: 'Akapo Sandra',
+    name: 'Akakpo Sandra Elom',
     role: 'Vice President',
     image: '/images/executives/NAMSSN EXCOS - 26/cards/SANDRA.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/SANDRA.webp',
     initials: 'AS',
-    bio: `Akapo Sandra serves as Vice President of NAMSSN UNILAG. Her background in academic coordination, event planning and student advocacy gives her a practical view of how to support a student community.
+    bio: `Meet Akakpo Sandra, a vibrant leader, creative communicator, and Vice President of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-She is interested in technology, digital content and education, and brings a creative, collaborative approach to communication and leadership. In her role, she aims to help build a more connected and active department.`,
+  She is an emerging tech enthusiast committed to driving innovation, academic excellence, and purposeful service. Her track record spans academic coordination, event planning, and student advocacy, alongside a strong creative drive in digital content and education. Sandra pairs imaginative thinking with strategic execution to build community and spark collaboration.
+
+  Driven by a pursuit of excellence, Sandra leads with intentionality, constantly learning, elevating others, and creating meaningful value wherever she serves.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -40,9 +44,11 @@ She is interested in technology, digital content and education, and brings a cre
     image: '/images/executives/NAMSSN EXCOS - 26/cards/BOLUWATIFE.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/BOLUWATIFE.webp',
     initials: 'AB',
-    bio: `Aiyenero Boluwatife is the General Secretary of NAMSSN UNILAG. She is interested in the organising work that keeps a student association running smoothly, from coordination to communication and follow-up.
+    bio: `Meet Boluwatife, a dedicated student leader and General Secretary of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-Her background includes mentorship and event coordination, with a focus on structure, accountability and student engagement. Through her role, she aims to help create a more organised and supportive departmental experience.`,
+  She is driven by a passion for mathematical excellence, effective administration, and community impact. Bringing together keen organizational precision, mentorship, and event coordination, she plays a vital role in ensuring seamless departmental operations and active student engagement.
+
+  With an eye toward innovation and unity, Boluwatife is committed to fostering a vibrant, supportive, and well-structured departmental experience throughout the session.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -56,9 +62,11 @@ Her background includes mentorship and event coordination, with a focus on struc
     image: '/images/executives/NAMSSN EXCOS - 26/cards/OPEYEMI.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/OPEYEMI.webp',
     initials: 'OO',
-    bio: `Owoade Opeyemi is a 300-level Mathematics student at the University of Lagos and Assistant General Secretary of NAMSSN UNILAG. He combines an interest in technology with entrepreneurship and community leadership.
+    bio: `Meet Owoade Opeyemi, a dynamic 300-level Mathematics student at the University of Lagos, entrepreneur, and technology professional.
 
-He founded Forge Academy, a technology education platform, and has also been recognised as a hackathon winner. In his office role, he brings that same practical, solution-oriented mindset to records, coordination and team support.`,
+  He is the Founder of Forge Academy, a forward-thinking tech education platform dedicated to nurturing emerging talent and driving practical skills acquisition. A two-time hackathon winner, Opeyemi thrives at the intersection of technical innovation and community leadership, constantly building solutions that create tangible value.
+
+  Guided by a relentless pursuit of excellence, Opeyemi remains focused on advancing technological growth, expanding his skills, and creating lasting impact within and beyond the university ecosystem.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -72,9 +80,11 @@ He founded Forge Academy, a technology education platform, and has also been rec
     image: '/images/executives/NAMSSN EXCOS - 26/cards/MARYDORIS.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/MARYDORIS.webp',
     initials: 'CM',
-    bio: `Chidiebere Marydoris is a 400-level Mathematics student at the University of Lagos and Public Relations Officer of NAMSSN UNILAG. Her interests bring together data engineering, communication and community management.
+    bio: `Meet Chidiebere Marydoris, a 400-level Mathematics student at the University of Lagos, aspiring Data Engineer, and Public Relations Officer (PRO) of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-She has worked with Python, SQL, Pandas, PostgreSQL and Docker, and is expanding her skills in Apache Airflow and AWS. As PRO, she uses that analytical and organised approach to support communication, visibility and student engagement.`,
+  She is a skilled communicator and tech practitioner experienced in building data pipelines with Python, SQL, Pandas, PostgreSQL, and Docker, with expanding focus into Apache Airflow and AWS. As PRO, she bridges strategic communication with community management, fostering collaborative learning, strong student engagement, and professional development across the department.
+
+  Steered by a commitment to technical excellence, Marydoris is dedicated to leveraging data, clear communication, and technology to solve complex problems and elevate the departmental brand.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -88,9 +98,11 @@ She has worked with Python, SQL, Pandas, PostgreSQL and Docker, and is expanding
     image: '/images/executives/NAMSSN EXCOS - 26/cards/DEMILADE.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/DEMILADE.webp',
     initials: 'OD',
-    bio: `Oguntuga Demilade Gabriel, also known as MINOR, is a Mathematics student at the University of Lagos and Financial Secretary of NAMSSN UNILAG. He previously served as Treasurer, bringing financial experience and accountability to his current role.
+    bio: `Meet Oguntuga Demilade Gabriel, popularly known as "M!NOR," a versatile Mathematics student, data analyst, and Financial Secretary of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-He is also a data analyst with an eye for careful record keeping and sound decisions. Outside academics and association work, he is a table tennis medallist and music enthusiast with interests in music theory and guitar.`,
+  Having previously served as the association's Treasurer, he brings a proven track record of fiscal accountability, meticulous documentation, and transparent leadership to his current role. Beyond numbers and analytics, Demilade is an accomplished table tennis medalist within the campus community and a dedicated music enthusiast actively exploring music theory and the guitar.
+
+  A mathematician by discipline, musician by passion, and sportsman by pursuit, Demilade leads with discipline and purpose, committed to continuous personal growth and meaningful service across every endeavor.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -104,9 +116,11 @@ He is also a data analyst with an eye for careful record keeping and sound decis
     image: '/images/executives/NAMSSN EXCOS - 26/cards/OREOLUWA.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/OREOLUWA.webp',
     initials: 'SO',
-    bio: `Soetan Oreoluwa, known as Little Soetan, is a Mathematics student at the University of Lagos and Treasurer of NAMSSN UNILAG. She combines an analytical background with experience in financial coordination, business management and event planning.
+    bio: `Meet Soetan Oreoluwa, popularly known as "Little Soetan," a dynamic Mathematics student, entrepreneur, and Treasurer of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-She is also pursuing ICAN certification while exploring software development. In her role, she focuses on integrity, teamwork and transparent financial management.`,
+  She blends strong analytical thinking with business acumen, exploring pathways in software development while pursuing professional accounting certification through ICAN. Bringing hands-on experience in financial coordination, business management, and event planning, Oreoluwa advocates strongly for organizational integrity, teamwork, and accountable fiscal stewardship.
+
+  Focused on driving sustainable value, Oreoluwa is committed to transparent financial management while continuously advancing her academic, technical, and professional growth.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -120,9 +134,11 @@ She is also pursuing ICAN certification while exploring software development. In
     image: '/images/executives/NAMSSN EXCOS - 26/cards/ADETIMEHIN.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/ADETIMEHIN.webp',
     initials: 'AA',
-    bio: `Adetimehin Anuoluwa Mercy is the Social Secretary of NAMSSN UNILAG. She is interested in creating a welcoming student community and making space for people to connect, take part and enjoy campus life.
+    bio: `Meet Adetimehin Anuoluwa Mercy, an engaging communicator and Social Secretary of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-Her experience extends to content writing, customer service and inventory management. She brings warmth, organisation and an inclusive approach to planning activities that help students feel involved.`,
+  She is known for her vibrant energy, warmth, and natural gift for bringing people together to build a welcoming, inclusive student community. Beyond academics and social coordination, Mercy brings diverse professional versatility as a content writer, customer service specialist, and inventory manager, blending sharp communication and keen attention to detail with strategic execution.
+
+  Championing the value of authentic human connection, Mercy is dedicated to turning university life into an enriching journey filled with collaboration, shared laughter, and unforgettable experiences.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -136,9 +152,13 @@ Her experience extends to content writing, customer service and inventory manage
     image: '/images/executives/NAMSSN EXCOS - 26/cards/TORREY.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/TORREY.webp',
     initials: 'TA',
-    bio: `Torrey Adebanjo is a final-year Pure Mathematics student at the University of Lagos and Welfare Secretary of NAMSSN UNILAG. Her background combines mathematics, education and entrepreneurship with a practical interest in service.
+    bio: `Meet Torrey Adebanjo is a final-year Pure Mathematics student at the University of Lagos and Welfare Secretary of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-She is passionate about student wellbeing, teamwork and thoughtful support for the department. Outside academics, she is a finance enthusiast working toward a career in investment banking and corporate finance.`,
+  She is an educator, entrepreneur, and founder of Torrey Tales Gift Brand, a gifting business rooted in creativity and thoughtfulness. Her entrepreneurial journey has seen her emerge as a top-five finalist in a pitch competition.
+
+  Committed to personal growth, creativity, leadership, and service, she has contributed to departmental development through volunteering. Her interests span project management, event management, business development, and creativity.
+
+  Grounded in her faith in God, Torrey values excellence and remains committed to learning, building, and evolving.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -152,9 +172,11 @@ She is passionate about student wellbeing, teamwork and thoughtful support for t
     image: '/images/executives/NAMSSN EXCOS - 26/cards/OLUWATOBILOBA.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/OLUWATOBILOBA.webp',
     initials: 'OO',
-    bio: `Olajide-Oke Oluwatobiloba is a final-year Pure Mathematics student at the University of Lagos and Sports Secretary of NAMSSN UNILAG. He brings an active interest in sport together with curiosity about technology and financial markets.
+    bio: `Meet Olajide-oke Oluwatobiloba, a final-year Pure Mathematics student at the University of Lagos and Sports Secretary of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-A Web3 enthusiast and financial market trader, he is interested in quantitative finance and the link between mathematical reasoning and practical systems. As Sports Secretary, he helps build an engaging sports culture within the department.`,
+  He is a Web3 enthusiast, financial market trader, and avid sports lover with a strong grasp of quantitative finance. Combining active student leadership with a passion for athletics, he brings energy, strategic execution, and teamwork to building a vibrant sports culture across the department.
+
+  Driven by innovation and service, Oluwatobiloba bridges mathematical logic with decentralized technologies and financial systems to build forward-thinking, real-world solutions.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -168,9 +190,11 @@ A Web3 enthusiast and financial market trader, he is interested in quantitative 
     image: '/images/executives/NAMSSN EXCOS - 26/cards/TAWAKALITU.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/TAWAKALITU.webp',
     initials: 'AT',
-    bio: `Alimi Tawakalitu Motunrayo is a Mathematics student at the University of Lagos and Director of Studies of NAMSSN UNILAG. She is interested in academic development, teaching and the role learning plays in student growth.
+    bio: `Meet Alimi Tawakalitu Motunrayo, an ambitious Mathematics student at the University of Lagos, dedicated educator, and aspiring Mathematics professor.
 
-She is also building her analytical skills through data analysis and explores creativity through baking and event decoration. In her role, she brings discipline, encouragement and a strong focus on academic support.`,
+  She is an emerging academic committed to intellectual development and educational impact, currently expanding her analytical expertise through data analysis. Beyond academia, she channels her creativity and entrepreneurial spirit into baking and event decoration, combining a results-driven mindset with elegance and discipline.
+
+  Grounded in purpose and continuous growth, Tawakalitu values leadership, service, and excellence as she works toward building a legacy defined by innovation and lasting impact.`,
     email: '',
     whatsapp: '',
     instagram: '',
@@ -184,9 +208,11 @@ She is also building her analytical skills through data analysis and explores cr
     image: '/images/executives/NAMSSN EXCOS - 26/cards/JEREMIAH.webp',
     profileImage: '/images/executives/NAMSSN EXCOS - 26/profiles/JEREMIAH.webp',
     initials: 'AJ',
-    bio: `Akpeji Jeremiah is a Mathematics undergraduate at the University of Lagos and Librarian of NAMSSN UNILAG. His interests connect mathematics with data analysis and the practical use of information.
+    bio: `Meet Akpeji Jeremiah, a Mathematics undergraduate at the University of Lagos, aspiring data analyst, and Librarian of the National Association of Mathematical Sciences Students of Nigeria (NAMSSN), UNILAG.
 
-He is developing skills in SQL and Python, with a growing interest in data, finance and knowledge access. Through his role, he aims to help students find useful resources and support a learning-focused community.`,
+  He pairs strong mathematical reasoning with practical skills in data analytics, leveraging tools like SQL and Python to extract insights, drive decision-making, and explore solutions at the intersection of data and finance. Beyond tech and academics, he is an enterprising builder and the founder of A.J Bites, a vibrant food brand.
+
+  Fueled by a passion for service and leadership, Jeremiah is dedicated to fostering knowledge access, empowering peers, and creating meaningful impact across the student community.`,
     email: '',
     whatsapp: '',
     instagram: '',
