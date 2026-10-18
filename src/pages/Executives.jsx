@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import usePageTitle from '../hooks/usePageTitle'
+import { pastStudentExecutives, studentExecutives } from '../data/studentExecutives'
 
 // ── Lecturers ────────────────────────────────────────────────────────────────
 // Department lecturers, with the current HOD listed first.
@@ -50,23 +51,6 @@ const patrons = [
     image: '/images/executives/ca.jpg',
     initials: 'PA',
   },
-]
-
-// ── Student Executives ───────────────────────────────────────────────────────
-// Update names and image filenames as needed
-const executives = [
-  { id: 'president',              name: 'Oludare Samuel Oladapo',          role: 'President',                image: '/images/executives/president.jpg',  initials: 'OO' },
-  { id: 'vice-president',         name: 'Amure McDonald Oluwatunmibewo',   role: 'Vice President',           image: '/images/executives/vp.jpg',          initials: 'AM' },
-  { id: 'general-secretary',      name: 'Chukwuma Miran-Ambrose',          role: 'General Secretary',        image: '/images/executives/gs.jpg',          initials: 'CM' },
-  { id: 'asst-general-secretary', name: 'Akesinro Damilola Gold',          role: 'Asst. General Secretary',  image: '/images/executives/ags.jpg',          initials: 'AG' },
-  { id: 'pro',                    name: 'Olowolayemo Temiloluwa Mercy',    role: 'Public Relations Officer', image: '/images/executives/pro.jpg',          initials: 'OT' },
-  { id: 'financial-secretary',    name: 'Azeezat Abdulazeez Temitope',     role: 'Financial Secretary',      image: '/images/executives/fin.jpg',          initials: 'AR' },
-  { id: 'treasurer',              name: 'Oguntuga Demilade Gabriel',       role: 'Treasurer',                image: '/images/executives/treasurer.jpg',    initials: 'OD' },
-  { id: 'social-secretary',       name: 'Salami Malik Demola',             role: 'Social Secretary',         image: '/images/executives/social.jpg',       initials: 'SM' },
-  { id: 'welfare-director',       name: 'Adesanya Racheal Teniola',        role: 'Welfare Director',         image: '/images/executives/welfare.jpg',      initials: 'AA' },
-  { id: 'sports-secretary',       name: 'George Ademola Samuel',           role: 'Sports Secretary',         image: '/images/executives/sport.jpg',        initials: 'GA' },
-  { id: 'director-of-studies',    name: 'Adebisi Oluwaseye Christopher',   role: 'Director of Studies',      image: '/images/executives/academic.jpg',     initials: 'AO' },
-  { id: 'librarian',              name: 'Aderibigbe Michael Oloruntomiwa', role: 'Librarian',                image: '/images/executives/library.jpg',      initials: 'AM' },
 ]
 
 function PatronCard({ patron }) {
@@ -210,9 +194,19 @@ export default function Executives() {
           {tab === 'executives' && (
             <div key="executives" className="tab-reveal">
               <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Student Executives</h2>
-              <p className="text-gray-500 dark:text-gray-400 mb-8">The 2026/2027 roster will be published when executive details are confirmed.</p>
-              <p className="text-gray-500 dark:text-gray-400 mb-4">Previous leadership remains available in the archive.</p>
-              <Link to="/student-executives#past-executives" className="text-brand-orange font-semibold hover:underline">Browse Past Executives: 2025/2026</Link>
+              <p className="text-gray-500 dark:text-gray-400 mb-8">The 2026/2027 NAMSSN UNILAG executive team.</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 stagger">
+                {studentExecutives.map(exec => <ExecCard key={exec.id} exec={exec} />)}
+              </div>
+              <details id="past-executives" className="border-t border-gray-200 dark:border-gray-700 mt-10 pt-6">
+                <summary className="cursor-pointer text-lg font-bold text-brand-blueDark dark:text-white">Past Executives</summary>
+                <div className="mt-5">
+                  <h3 className="font-semibold text-gray-600 dark:text-gray-300 mb-4">2025/2026 Session</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 stagger">
+                    {pastStudentExecutives.map(exec => <ExecCard key={exec.id} exec={exec} />)}
+                  </div>
+                </div>
+              </details>
             </div>
           )}
 

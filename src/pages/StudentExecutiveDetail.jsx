@@ -1,33 +1,33 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Mail, MessageCircle, Instagram, Twitter, Linkedin } from 'lucide-react'
-import { studentExecutives } from '../data/studentExecutives'
+import { pastStudentExecutives, studentExecutives } from '../data/studentExecutives'
 import usePageTitle from '../hooks/usePageTitle'
 
 export default function StudentExecutiveDetail() {
   const { id } = useParams()
-  const exec = studentExecutives.find(e => e.id === id)
+  const roster = studentExecutives.some(e => e.id === id) ? studentExecutives : pastStudentExecutives
+  const exec = roster.find(e => e.id === id)
   const [failed, setFailed] = useState(false)
+  const currentIndex = roster.findIndex(e => e.id === id)
+  const prev = roster[currentIndex - 1] || null
+  const next = roster[currentIndex + 1] || null
 
   // Reset failed state and preload adjacent images on navigation
   useEffect(() => {
     setFailed(false)
     const toPreload = [prev?.image, next?.image].filter(Boolean)
     toPreload.forEach(src => { const img = new Image(); img.src = src })
-  }, [id])
+  }, [id, prev?.image, next?.image])
 
   usePageTitle(exec ? exec.name : 'Executive')
 
   if (!exec) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4">
       <p className="text-2xl font-bold text-brand-blueDark">Profile not found</p>
-      <Link to="/student-executives" className="text-brand-orange hover:underline">← Back to Executives</Link>
+      <Link to="/executives?tab=executives" className="text-brand-orange hover:underline">← Back to Executives</Link>
     </div>
   )
-
-  const currentIndex = studentExecutives.findIndex(e => e.id === id)
-  const prev = studentExecutives[currentIndex - 1] || null
-  const next = studentExecutives[currentIndex + 1] || null
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -43,7 +43,7 @@ export default function StudentExecutiveDetail() {
 
         {/* Back link */}
         <div className="pt-6 mb-6">
-          <Link to="/student-executives" className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-brand-orange transition-colors">
+          <Link to="/executives?tab=executives" className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-brand-orange transition-colors">
             <ArrowLeft size={14} /> Back to Executives
           </Link>
         </div>

@@ -1,9 +1,9 @@
-export const studentExecutives = [
+export const pastStudentExecutives = [
   {
     id: 'president',
     name: 'Oludare Samuel Oladapo',
     role: 'President',
-    image: '/images/executives/president.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/president.jpg',
     initials: 'OO',
     bio: `Oludare Samuel is a final-year Mathematics student at the University of Lagos and the President of the National Association of Mathematical Science Students of Nigeria (NAMSSN), UNILAG Chapter.
 
@@ -26,7 +26,7 @@ Grounded in vision and faith, Samuel is committed to using technology, community
     id: 'vice-president',
     name: 'Amure McDonald Oluwatunmibewo',
     role: 'Vice President',
-    image: '/images/executives/vp.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/vp.jpg',
     initials: 'AM',
     bio: `Meet Amure McDonald, the dynamic Vice President of the Department of Mathematics, 300 Level. With a solid foundation in Software Engineering and a keen interest in Artificial Intelligence, he navigates the world of tech with ease. His academic pursuits are matched only by his passion for analysis courses, where he delves deeper into the intricacies of mathematical concepts.
 
@@ -43,7 +43,7 @@ As Vice President, he's committed to fostering a community that shares his passi
     id: 'general-secretary',
     name: 'Chukwuma Miran-Ambrose',
     role: 'General Secretary',
-    image: '/images/executives/gs.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/gs.jpg',
     initials: 'CM',
     bio: `Chukwuma Miran-Ambrose is the General Secretary of the National Association of Mathematical Science Students of Nigeria (NAMSSN), University of Lagos Chapter. He previously served as the Assistant General Secretary, where he played an active role in strengthening documentation, coordination, and follow-up across EXCO offices.
 
@@ -62,7 +62,7 @@ Miran's leadership approach centers on service, clarity, and continuity, with a 
     id: 'asst-general-secretary',
     name: 'Akesinro Damilola Gold',
     role: 'Asst. General Secretary',
-    image: '/images/executives/ags.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/ags.jpg',
     initials: 'AG',
     bio: `Damilola Gold Akesinro is the Assistant General Secretary of the National Association of Mathematical Science Students of Nigeria (NAMSSN), University of Lagos Chapter, and a 300-level Mathematics student.
 
@@ -79,7 +79,7 @@ Beyond academics, Gold has a keen interest in Makeup artistry and UI/UX design, 
     id: 'pro',
     name: 'Olowolayemo Temiloluwa Mercy',
     role: 'Public Relations Officer',
-    image: '/images/executives/pro.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/pro.jpg',
     initials: 'OT',
     bio: `Olowolayemo Temiloluwa Mercy is a 400-level Mathematics student and the Public Relations Officer of the National Association of Mathematical Science Students of Nigeria (NAMSSN), UNILAG Chapter. In this role, she contributes to effective communication, representation, and student engagement within the academic community.
 
@@ -98,7 +98,7 @@ Driven by continuous learning and personal growth, she is passionate about share
     id: 'financial-secretary',
     name: 'Azeezat Abdulazeez Temitope',
     role: 'Financial Secretary',
-    image: '/images/executives/fin.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/fin.jpg',
     initials: 'AR',
     bio: `Abdulazeez Azeezat Temitope is a Mathematics student at the University of Lagos and the Financial Secretary of NAMSSN UNILAG, having previously served as the Association's Treasurer, where she demonstrated accountability, organization, and dedication to service.
 
@@ -117,7 +117,7 @@ In her leisure time, she enjoys reading, writing, intellectual conversations, po
     id: 'treasurer',
     name: 'Oguntuga Demilade Gabriel',
     role: 'Treasurer',
-    image: '/images/executives/treasurer.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/treasurer.jpg',
     initials: 'OD',
     bio: `Oguntuga Demilade Gabriel is a driven 300-level Mathematics student known for his strong academic focus and active involvement beyond the classroom. With a deep appreciation for logical reasoning and problem-solving, he continues to build a solid foundation in mathematics while exploring its real-world applications.
 
@@ -134,7 +134,7 @@ In addition, he is a data analyst with a keen interest in extracting insights fr
     id: 'social-secretary',
     name: 'Salami Malik Demola',
     role: 'Social Secretary',
-    image: '/images/executives/social.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/social.jpg',
     initials: 'SM',
     bio: `Salami Malik Demola is the Social Secretary of the National Association of Mathematical Science Students of Nigeria (NAMSSN) and a dedicated final-year Mathematics student with a creative drive for student engagement and community building.
 
@@ -153,7 +153,7 @@ Outside of books and leadership, Malik is a global educator and creator. He is a
     id: 'welfare-director',
     name: 'Adesanya Racheal Teniola',
     role: 'Welfare Director',
-    image: '/images/executives/welfare.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/welfare.jpg',
     initials: 'AA',
     bio: `Adesanya Racheal Teniola is a final-year Mathematics student and the Welfare Director of NAMSSN UNILAG. Known for her warmth and diligence, she steps into this role with a clear mission: to make student well-being the heartbeat of the department.
 
@@ -172,7 +172,7 @@ Outside of books and business, Teniola is the life of the circle. She loves meet
     id: 'sports-secretary',
     name: 'George Ademola Samuel',
     role: 'Sports Secretary',
-    image: '/images/executives/sport.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/sport.jpg',
     initials: 'GA',
     bio: `George Ademola Samuel is the Sports Secretary of the National Association of Mathematical Science Students of Nigeria (NAMSSN), leading the coordination of all sporting activities within the department and facilitating participation in faculty-wide events.
 
@@ -191,7 +191,7 @@ Beyond the field and the library, Ademola is an avid supporter of team spirit an
     id: 'director-of-studies',
     name: 'Adebisi Oluwaseye Christopher',
     role: 'Director of Studies',
-    image: '/images/executives/academic.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/academic.jpg',
     initials: 'AO',
     bio: `Adebisi Oluwaseye Christopher is the Director of Studies of the National Association of Mathematical Science Students of Nigeria (NAMSSN), UNILAG Chapter. He is deeply passionate about mathematical problem-solving, academic excellence, and effective knowledge presentation, with a strong commitment to supporting students' academic growth.
 
@@ -210,7 +210,7 @@ Through leadership, research, and professional engagement, he remains dedicated 
     id: 'librarian',
     name: 'Aderibigbe Michael Oloruntomiwa',
     role: 'Librarian',
-    image: '/images/executives/library.jpg',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2025/library.jpg',
     initials: 'AM',
     bio: `Aderibigbe Michael Oloruntomiwa is the Librarian of the National Association of Mathematical Science Students of Nigeria (NAMSSN) and a dedicated Pure Mathematics student with a strong passion for Algebra and its real-world applications.
 
@@ -224,5 +224,116 @@ With a growing interest in bridging mathematics with technology, he aims to vent
     instagram: '',
     twitter: '',
     linkedin: '',
+  },
+]
+
+export const studentExecutives = [
+  {
+    id: 'amure-mcdonald-oluwatunmibewo',
+    name: 'Amure McDonald Oluwatunmibewo',
+    role: 'President',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/PRESIDENT.jpg',
+    initials: 'AM',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'akakpo-sandra-elom',
+    name: 'Akakpo Sandra Elom',
+    role: 'Vice President',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/VP.jpg',
+    initials: 'AS',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'aiyenero-boluwatife-awoenibare',
+    name: 'Aiyenero Boluwatife Awoenibare',
+    role: 'Gen Sec',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/GEN.jpg',
+    initials: 'BA',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'chidiebere-marydoris-amarachi',
+    name: 'Chidiebere Marydoris Amarachi',
+    role: 'PRO',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/PRO.jpg',
+    initials: 'MA',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'oguntuga-demilade-gabriel',
+    name: 'Oguntuga Demilade Gabriel',
+    role: 'Fin Sec',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/FIN_SEC.jpg',
+    initials: 'DG',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'adetimehin-anuoluwa-mercy',
+    name: 'Adetimehin Anuoluwa Mercy',
+    role: 'Social Sec',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/SOCIAL_SEC.jpg',
+    initials: 'AM',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'alimi-tawakalitu',
+    name: 'Alimi Tawakalitu',
+    role: 'D.O.S',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/DOS.jpg',
+    initials: 'AT',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'akpeji-jeremiah-kolade',
+    name: 'Akpeji Jeremiah Kolade',
+    role: 'Librarian',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/LIBRARIAN.jpg',
+    initials: 'JK',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'adebanjo-torrey',
+    name: 'Adebanjo Torrey',
+    role: 'Welfare Sec.',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/WELFARE_SEC.jpg',
+    initials: 'AT',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'owoade-opeyemi',
+    name: 'Owoade Opeyemi',
+    role: 'A.G.S',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/ASST_GEN.jpg',
+    initials: 'OO',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'soetan-oreoluwa',
+    name: 'Soetan Oreoluwa',
+    role: 'Treasurer',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/TREASURER.jpg',
+    initials: 'SO',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
+  },
+  {
+    id: 'olajide-oke-oluwatobiloba',
+    name: 'Olajide-Oke Oluwatobiloba',
+    role: 'Sports Sec',
+    image: '/images/executives/NAMSSN%20EXCOS%20-%2026/SPORT_SEC.jpg',
+    initials: 'OO',
+    bio: 'Profile details will be added soon. This page will be updated with their background, interests, and contributions to NAMSSN UNILAG.',
+    email: '', whatsapp: '', instagram: '', twitter: '', linkedin: '',
   },
 ]

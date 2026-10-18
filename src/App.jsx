@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import { useState, useEffect, useRef, createContext, useContext, lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
@@ -21,7 +21,6 @@ const Research = lazy(() => import('./pages/Research'))
 const PiDay = lazy(() => import('./pages/PiDay'))
 const Giveaway = lazy(() => import('./pages/Giveaway'))
 const Eid = lazy(() => import('./pages/Eid'))
-const StudentExecutives = lazy(() => import('./pages/StudentExecutives'))
 const StudentExecutiveDetail = lazy(() => import('./pages/StudentExecutiveDetail'))
 const Decagon = lazy(() => import('./pages/Decagon'))
 const DecagonAttend = lazy(() => import('./pages/DecagonAttend'))
@@ -115,7 +114,7 @@ export default function App() {
                     <Route path="/celebration/pi-day"        element={<PiDay />} />
                     <Route path="/giveaway"                  element={<Giveaway />} />
                     <Route path="/eid"                       element={<Eid />} />
-                    <Route path="/student-executives"        element={<StudentExecutives />} />
+                    <Route path="/student-executives"        element={<Navigate to="/executives?tab=executives" replace />} />
                     <Route path="/student-executives/:id"    element={<StudentExecutiveDetail />} />
                     <Route path="/decagon"                   element={<Decagon />} />
                     <Route path="/decagon/attend"            element={<DecagonAttend />} />
