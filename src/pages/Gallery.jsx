@@ -1,120 +1,48 @@
-import { ExternalLink, Images } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Images, X } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 
-// ── Albums ────────────────────────────────────────────────────────────────────
-// To add a new album: copy one object, fill in the fields, set googleLink.
-// Leave googleLink as '' to show "Coming Soon" instead of a button.
-
-const albums = [
-  {
-    id: 1,
-    title: "Dean's Games 2026",
-    date: 'June 2026',
-    thumbnail: '/images/gallery/events/deans.jpg',
-    googleLink: '',
-  },
-  {
-    id: 2,
-    title: 'Decagon 5.0 — Grand Finale',
-    date: 'June 2026',
-    thumbnail: '/images/gallery/events/dec.jpg',
-    googleLink: '',
-  },
-  {
-    id: 3,
-    title: 'Decagon 5.0 — Press Conference',
-    date: 'April 2026',
-    thumbnail: '/images/gallery/press-conference/pc01.jpg',
-    googleLink: '',
-  },
-  {
-    id: 4,
-    title: 'HOD Games',
-    date: '2025/2026',
-    thumbnail: '/images/gallery/hod-games/HOD.jpg',
-    googleLink: '',
-  },
-  {
-    id: 5,
-    title: 'Executives 2025/2026',
-    date: '2025',
-    thumbnail: '/images/gallery/executives/excos.jpg',
-    googleLink: '',
-  },
-  {
-    id: 6,
-    title: 'Freshers Orientation',
-    date: '2025',
-    thumbnail: '/images/gallery/freshers/fo1.jpg',
-    googleLink: '',
-  },
-  {
-    id: 7,
-    title: 'Symposium',
-    date: '2025',
-    thumbnail: '/images/gallery/events/SYM.jpg',
-    googleLink: '',
-  },
-  {
-    id: 8,
-    title: 'Sign Out',
-    date: '2025',
-    thumbnail: '/images/gallery/events/signout.jpg',
-    googleLink: '',
-  },
+const photos = [
+  { src: '/images/gallery/events/crowd.jpg', title: 'Event Highlights', category: 'Events & Activities' },
+  { src: '/images/gallery/events/deans.jpg', title: "Dean's Games", category: 'Events & Activities' },
+  { src: '/images/gallery/events/dec.jpg', title: 'Decagon 5.0', category: 'Events & Activities' },
+  { src: '/images/gallery/events/fo.jpg', title: "Freshers' Orientation", category: 'Events & Activities' },
+  { src: '/images/gallery/events/ind.jpg', title: 'Inauguration', category: 'Events & Activities' },
+  { src: '/images/gallery/events/lasu.jpg', title: 'LASU Visit', category: 'Events & Activities' },
+  { src: '/images/gallery/events/signout.jpg', title: 'Sign Out', category: 'Events & Activities' },
+  { src: '/images/gallery/events/SYM.jpg', title: 'Symposium', category: 'Events & Activities' },
+  { src: '/images/gallery/events/synergist.jpg', title: 'Synergist', category: 'Events & Activities' },
+  { src: '/images/gallery/events/tem.png', title: 'TEM', category: 'Events & Activities' },
+  { src: '/images/gallery/events/WID.png', title: 'WID', category: 'Events & Activities' },
+  { src: '/images/gallery/hod-games/HOD.jpg', title: 'HOD Games', category: 'HOD Games' },
+  ...Array.from({ length: 18 }, (_, index) => {
+    const number = String(index + 2).padStart(2, '0')
+    return {
+      src: `/images/gallery/press-conference/pc${number}.jpg`,
+      title: `Press Conference ${index + 1}`,
+      category: 'Press Conference',
+    }
+  }),
 ]
 
-function AlbumCard({ album }) {
-  const [imgFailed, setImgFailed] = useState(false)
-
-  return (
-    <div className="group bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-200">
-      {/* Thumbnail */}
-      <div className="aspect-video w-full overflow-hidden bg-white/5 relative">
-        {!imgFailed ? (
-          <img
-            src={album.thumbnail}
-            alt={album.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            onError={() => setImgFailed(true)}
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Images size={32} className="text-white/20" />
-          </div>
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="px-5 py-4 flex flex-col gap-3">
-        <div>
-          <p className="text-xs text-gray-500">{album.date}</p>
-          <h3 className="text-sm font-black text-white mt-0.5">{album.title}</h3>
-        </div>
-
-        {album.googleLink ? (
-          <a
-            href={album.googleLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-brand-orange hover:bg-orange-500 text-white text-xs font-bold transition-colors"
-          >
-            <ExternalLink size={13} />
-            View Album
-          </a>
-        ) : (
-          <div className="flex items-center justify-center w-full py-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-600 text-xs font-bold cursor-not-allowed">
-            Coming Soon
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
-import { useState } from 'react'
+const categories = ['All Photos', 'Events & Activities', 'HOD Games', 'Press Conference']
 
 export default function Gallery() {
+  const [category, setCategory] = useState('All Photos')
+  const [activePhoto, setActivePhoto] = useState(null)
+  const visiblePhotos = category === 'All Photos'
+    ? photos
+    : photos.filter(photo => photo.category === category)
+
+  useEffect(() => {
+    if (!activePhoto) return
+    const closeOnEscape = event => {
+      if (event.key === 'Escape') setActivePhoto(null)
+    }
+    document.addEventListener('keydown', closeOnEscape)
+    return () => document.removeEventListener('keydown', closeOnEscape)
+  }, [activePhoto])
+
   usePageTitle('Gallery — NAMSSN UNILAG')
 
   return (
@@ -127,21 +55,84 @@ export default function Gallery() {
         <div className="relative max-w-xl mx-auto">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-orange mb-3">NAMSSN UNILAG</p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-3">Photo Gallery</h1>
-          <p className="text-gray-400 text-sm">Relive the memories from our events, competitions, and activities.</p>
+          <p className="text-gray-400 text-sm">Photos from completed NAMSSN events, competitions, and activities.</p>
         </div>
       </section>
 
-      {/* Albums grid */}
+      {/* Completed-event archive */}
       <section className="max-w-6xl mx-auto px-4 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {albums.map(album => (
-            <AlbumCard key={album.id} album={album} />
+        <div className="flex flex-wrap gap-2 mb-8" role="group" aria-label="Filter gallery photos">
+          {categories.map(option => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => setCategory(option)}
+              aria-pressed={category === option}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
+                category === option
+                  ? 'bg-brand-orange text-white'
+                  : 'bg-white/5 text-gray-300 hover:bg-white/10'
+              }`}
+            >
+              {option}
+            </button>
           ))}
         </div>
-        <p className="text-center text-gray-600 text-xs mt-12">
-          More albums coming soon · Follow us on Instagram @namssn_unilag
-        </p>
+
+        <p className="text-gray-400 text-sm mb-5">{visiblePhotos.length} photos</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
+          {visiblePhotos.map((photo, index) => (
+            <button
+              key={photo.src}
+              type="button"
+              onClick={() => setActivePhoto(photo)}
+              className="group text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-orange rounded-lg"
+              aria-label={`View ${photo.title}`}
+            >
+              <div className="aspect-[4/3] overflow-hidden rounded-lg bg-white/5">
+                <img
+                  src={photo.src}
+                  alt={photo.title}
+                  loading={index < 8 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                />
+              </div>
+              <span className="block text-sm font-semibold text-white mt-2">{photo.title}</span>
+              <span className="block text-xs text-gray-400 mt-0.5">{photo.category}</span>
+            </button>
+          ))}
+        </div>
       </section>
+
+      {activePhoto && (
+        <div
+          className="fixed inset-0 z-[70] bg-black/90 p-4 flex items-center justify-center"
+          role="dialog"
+          aria-modal="true"
+          aria-label={activePhoto.title}
+          onClick={event => {
+            if (event.target === event.currentTarget) setActivePhoto(null)
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => setActivePhoto(null)}
+            className="absolute top-4 right-4 p-2 text-white hover:text-brand-orange"
+            aria-label="Close photo"
+          >
+            <X size={24} />
+          </button>
+          <figure className="max-w-6xl max-h-full">
+            <img
+              src={activePhoto.src}
+              alt={activePhoto.title}
+              className="max-h-[82vh] max-w-full object-contain mx-auto"
+            />
+            <figcaption className="text-center text-white text-sm mt-3">{activePhoto.title}</figcaption>
+          </figure>
+        </div>
+      )}
 
     </div>
   )

@@ -6,8 +6,8 @@ import { ArrowRight, Trophy, Users, BookOpen, Star, Zap, Heart, Globe, Graduatio
 // ── Hero slideshow images ───────────────────────────────────────────────────
 // Drop your images in public/images/hero/ and list them here
 const SLIDES = [
-  { src: '/images/hero/EXCOS.jpg',  caption: 'NAMSSN UNILAG Executives 2025/2026' },
-  { src: '/images/hero/ind.jpg',   caption: 'INAUGURATION TO OFFICE' },
+  { src: '/images/hero/excos.jpg',  caption: 'NAMSSN UNILAG Executives 2025/2026' },
+  { src: '/images/hero/past_excos/ind.jpg',   caption: 'INAUGURATION TO OFFICE' },
   { src: '/images/hero/past_excos/HOD.jpg',   caption: 'HOD GAMES' },
   { src: '/images/hero/past_excos/deans.jpg', caption: "Dean's Games 2026" },
 ]
