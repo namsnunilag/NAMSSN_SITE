@@ -1,31 +1,36 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, Mail, MessageCircle, Instagram, Twitter, Linkedin } from 'lucide-react'
-import { pastStudentExecutives, studentExecutives } from '../data/studentExecutives'
+import { ArrowLeft, Mail, MessageCircle, Instagram, X, Linkedin } from 'lucide-react'
+import { studentExecutives } from '../data/studentExecutives'
+import { pastStudentExecutives } from '../data/pastStudentExecutives'
 import usePageTitle from '../hooks/usePageTitle'
 
 export default function StudentExecutiveDetail() {
-  const { id } = useParams()
-  const roster = studentExecutives.some(e => e.id === id) ? studentExecutives : pastStudentExecutives
-  const exec = roster.find(e => e.id === id)
+  const { id, archiveId } = useParams()
+  const profileId = archiveId || id
+  const execInCurrent = studentExecutives.find(e => e.id === profileId)
+  const execInPast = pastStudentExecutives.find(e => e.id === profileId)
+  const isPast = Boolean(archiveId) || (!execInCurrent && Boolean(execInPast))
+  const roster = isPast ? pastStudentExecutives : studentExecutives
+  const exec = execInCurrent || execInPast
   const [failed, setFailed] = useState(false)
-  const currentIndex = roster.findIndex(e => e.id === id)
+  const currentIndex = roster.findIndex(e => e.id === profileId)
   const prev = roster[currentIndex - 1] || null
   const next = roster[currentIndex + 1] || null
 
   // Reset failed state and preload adjacent images on navigation
   useEffect(() => {
     setFailed(false)
-    const toPreload = [prev?.profileImage, next?.profileImage].filter(Boolean)
+    const toPreload = [prev?.profileImage || prev?.image, next?.profileImage || next?.image].filter(Boolean)
     toPreload.forEach(src => { const img = new Image(); img.src = src })
-  }, [id, prev?.image, next?.image])
+  }, [profileId, prev?.profileImage, next?.profileImage, prev?.image, next?.image])
 
   usePageTitle(exec ? exec.name : 'Executive')
 
   if (!exec) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4">
       <p className="text-2xl font-bold text-brand-blueDark">Profile not found</p>
-      <Link to="/executives?tab=executives" className="text-brand-orange hover:underline">← Back to Executives</Link>
+      <Link to="/student-executives" className="text-brand-orange hover:underline">← Back to Executives</Link>
     </div>
   )
 
@@ -43,7 +48,7 @@ export default function StudentExecutiveDetail() {
 
         {/* Back link */}
         <div className="pt-6 mb-6">
-          <Link to="/executives?tab=executives" className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-brand-orange transition-colors">
+          <Link to="/student-executives" className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-brand-orange transition-colors">
             <ArrowLeft size={14} /> Back to Executives
           </Link>
         </div>
@@ -54,7 +59,7 @@ export default function StudentExecutiveDetail() {
 
             {/* Left — photo + name + socials */}
             <div className="md:w-64 lg:w-72 shrink-0 flex flex-col items-center px-8 pt-8 pb-8 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
-              <div className="w-40 h-40 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-brand-blueDark to-brand-blue mb-4">
+              <div className="w-48 sm:w-56 aspect-[3/4] rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-brand-blueDark to-brand-blue mb-4">
                 {!failed ? (
                   <img
                     src={exec.profileImage || exec.image}
@@ -107,11 +112,11 @@ export default function StudentExecutiveDetail() {
                     )}
                     {exec.twitter && (
                       <a
-                        href={`https://twitter.com/${exec.twitter.replace('@','')}`}
+                        href={`https://x.com/${exec.twitter.replace('@','')}`}
                         target="_blank" rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 bg-sky-500 hover:bg-sky-600 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
+                        className="inline-flex items-center gap-1.5 bg-black hover:bg-gray-900 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
                       >
-                        <Twitter size={13} /> Twitter
+                        <X size={13} /> X
                       </a>
                     )}
                     {exec.linkedin && (
