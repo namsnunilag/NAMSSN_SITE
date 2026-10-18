@@ -15,9 +15,16 @@ build/
 Secretfile
 Secretfile.*
 
-# macOS
+# macOS and Windows OS files
 .DS_Store
+desktop.ini
+Thumbs.db
 
 # Editor
 .vscode/
 *.swp
+
+# Raw photoshoot masters & temporary resources
+public/images/executives/NAMSSN EXCOS - 26 - ORIGINAL/
+public/images/executives/WhatsApp Image*
+new_resources/

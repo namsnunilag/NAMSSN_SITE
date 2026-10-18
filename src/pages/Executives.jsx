@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
+import { studentExecutives, pastStudentExecutives } from '../data/studentExecutives'
 import usePageTitle from '../hooks/usePageTitle'
-import { pastStudentExecutives, studentExecutives } from '../data/studentExecutives'
 
 // ── Lecturers ────────────────────────────────────────────────────────────────
 // Department lecturers, with the current HOD listed first.
