@@ -87,6 +87,26 @@ export const pastEvents = [
     registrationStatus: 'closed',
     registrationDate: null,
   },
+  {
+    id: 3,
+    session: '2026/2027 Session',
+    title: 'Techmatics Bootcamp',
+    date: 'September 21, 2026',
+    time: 'Completed',
+    location: 'Google Meet',
+    category: 'Training',
+    image: '/images/events/techmatics.jpg',
+    shortDescription: 'A four-week bootcamp exploring mathematical applications and the role of mathematics in tech careers.',
+    fullDescription: `Techmatics Bootcamp was a four-week training programme introducing undergraduates to mathematical applications and technology careers. The programme covered computational thinking, mathematical computing, digital productivity and AI, and career pathways for mathematics.\n\nThe programme has concluded.`,
+    highlights: [
+      'Computational thinking',
+      'Mathematical computing',
+      'Digital productivity and AI',
+      'Career pathways for mathematics',
+    ],
+    registrationStatus: 'closed',
+    registrationDate: null,
+  },
 ]
 
 export const upcomingEvents = []

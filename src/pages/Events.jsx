@@ -4,6 +4,8 @@ import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react'
 import { upcomingEvents, pastEvents, registrationStatusConfig } from '../data/events'
 import usePageTitle from '../hooks/usePageTitle'
 
+const pastEventSessions = [...new Set(pastEvents.map(event => event.session || '2025/2026 Session'))]
+
 function RegistrationBadge({ status }) {
   const cfg = registrationStatusConfig[status] || registrationStatusConfig['none']
   if (!cfg.label) return null
@@ -132,12 +134,16 @@ export default function Events() {
 
           <details className="mt-12 border-t border-gray-200 dark:border-gray-700 pt-6">
             <summary className="cursor-pointer text-lg font-bold text-brand-blueDark dark:text-white">Past Events</summary>
-            <details className="mt-4 ml-4">
-              <summary className="cursor-pointer font-semibold text-gray-600 dark:text-gray-300">2025/2026 Session</summary>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 stagger">
-                {pastEvents.map(event => <EventCard key={event.id} event={event} />)}
-              </div>
-            </details>
+            {pastEventSessions.map(session => (
+              <details key={session} className="mt-4 ml-4">
+                <summary className="cursor-pointer font-semibold text-gray-600 dark:text-gray-300">{session}</summary>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 stagger">
+                  {pastEvents.filter(event => (event.session || '2025/2026 Session') === session).map(event => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
+              </details>
+            ))}
           </details>
         </div>
       </section>

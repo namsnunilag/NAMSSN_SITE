@@ -212,6 +212,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── NEW SESSION WELCOME ──────────────────────────────────────────── */}
+      <section className="py-14 bg-white dark:bg-gray-800">
+        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="reveal from-left order-2 md:order-1">
+            <p className="text-brand-orange text-xs font-bold uppercase tracking-wider mb-3">2026/2027 Session</p>
+            <h2 className="text-3xl font-bold text-brand-blueDark dark:text-white mb-4">Welcome Back to Campus, NAMSSNites!</h2>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+              NAMSSN UNILAG warmly welcomes all our students back to campus. A new semester brings fresh opportunities, renewed determination, and another chance to excel. We hope you had a refreshing break and are ready for the academic session ahead.
+            </p>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+              As we resume, let’s stay focused, support one another, and strive for academic excellence. May this session bring growth, remarkable achievements, and beautiful memories.
+            </p>
+          </div>
+          <div className="reveal from-right order-1 md:order-2 max-w-md mx-auto w-full overflow-hidden rounded-xl shadow-lg">
+            <img
+              src="/images/events/backtosch.jpg"
+              alt="Welcome back to campus, NAMSSNites. Wishing students a fulfilling semester and outstanding success."
+              className="block w-full h-auto"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ── QUICK LINKS ───────────────────────────────────────────────────── */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
