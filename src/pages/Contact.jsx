@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Mail, MapPin, Phone, Facebook, Twitter, Instagram, Linkedin, Send, CheckCircle2 } from 'lucide-react'
+import { Mail, MapPin, Phone, Facebook, Twitter, Instagram, Linkedin, Send } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 
 const socials = [
@@ -24,54 +24,39 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'Phone',
-    value: '+234 816 533 6309',
-    href: 'tel:+2348165336309',
+    value: '+2349034495638',
+    href: 'tel:+2349034495638',
   },
 ]
 
 export default function Contact() {
   usePageTitle('Contact Us', 'Get in touch with NAMSSN UNILAG via email, WhatsApp, or social media. Reach the mathematical sciences student association at the University of Lagos.')
   const [form,      setForm]      = useState({ name: '', email: '', subject: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
-  const [loading,   setLoading]   = useState(false)
+  const [emailReady, setEmailReady] = useState(false)
   const [error,     setError]     = useState('')
 
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
+    setEmailReady(false)
 
-    // Basic validation
     if (!form.name || !form.email || !form.message) {
       setError('Please fill in all required fields.')
       return
     }
 
-    setLoading(true)
-
-    try {
-      const res = await fetch('https://formspree.io/f/xvzwkzpr', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(form),
-      })
-
-      const data = await res.json().catch(() => ({}))
-      setLoading(false)
-
-      if (!res.ok) {
-        setError(data?.error || `Submission failed (${res.status}). Please email us directly.`)
-        return
-      }
-
-      setSubmitted(true)
-      setForm({ name: '', email: '', subject: '', message: '' })
-    } catch (err) {
-      setLoading(false)
-      setError('Network error — please check your connection and try again.')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      setError('Please enter a valid email address.')
+      return
     }
+
+    const subject = form.subject || `Message from ${form.name}`
+    const body = `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`
+    setEmailReady(true)
+    window.location.href = `mailto:namsnunilag9@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (
@@ -103,23 +88,7 @@ export default function Contact() {
                   Send Us a Message
                 </h2>
 
-                {submitted ? (
-                  <div className="flex flex-col items-center justify-center py-16 text-center">
-                    <CheckCircle2 size={60} className="text-brand-blue mb-4" />
-                    <h3 className="text-xl font-display font-bold text-gray-900 dark:text-white mb-2">
-                      Message Sent!
-                    </h3>
-                    <p className="text-gray-500 dark:text-gray-400 mb-6">
-                      Thanks for reaching out. We'll get back to you as soon as possible.
-                    </p>
-                    <button
-                      onClick={() => setSubmitted(false)}
-                      className="btn-outline"
-                    >
-                      Send Another Message
-                    </button>
-                  </div>
-                ) : (
+                {
                   <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
@@ -184,28 +153,20 @@ export default function Contact() {
                     {error && (
                       <p className="text-red-500 text-sm">{error}</p>
                     )}
+                    {emailReady && (
+                      <p className="text-sm text-gray-600 dark:text-gray-300" role="status">
+                        Your email app should open with the message ready to send. If it doesn't, email us directly at namsnunilag9@gmail.com.
+                      </p>
+                    )}
 
                     <button
                       type="submit"
-                      disabled={loading}
-                      className="btn-primary w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="btn-primary w-full justify-center"
                     >
-                      {loading ? (
-                        <>
-                          <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                          </svg>
-                          Sending…
-                        </>
-                      ) : (
-                        <>
-                          Send Message <Send size={16} />
-                        </>
-                      )}
+                      Open Email App <Send size={16} />
                     </button>
                   </form>
-                )}
+                }
               </div>
             </div>
 

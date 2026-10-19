@@ -414,7 +414,7 @@ function CompetitionTab() {
   useEffect(() => {
     if (!SUPABASE_URL) { setLoadingLeaders(false); return }
     fetch(
-      `${SUPABASE_URL}/rest/v1/decagon_registrations?select=full_name,department,score&order=score.desc,created_at.asc`,
+      `${SUPABASE_URL}/rest/v1/decagon_registrations?select=full_name,department,score&order=score.desc`,
       { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
     )
       .then(r => r.json())
@@ -603,7 +603,7 @@ function ChallengeTab() {
 
   useEffect(() => {
     if (!SUPABASE_URL) { setLoadingLeaders(false); return }
-    fetch(`${SUPABASE_URL}/rest/v1/challenge_signups?select=full_name,department,score,days_completed&order=score.desc,days_completed.desc,created_at.asc`, {
+    fetch(`${SUPABASE_URL}/rest/v1/challenge_signups?select=full_name,department,score,days_completed&order=score.desc,days_completed.desc`, {
       headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
     })
       .then(r => r.json())

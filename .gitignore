@@ -10,8 +10,8 @@ build/
 
 # Local env files
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 Secretfile
 Secretfile.*
 

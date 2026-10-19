@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import emailjs from '@emailjs/browser'
 import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
   Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil, Medal, ShoppingBag, Ticket, UserCheck, Gift, Shirt,
@@ -11,31 +10,89 @@ import {
 
 const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-const ADMIN_PASSWORD    = import.meta.env.VITE_ADMIN_PASSWORD || 'decagon2026'
-const SESSION_KEY       = 'decagon_admin_auth'
+let adminSession = null
 
-const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID || ''
-const EMAILJS_CONFIRM_TID = import.meta.env.VITE_EMAILJS_CONFIRM_TEMPLATE_ID || ''
-const EMAILJS_REJECT_TID  = import.meta.env.VITE_EMAILJS_REJECT_TEMPLATE_ID || ''
-const EMAILJS_JERSEY_TID  = import.meta.env.VITE_EMAILJS_JERSEY_TEMPLATE_ID || ''
-const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || ''
-const WHATSAPP_LINK       = 'https://chat.whatsapp.com/IGMTNSA8zP1DPCx2dow56o?mode=hqctswi'
+
+async function authFetch(url, options = {}) {
+  if (!adminSession?.access_token) throw new Error('Admin session expired. Sign in again.')
+
+  const send = token => {
+    const headers = new Headers(options.headers)
+    headers.set('apikey', SUPABASE_ANON_KEY)
+    headers.set('Authorization', `Bearer ${token}`)
+    return window.fetch(url, { ...options, headers })
+  }
+
+  let response = await send(adminSession.access_token)
+  if (response.status !== 401 || !adminSession.refresh_token) return response
+
+  const refreshResponse = await window.fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
+    method: 'POST',
+    headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ refresh_token: adminSession.refresh_token }),
+  })
+  const refreshed = await refreshResponse.json().catch(() => ({}))
+  if (!refreshResponse.ok || refreshed.user?.app_metadata?.role !== 'admin') {
+    adminSession = null
+    throw new Error('Admin session expired. Sign in again.')
+  }
+  adminSession = refreshed
+  response = await send(adminSession.access_token)
+  if (response.status === 401) {
+    adminSession = null
+    throw new Error('Admin session expired. Sign in again.')
+  }
+  return response
+}
+
+async function signInAdmin(email, password) {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error('Admin authentication is not configured.')
+  const response = await window.fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+    method: 'POST',
+    headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  })
+  const session = await response.json().catch(() => ({}))
+  if (!response.ok || session.user?.app_metadata?.role !== 'admin') {
+    throw new Error('Invalid credentials or this account is not an administrator.')
+  }
+  return session
+}
+
+async function signReceiptLinks(rows) {
+  return Promise.all(rows.map(async row => {
+    if (!row.receipt_url) return row
+    const objectKey = row.receipt_url.split('/decagon-receipts/').pop()
+    if (!objectKey || objectKey === row.receipt_url) return { ...row, receipt_url: '' }
+    const response = await authFetch(
+      `${SUPABASE_URL}/storage/v1/object/sign/decagon-receipts/${objectKey.split('/').map(encodeURIComponent).join('/')}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ expiresIn: 3600 }),
+      },
+    )
+    if (!response.ok) return { ...row, receipt_url: '' }
+    const signed = await response.json()
+    return { ...row, receipt_url: `${SUPABASE_URL}/storage/v1${signed.signedURL}` }
+  }))
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Supabase helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function fetchRegistrations() {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/decagon_registrations?select=*&order=created_at.desc`,
     { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
   )
   if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
-  return res.json()
+  return signReceiptLinks(await res.json())
 }
 
 async function fetchSignups() {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/challenge_signups?select=*&order=created_at.desc`,
     { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
   )
@@ -43,13 +100,8 @@ async function fetchSignups() {
   return res.json()
 }
 
-async function sendEmail(templateId, params) {
-  if (!EMAILJS_SERVICE_ID || !EMAILJS_PUBLIC_KEY || !templateId) return
-  await emailjs.send(EMAILJS_SERVICE_ID, templateId, params, EMAILJS_PUBLIC_KEY)
-}
-
 async function deleteSignup(id) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/challenge_signups?id=eq.${id}`,
     {
       method: 'DELETE',
@@ -64,7 +116,7 @@ async function deleteSignup(id) {
 }
 
 async function deleteRegistration(id) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/decagon_registrations?id=eq.${id}`,
     {
       method: 'DELETE',
@@ -79,7 +131,7 @@ async function deleteRegistration(id) {
 }
 
 async function setStatus(id, status) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/decagon_registrations?id=eq.${id}`,
     {
       method: 'PATCH',
@@ -96,7 +148,7 @@ async function setStatus(id, status) {
 }
 
 async function updateCompetitionScore(id, score) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/decagon_registrations?id=eq.${id}`,
     {
       method: 'PATCH',
@@ -113,7 +165,7 @@ async function updateCompetitionScore(id, score) {
 }
 
 async function updateChallengeScore(id, score, days_completed) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/challenge_signups?id=eq.${id}`,
     {
       method: 'PATCH',
@@ -130,16 +182,16 @@ async function updateChallengeScore(id, score, days_completed) {
 }
 
 async function fetchMerchOrders() {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/decagon_merch_orders?select=*&order=created_at.desc`,
     { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
   )
   if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
-  return res.json()
+  return signReceiptLinks(await res.json())
 }
 
 async function setMerchOrderStatus(id, status) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/decagon_merch_orders?id=eq.${id}`,
     {
       method: 'PATCH',
@@ -156,16 +208,16 @@ async function setMerchOrderStatus(id, status) {
 }
 
 async function fetchJerseyOrders() {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?select=*&order=created_at.asc`,
     { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
   )
   if (!res.ok) throw new Error(`Fetch failed (${res.status})`)
-  return res.json()
+  return signReceiptLinks(await res.json())
 }
 
 async function deleteJerseyOrder(id) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?id=eq.${id}`,
     {
       method: 'DELETE',
@@ -180,7 +232,7 @@ async function deleteJerseyOrder(id) {
 }
 
 async function setJerseyOrderStatus(id, status) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/deans_games_jersey_orders?id=eq.${id}`,
     {
       method: 'PATCH',
@@ -197,7 +249,7 @@ async function setJerseyOrderStatus(id, status) {
 }
 
 async function fetchAttendance() {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/decagon_attendance?select=*&order=created_at.asc`,
     { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
   )
@@ -206,7 +258,7 @@ async function fetchAttendance() {
 }
 
 async function deleteAttendee(id) {
-  const res = await fetch(
+  const res = await authFetch(
     `${SUPABASE_URL}/rest/v1/decagon_attendance?id=eq.${id}`,
     {
       method: 'DELETE',
@@ -317,17 +369,23 @@ function ScoreModal({ type, person, onSave, onClose }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function LoginScreen({ onLogin }) {
+  const [email, setEmail] = useState('')
   const [pw, setPw]       = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault()
-    if (pw === ADMIN_PASSWORD) {
-      sessionStorage.setItem(SESSION_KEY, '1')
+    setLoading(true)
+    setError('')
+    try {
+      adminSession = await signInAdmin(email.trim(), pw)
       onLogin()
-    } else {
-      setError('Incorrect password.')
+    } catch (err) {
+      setError(err.message || 'Unable to sign in.')
       setPw('')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -343,18 +401,25 @@ function LoginScreen({ onLogin }) {
         </div>
         <form onSubmit={submit} className="space-y-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Password</label>
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Admin Email</label>
+            <input
+              type="email" value={email} onChange={e => { setEmail(e.target.value); setError('') }}
+              placeholder="admin@example.com" autoComplete="username" required
+              className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600
+                         focus:outline-none focus:ring-2 focus:ring-cyan-400/40 focus:border-cyan-400/40 transition"
+            />
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-2">Password</label>
             <input
               type="password" value={pw} onChange={e => { setPw(e.target.value); setError('') }}
-              placeholder="Enter admin password" autoFocus required
+              placeholder="Enter admin password" autoComplete="current-password" required
               className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600
                          focus:outline-none focus:ring-2 focus:ring-cyan-400/40 focus:border-cyan-400/40 transition"
             />
           </div>
           {error && <p className="text-xs text-red-400">{error}</p>}
-          <button type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-400 text-[#0f172a] font-black py-3 rounded-xl transition">
-            Sign In
+          <button type="submit" disabled={loading}
+            className="w-full bg-cyan-500 hover:bg-cyan-400 text-[#0f172a] font-black py-3 rounded-xl transition disabled:opacity-50">
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
       </div>
@@ -391,25 +456,6 @@ function RegistrationsTab() {
       await setStatus(id, status)
       setRows(r => r.map(x => x.id === id ? { ...x, payment_status: status } : x))
 
-      // Send email notification
-      const reg = rows.find(r => r.id === id)
-      if (reg) {
-        if (status === 'confirmed') {
-          await sendEmail(EMAILJS_CONFIRM_TID, {
-            to_name:        reg.full_name,
-            to_email:       reg.email,
-            matric:         reg.matric,
-            department:     reg.department,
-            whatsapp_link:  WHATSAPP_LINK,
-          })
-        } else if (status === 'rejected') {
-          await sendEmail(EMAILJS_REJECT_TID, {
-            to_name:  reg.full_name,
-            to_email: reg.email,
-            matric:   reg.matric,
-          })
-        }
-      }
     } catch {
       alert('Failed to update. Please try again.')
     } finally {
@@ -781,7 +827,7 @@ function LeaderboardTab() {
   const load = useCallback(async () => {
     setLoading(true); setError('')
     try {
-      const res = await fetch(
+      const res = await authFetch(
         `${SUPABASE_URL}/rest/v1/challenge_signups?select=id,full_name,department,score,days_completed&order=score.desc,days_completed.desc,created_at.asc`,
         { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
       )
@@ -1088,19 +1134,6 @@ function JerseyOrdersTab() {
     try {
       await setJerseyOrderStatus(id, status)
       setRows(r => r.map(x => x.id === id ? { ...x, status } : x))
-      if (status === 'confirmed') {
-        const order = rows.find(r => r.id === id)
-        if (order) {
-          await sendEmail(EMAILJS_JERSEY_TID, {
-            to_name:       order.full_name,
-            to_email:      order.email,
-            jersey_name:   order.jersey_name,
-            jersey_number: order.jersey_number,
-            size:          order.size,
-            amount:        `₦${(order.amount ?? 0).toLocaleString()}`,
-          })
-        }
-      }
     } catch {
       alert('Failed to update. Please try again.')
     } finally {
@@ -1523,10 +1556,13 @@ function Dashboard({ onLogout }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function Admin() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === '1')
+  const [authed, setAuthed] = useState(false)
 
   const logout = () => {
-    sessionStorage.removeItem(SESSION_KEY)
+    if (adminSession?.access_token) {
+      void authFetch(`${SUPABASE_URL}/auth/v1/logout`, { method: 'POST' }).catch(() => {})
+    }
+    adminSession = null
     setAuthed(false)
   }
 

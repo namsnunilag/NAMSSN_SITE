@@ -6,6 +6,18 @@ Scope: application code, Supabase schema and policies, forms, content, deploymen
 
 No application refactor, deployment, database change, commit, or push was performed during this audit.
 
+## Remediation status checked 19 October 2026
+
+This status supplements the read-only findings below; it does not certify the live deployment or assign a numeric security score. A percentage such as 95% is not defensible until live database, storage, authentication, host headers, rate limits, and monitoring are independently verified.
+
+- **Admin auth:** the browser password and fallback were removed. `/admin` now signs in through Supabase Auth and requires the trusted `app_metadata.role = admin` claim. Dashboard REST operations use that access token; receipt links are signed for one hour. This depends on applying the database migration and provisioning an admin account as documented in `SECURITY.md`.
+- **RLS and receipts:** the bootstrap SQL and a dated migration remove old anonymous read/write policies on legacy registration/order tables, leave anonymous access closed on these tables, privatize the receipts bucket, and add admin-only policies and change audit triggers. These changes have **not** been applied or tested against the live Supabase project.
+- **Public write surfaces:** old Decagon, giveaway, attendance, and jersey routes now redirect to Events. Anonymous writes are intentionally closed until a server-validated, rate-limited replacement is deployed. This reduces abuse exposure but disables those legacy workflows.
+- **Secrets:** `.env` and `.env.*` are ignored with `.env.example` explicitly allowed. No service-role key or real browser admin password was found in tracked files. The Supabase anon key is public configuration, not a secret; rotate any service-role or provider secret if it was ever exposed outside ignored local files.
+- **Hosting headers:** Netlify and Vercel config now sets `nosniff`, `DENY` framing, a strict-origin referrer policy, and disables unused device APIs. Deployment response headers have not been remotely verified.
+- **Dependencies and automation:** the original audit found 18 npm advisories (11 high, 5 moderate, 2 low). A non-major npm fix was attempted but skipped; those findings remain open. Dependabot checks are configured, but no build/security CI workflow was added or verified.
+- **Validation:** the Vite production build passes locally. SQL was not executed because no Supabase CLI/project connection is configured here; live RLS, storage privacy, admin login, and hosting headers remain unverified.
+
 ## How developers can run and view the project
 
 Requirements: Git, Node.js 18 or newer, and npm. From PowerShell, clone the repository and enter the project folder:
@@ -53,7 +65,7 @@ The preview server is for checking the production build locally; it does not pub
 - `https://namssn-unilag.vercel.app` responded with the NAMSSN site title.
 - `https://nammsnunilag.one` did not resolve from the current environment. This is a DNS/hosting-access issue to investigate; it is not proof that the domain or account is permanently lost.
 - The local source currently uses the Supabase project configured in `.env.local`. The SQL file still defines the older Decagon, challenge, merchandise, attendance, receipt-storage, and Dean’s Games jersey tables. A fresh Supabase project will not contain those tables or policies until the setup is run there, and old data will not be present.
-- The contact form uses the live Formspree endpoint in `Contact.jsx`, but the event notification forms in `EventDetail.jsx` still use `YOUR_FORM_ID` placeholders and cannot work until the replacement Formspree endpoint is supplied.
+- The Contact page currently opens a prefilled `mailto:` draft; it does not submit to a server. The retired Decagon event notification component still contains Formspree placeholder IDs in source, but the old event submission routes are no longer mounted.
 - Admin and ticket-related notifications still depend on EmailJS environment values. Missing values will affect those actions even if the public pages load.
 - The Supabase anon URL/key are browser configuration values, not admin secrets. The current RLS policies remain unsafe for production because they allow anonymous reads and changes to sensitive records; do not treat the new project as secure merely because it is fresh.
 
@@ -73,7 +85,9 @@ The site has a useful feature set and a working Vite build, but it contains stal
 6. Establish CI, protected main branch, dependency scanning, secret scanning, and reproducible Node tooling.
 7. Run a content and link refresh for the 2026/2027 session.
 
-## Security findings
+## Security findings — 17 October baseline
+
+The findings below describe the pre-remediation state. Use the 19 October remediation status above for current repository changes; production status remains unverified until the remote migration and hosting configuration are checked.
 
 ### 🔴 CRITICAL — Anonymous users can read and modify private records
 

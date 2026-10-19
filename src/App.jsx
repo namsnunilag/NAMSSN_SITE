@@ -19,13 +19,9 @@ const Community = lazy(() => import('./pages/Community'))
 const Merchandise = lazy(() => import('./pages/Merchandise'))
 const Research = lazy(() => import('./pages/Research'))
 const PiDay = lazy(() => import('./pages/PiDay'))
-const Giveaway = lazy(() => import('./pages/Giveaway'))
 const Eid = lazy(() => import('./pages/Eid'))
 const StudentExecutives = lazy(() => import('./pages/StudentExecutives'))
 const StudentExecutiveDetail = lazy(() => import('./pages/StudentExecutiveDetail'))
-const Decagon = lazy(() => import('./pages/Decagon'))
-const DecagonAttend = lazy(() => import('./pages/DecagonAttend'))
-const DeansGamesJersey = lazy(() => import('./pages/DeansGamesJersey'))
 const Admin = lazy(() => import('./pages/Admin'))
 
 export const ThemeContext = createContext({ isDark: false, toggle: () => {} })
@@ -100,14 +96,13 @@ export default function App() {
                     <Route path="/merchandise"  element={<Merchandise />} />
                     <Route path="/research"     element={<Research />} />
                     <Route path="/celebration/pi-day"        element={<PiDay />} />
-                    <Route path="/giveaway"                  element={<Giveaway />} />
+                    <Route path="/giveaway"                  element={<Navigate to="/events" replace />} />
                     <Route path="/eid"                       element={<Eid />} />
                     <Route path="/student-executives"        element={<StudentExecutives />} />
                     <Route path="/student-executives/past/:archiveId" element={<StudentExecutiveDetail />} />
                     <Route path="/student-executives/:id"    element={<StudentExecutiveDetail />} />
-                    <Route path="/decagon"                   element={<Decagon />} />
-                    <Route path="/decagon/attend"            element={<DecagonAttend />} />
-                    <Route path="/deans-games/jersey"        element={<DeansGamesJersey />} />
+                    <Route path="/decagon/*"                 element={<Navigate to="/events" replace />} />
+                    <Route path="/deans-games/jersey"        element={<Navigate to="/events" replace />} />
                   </Routes>
                 </Suspense>
               </main>
