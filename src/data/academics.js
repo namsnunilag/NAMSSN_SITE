@@ -25,7 +25,14 @@ export const pastQuestionsLink = ''  // paste your Google Drive link here
 export const pastQuestions = []
 
 export const timetable = {
-  semester: '',   // e.g. 'First Semester 2025/2026'
-  image: '',      // e.g. '/images/timetable.jpg'
-  pdf: '',        // e.g. '/timetable.pdf'
+  title: 'Faculty Lecture Timetable',
+  faculty: 'Faculty of Physical and Earth Sciences',
+  session: '2026/2027 Academic Session',
+  semester: 'First Semester',
+  status: 'Final Timetable',
+  generated: '18 October 2026',
+  pages: 4,
+  image: '',
+  pdf: '/documents/faculty-physical-earth-sciences-timetable-2026-2027-first-semester.pdf',
+  downloadName: 'faculty-physical-earth-sciences-timetable-2026-2027-first-semester.pdf',
 }

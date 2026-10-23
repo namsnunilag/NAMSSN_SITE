@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { GraduationCap, Briefcase, BookMarked, Calculator, Plus, Trash2, ExternalLink, ChevronDown, Target } from 'lucide-react'
+import { GraduationCap, Briefcase, BookMarked, Calculator, Plus, Trash2, ExternalLink, Download, ChevronDown, Target } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
-import { scholarships, internships, jobs, jobPlatforms, handbook } from '../data/resources'
+import { scholarships, internships, jobs, jobPlatforms, handbook, curriculum } from '../data/resources'
 
 const TABS = [
   { id: 'cgpa',         label: 'CGPA Calculator', icon: Calculator },
   { id: 'scholarships', label: 'Scholarships',    icon: GraduationCap },
   { id: 'jobs',         label: 'Jobs & Internships', icon: Briefcase },
-  { id: 'handbook',     label: 'Handbook',        icon: BookMarked },
+  { id: 'handbook',     label: 'Handbook & Curriculum', icon: BookMarked },
 ]
 
 // Nigerian 5-point grading scale
@@ -469,8 +469,36 @@ export default function Resources() {
           )}
 
           {activeTab === 'handbook' && (
-            <div key="handbook" className="tab-reveal max-w-lg mx-auto">
-              <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white mb-6">Student Handbook</h2>
+            <div key="handbook" className="tab-reveal max-w-2xl mx-auto space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-brand-blueDark dark:text-white">Handbook & Curriculum</h2>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Association guidance and departmental academic information.</p>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center">
+                <div className="w-20 h-20 rounded-full bg-brand-blue/10 flex items-center justify-center mx-auto mb-4">
+                  <BookMarked size={36} className="text-brand-blue" />
+                </div>
+                <h3 className="font-bold text-brand-blueDark dark:text-white text-xl mb-2">{curriculum.title}</h3>
+                <p className="text-brand-orange text-sm font-semibold mb-2">{curriculum.institution} · {curriculum.pages} pages</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">{curriculum.description}</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  <a
+                    href={curriculum.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 border border-brand-blue/30 text-brand-blue dark:text-blue-300 dark:border-blue-400/40 hover:bg-brand-blue/10 font-bold px-5 py-2.5 rounded-full transition-colors"
+                  >
+                    <ExternalLink size={15} /> View PDF
+                  </a>
+                  <a
+                    href={curriculum.link}
+                    download={curriculum.downloadName}
+                    className="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white font-bold px-5 py-2.5 rounded-full transition-colors"
+                  >
+                    <Download size={15} /> Download
+                  </a>
+                </div>
+              </div>
               <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center">
                 <div className="w-20 h-20 rounded-full bg-brand-blue/10 flex items-center justify-center mx-auto mb-4">
                   <BookMarked size={36} className="text-brand-blue" />
