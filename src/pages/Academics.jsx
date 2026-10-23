@@ -152,28 +152,44 @@ export default function Academics() {
               {!timetable.semester ? (
                 <EmptyState icon={Calendar} text="No timetable uploaded yet. Check back when a new semester begins." />
               ) : (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-brand-blueDark dark:text-white text-lg">{timetable.semester}</h3>
-                    <div className="flex gap-3">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
+                    <div className="flex items-start gap-3">
+                      <div className="w-11 h-11 rounded-xl bg-brand-blue/10 flex items-center justify-center shrink-0">
+                        <Calendar size={20} className="text-brand-blue" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-orange mb-1">{timetable.status}</p>
+                        <h3 className="font-bold text-brand-blueDark dark:text-white text-lg">{timetable.title}</h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{timetable.faculty}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{timetable.session} · {timetable.semester}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2 sm:justify-end">
                       {timetable.pdf && (
-                        <a
-                          href={timetable.pdf}
-                          download
-                          className="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
-                        >
-                          <Download size={14} /> Download PDF
-                        </a>
+                        <>
+                          <a
+                            href={timetable.pdf}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 border border-brand-blue/30 text-brand-blue hover:bg-brand-blue/10 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                          >
+                            <ExternalLink size={14} /> View PDF
+                          </a>
+                          <a
+                            href={timetable.pdf}
+                            download={timetable.downloadName}
+                            className="inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-yellow hover:text-brand-blueDark text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                          >
+                            <Download size={14} /> Download
+                          </a>
+                        </>
                       )}
                     </div>
                   </div>
-                  {timetable.image && (
-                    <img
-                      src={timetable.image}
-                      alt="Timetable"
-                      className="w-full rounded-xl border border-gray-100"
-                    />
-                  )}
+                  <div className="flex flex-wrap gap-x-5 gap-y-2 mt-5 pt-4 border-t border-gray-100 dark:border-gray-700 text-xs text-gray-500 dark:text-gray-400">
+                    <span>{timetable.pages} pages</span>
+                  </div>
                 </div>
               )}
             </div>

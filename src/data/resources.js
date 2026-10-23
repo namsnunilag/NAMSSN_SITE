@@ -153,3 +153,12 @@ export const handbook = {
   description: 'The official NAMSSN UNILAG constitution and student handbook.',
   link: '',  // e.g. '/handbook.pdf'
 }
+
+export const curriculum = {
+  title: 'Department of Mathematics Curriculum',
+  institution: 'University of Lagos',
+  description: 'The official departmental curriculum covering programme structures, course information, requirements, regulations, and academic guidance.',
+  pages: 172,
+  link: '/documents/department-mathematics-curriculum-2026.pdf',
+  downloadName: 'department-mathematics-curriculum-2026.pdf',
+}
