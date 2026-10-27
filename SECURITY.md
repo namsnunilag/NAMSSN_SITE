@@ -34,6 +34,8 @@ This migration intentionally closes legacy anonymous submissions. Do not restore
 - Keep local values in ignored `.env.local`/`.env.*` files and deployment secrets. Only `.env.example` may be committed, with blank placeholders.
 - Enable Supabase Auth MFA for admins, restrict admin account creation/invites, and review Auth and database logs after rollout.
 
+Reauditing Success?
+
 ## Verification limits
 
 A successful local `npm run build` proves only that the frontend compiles. It does not prove the migration ran, that RLS is correct on the live project, that the hosting provider serves the configured headers, or that rate limiting exists. Record separate verification for the database, storage, admin/non-admin access, and Netlify/Vercel response headers before calling production secure.
