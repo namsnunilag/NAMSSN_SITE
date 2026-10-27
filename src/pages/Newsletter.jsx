@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 import { archivedNewsletters, newsletters } from '../data/newsletters'
@@ -12,6 +12,19 @@ function Lightbox({ newsletter, onClose }) {
 
   const prev = () => setPage(p => (p - 1 + total) % total)
   const next = () => setPage(p => (p + 1) % total)
+
+  // Keyboard navigation: ArrowLeft/Right to flip pages, Escape to close
+  useEffect(() => {
+    const onKey = e => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
+      if (e.key === 'Escape') { onClose(); return }
+      if (!isMulti) return
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); prev() }
+      if (e.key === 'ArrowRight') { e.preventDefault(); next() }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [isMulti, onClose]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -31,13 +44,33 @@ function Lightbox({ newsletter, onClose }) {
           <X size={24} />
         </button>
 
-        {/* Image */}
-        <div className="flex items-center justify-center max-h-[80vh] overflow-hidden rounded-xl bg-black">
+        {/* Image + nav arrows together so arrows overlay the image */}
+        <div className="relative flex items-center justify-center max-h-[80vh] overflow-hidden rounded-xl bg-black">
           <img
             src={pages[page]}
             alt={`${newsletter.title} — ${isMulti ? (page === 0 ? 'Front' : 'Back') : 'Page 1'}`}
             className="max-h-[80vh] max-w-full object-contain"
           />
+
+          {/* Page navigation — only shown when front + back exist */}
+          {isMulti && (
+            <>
+              <button
+                onClick={e => { e.stopPropagation(); prev() }}
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-brand-orange text-white p-2 rounded-full transition-colors"
+                aria-label="Previous page"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                onClick={e => { e.stopPropagation(); next() }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-brand-orange text-white p-2 rounded-full transition-colors"
+                aria-label="Next page"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </>
+          )}
         </div>
 
         {/* Caption + page indicator */}
@@ -53,38 +86,20 @@ function Lightbox({ newsletter, onClose }) {
           </p>
         </div>
 
-        {/* Page navigation — only shown when front + back exist */}
+        {/* Dot indicators */}
         {isMulti && (
-          <>
-            <button
-              onClick={prev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-brand-orange text-white p-2 rounded-full transition-colors"
-              aria-label="Previous page"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={next}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-brand-orange text-white p-2 rounded-full transition-colors"
-              aria-label="Next page"
-            >
-              <ChevronRight size={20} />
-            </button>
-
-            {/* Dot indicators */}
-            <div className="flex justify-center gap-2 mt-3">
-              {pages.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setPage(i)}
-                  className={`h-2 rounded-full transition-all duration-200 ${
-                    i === page ? 'w-6 bg-brand-orange' : 'w-2 bg-white/30 hover:bg-white/50'
-                  }`}
-                  aria-label={i === 0 ? 'Front' : 'Back'}
-                />
-              ))}
-            </div>
-          </>
+          <div className="flex justify-center gap-2 mt-3">
+            {pages.map((_, i) => (
+              <button
+                key={i}
+                onClick={e => { e.stopPropagation(); setPage(i) }}
+                className={`h-2 rounded-full transition-all duration-200 ${
+                  i === page ? 'w-6 bg-brand-orange' : 'w-2 bg-white/30 hover:bg-white/50'
+                }`}
+                aria-label={i === 0 ? 'Front' : 'Back'}
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>
@@ -135,7 +150,9 @@ export default function Newsletter() {
                       <img
                         src={item.images[0]}
                         alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
+                        loading="lazy"
                         onError={e => { e.currentTarget.style.display = 'none' }}
                       />
                       {/* Front + back badge */}
@@ -186,6 +203,7 @@ export default function Newsletter() {
                           src={item.images[0]}
                           alt={item.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          style={item.imagePosition ? { objectPosition: item.imagePosition } : undefined}
                           loading="lazy"
                           onError={e => { e.currentTarget.style.display = 'none' }}
                         />
