@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { Mail, MapPin, Phone, Facebook, Twitter, Instagram, Linkedin, Send } from 'lucide-react'
+import { Mail, MapPin, Phone, Send, Camera, BriefcaseBusiness } from 'lucide-react'
 import usePageTitle from '../hooks/usePageTitle'
 
 const socials = [
   // ── Replace '#' hrefs with your actual social media URLs ──────────────
-  { icon: Twitter,   label: 'Twitter/X', href: 'https://x.com/namssn_unilag',  handle: '@namssn_unilag' },
-  { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/namssn_unilag/',  handle: '@namssn_unilag' },
-  { icon: Linkedin,  label: 'LinkedIn',  href: 'https://www.linkedin.com/in/namssn-unilag-chapter-a18b5a281/',  handle: 'NAMSSN UNILAG' },
+  { icon: Send,              label: 'Twitter/X', href: 'https://x.com/namssn_unilag',  handle: '@namssn_unilag' },
+  { icon: Camera,            label: 'Instagram', href: 'https://www.instagram.com/namssn_unilag/',  handle: '@namssn_unilag' },
+  { icon: BriefcaseBusiness, label: 'LinkedIn',  href: 'https://www.linkedin.com/in/namssn-unilag-chapter-a18b5a281/',  handle: 'NAMSSN UNILAG' },
 ]
 
 const contactInfo = [

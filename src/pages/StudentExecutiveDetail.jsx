@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, Mail, MessageCircle, Instagram, Linkedin } from 'lucide-react'
+import { ArrowLeft, Mail, MessageCircle, Camera, BriefcaseBusiness } from 'lucide-react'
 
 // Official X (Twitter) brand logo
 const XLogo = ({ size = 16 }) => (
@@ -114,7 +114,7 @@ export default function StudentExecutiveDetail() {
                         target="_blank" rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 bg-pink-500 hover:bg-pink-600 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
                       >
-                        <Instagram size={13} /> Instagram
+                        <Camera size={13} /> Instagram
                       </a>
                     )}
                     {exec.twitter && (
@@ -132,7 +132,7 @@ export default function StudentExecutiveDetail() {
                         target="_blank" rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
                       >
-                        <Linkedin size={13} /> LinkedIn
+                        <BriefcaseBusiness size={13} /> LinkedIn
                       </a>
                     )}
                   </div>

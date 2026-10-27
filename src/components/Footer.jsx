@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react'
+import { Send, Camera, BriefcaseBusiness, Mail, MapPin } from 'lucide-react'
 
 const navLinks = [
   { to: '/',            label: 'Home' },
@@ -18,9 +18,9 @@ const exploreLinks = [
 ]
 
 const socials = [
-  { icon: Twitter,   href: 'https://x.com/namssn_unilag',                                   label: 'Twitter' },
-  { icon: Instagram, href: 'https://www.instagram.com/namssn_unilag/',                       label: 'Instagram' },
-  { icon: Linkedin,  href: 'https://www.linkedin.com/in/namssn-unilag-chapter-a18b5a281/',  label: 'LinkedIn' },
+  { icon: Send,               href: 'https://x.com/namssn_unilag',                                  label: 'Twitter' },
+  { icon: Camera,             href: 'https://www.instagram.com/namssn_unilag/',                      label: 'Instagram' },
+  { icon: BriefcaseBusiness,  href: 'https://www.linkedin.com/in/namssn-unilag-chapter-a18b5a281/', label: 'LinkedIn' },
 ]
 
 export default function Footer() {

@@ -1,14 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  body {
-    @apply bg-white text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100;
-  }
+/* ── Custom Utilities/Base overrides ──────────────────────── */
+@theme {
+  /* Note: If your custom theme colors like brand-blue aren't working, 
+     you define them here in v4 like this: */
+  --color-brand-blue: #0066cc;      /* Replace with your exact blue hex code */
+  --color-brand-blue-dark: #004499; /* Replace with your exact dark blue hex code */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100;
+}
+
+/* ── Reusable Component Classes (Tailwind v4 style) ───────── */
+.section-container {
+  @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.card {
+  @apply bg-white rounded-2xl shadow-sm border border-gray-100 dark:bg-gray-800 dark:border-gray-700;
+}
+
+.btn-primary {
+  @apply inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue-dark text-white font-bold px-6 py-3 rounded-full transition-all duration-200;
+}
+
+.btn-outline {
+  @apply inline-flex items-center gap-2 border-2 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white font-bold px-6 py-3 rounded-full transition-all duration-200;
 }
 
 /* ── Floating math symbols ─────────────────────────────────── */
@@ -68,9 +90,16 @@
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: none; }
 }
+.hero-anim-5 { animation-delay: 0.70s; }
+
+/* ── Tab / content swap ────────────────────────────────────── */
+@keyframes tabReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
 .tab-reveal { animation: tabReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-/* Items inside tab content auto-animate (no IntersectionObserver needed) */
+/* Items inside tab content auto-animate */
 .tab-reveal .reveal {
   opacity: 1;
   transform: none;
@@ -90,21 +119,3 @@
 .tab-reveal .stagger > .reveal:nth-child(11) { animation-delay: 600ms; }
 .tab-reveal .stagger > .reveal:nth-child(12) { animation-delay: 660ms; }
 
-/* ── Reusable component classes (used by Contact page) ──────── */
-@layer components {
-  .section-container {
-    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  .card {
-    @apply bg-white rounded-2xl shadow-sm border border-gray-100 dark:bg-gray-800 dark:border-gray-700;
-  }
-
-  .btn-primary {
-    @apply inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blueDark text-white font-bold px-6 py-3 rounded-full transition-all duration-200;
-  }
-
-  .btn-outline {
-    @apply inline-flex items-center gap-2 border-2 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white font-bold px-6 py-3 rounded-full transition-all duration-200;
-  }
-}
