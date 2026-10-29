@@ -77,4 +77,17 @@ export const archivedNewsletters = [
   },
 ]
 
-export const newsletters = []
+export const newsletters = [
+  {
+    id: 1,
+    title: 'The Upper Echelon: NAMSSN UNILAG Welcomes a New Session!',
+    week: 'Vol 1, No. 1',
+    date: 'October 26, 2026',
+    images: [
+      '/images/newsletters/26_OCT_2026_FRONT.jpeg',
+      '/images/newsletters/26_OCT_2026_BACK.jpeg',
+    ],
+    imagePosition: 'center 28%',
+    description: 'A new session, fresh energy, and another opportunity to grow together! NAMSSN UNILAG unveils its executive team for the 2026/2027 session.',
+  },
+]
