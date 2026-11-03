@@ -79,13 +79,25 @@ export const archivedNewsletters = [
 
 export const newsletters = [
   {
+    id: 2,
+    title: 'NAMSSN Weekly Newsletter — Vol. 03, No. 02',
+    week: 'Vol 3, No. 2',
+    date: 'November 2, 2026',
+    images: [
+      '/images/newsletters/NAMSSN VOL 03, No. 02, Page 01(1080x1569) - November 2nd.png',
+      '/images/newsletters/NAMSSN VOL 03, No. 02, Page 02(1080x1569) - November 2nd.png',
+    ],
+    imagePosition: 'center',
+    description: 'This edition features UNILAG admission updates and toxicology screening, Funmi Mustapha\'s emergence as NAMSSN National PRO 1, TechUnwind UNILAG, GPT-6 and interactive learning, an academic discussion on understanding mathematics beyond repetition, and the Fun Corner.',
+  },
+  {
     id: 1,
     title: 'The Upper Echelon: NAMSSN UNILAG Welcomes a New Session!',
-    week: 'Vol 1, No. 1',
+    week: 'Vol 3, No. 1',
     date: 'October 26, 2026',
     images: [
-      '/images/newsletters/26_OCT_2026_FRONT.jpeg',
-      '/images/newsletters/26_OCT_2026_BACK.jpeg',
+      '/images/newsletters/26_OCT_2026_FRONT.jpg',
+      '/images/newsletters/26_OCT_2026_BACK.jpg',
     ],
     imagePosition: 'center 28%',
     description: 'A new session, fresh energy, and another opportunity to grow together! NAMSSN UNILAG unveils its executive team for the 2026/2027 session.',
