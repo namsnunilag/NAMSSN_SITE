@@ -79,8 +79,20 @@ export const archivedNewsletters = [
 
 export const newsletters = [
   {
+    id: 3,
+    title: 'Beyond the Lecture Hall: Big Ideas, AI Access & Student Life',
+    week: 'Vol 3, No. 3',
+    date: 'November 9, 2026',
+    images: [
+      '/images/newsletters/NAMSSN VOL 03, No. 03, Page 01(1080x1350) November 9.png',
+      '/images/newsletters/NAMSSN VOL 03, No. 03, Page 02(1080x1350)  November 9.png',
+    ],
+    imagePosition: 'center',
+    description: 'This edition highlights the 470th Inaugural Lecture delivered by Prof. Hudson Akewe, the Google Gemini Pro offer for African students, and more stories, opportunities and lighter moments from the NAMSSN UNILAG community.',
+  },
+  {
     id: 2,
-    title: 'NAMSSN Weekly Newsletter — Vol. 03, No. 02',
+    title: 'New Beginnings: Screening, Admissions & What Comes Next',
     week: 'Vol 3, No. 2',
     date: 'November 2, 2026',
     images: [
@@ -88,7 +100,7 @@ export const newsletters = [
       '/images/newsletters/NAMSSN VOL 03, No. 02, Page 02(1080x1569) - November 2nd.png',
     ],
     imagePosition: 'center',
-    description: 'This edition features UNILAG admission updates and toxicology screening, Funmi Mustapha\'s emergence as NAMSSN National PRO 1, TechUnwind UNILAG, GPT-6 and interactive learning, an academic discussion on understanding mathematics beyond repetition, and the Fun Corner.',
+    description: 'A guide to toxicology screening for newly admitted students, alongside important admission updates, student features and highlights from the NAMSSN UNILAG community.',
   },
   {
     id: 1,
