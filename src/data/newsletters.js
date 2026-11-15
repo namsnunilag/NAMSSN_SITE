@@ -79,6 +79,18 @@ export const archivedNewsletters = [
 
 export const newsletters = [
   {
+    id: 4,
+    title: 'Who Said Mathematicians Only Know How to Solve Problems?',
+    week: 'Vol 3, No. 4',
+    date: 'November 16, 2026',
+    images: [
+      '/images/newsletters/NAMSSN VOL 03, No. 04,  Page 01(1080x1450), Monday 16th Nov 2026.png.png',
+      '/images/newsletters/NAMSSN VOL 03, No. 04,  Page 02(1080x1225), Monday 16th Nov 2026.png.png',
+    ],
+    imagePosition: 'center',
+    description: 'This edition features TRIWAVE 2.0, the NNPC-SNEPCo National University Scholarship Award, a student survival guide, academic tips for the semester, and the Fun Corner.',
+  },
+  {
     id: 3,
     title: 'Beyond the Lecture Hall: Big Ideas, AI Access & Student Life',
     week: 'Vol 3, No. 3',
