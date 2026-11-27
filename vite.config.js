@@ -4,12 +4,6 @@ import react from '@vitejs/plugin-react'
 function localApi() {
   const handlers = {
     '/api/admin-login': () => import('./api/admin-login.js'),
-    '/api/movie-night/admin': () => import('./api/movie-night/admin.js'),
-    '/api/movie-night/capacity': () => import('./api/movie-night/capacity.js'),
-    '/api/movie-night/orders': () => import('./api/movie-night/orders.js'),
-    '/api/movie-night/receipt-upload': () => import('./api/movie-night/receipt-upload.js'),
-    '/api/movie-night/status': () => import('./api/movie-night/status.js'),
-    '/api/movie-night/ticket-qr': () => import('./api/movie-night/ticket-qr.js'),
   }
 
   return {
@@ -18,6 +12,7 @@ function localApi() {
       server.middlewares.use(async (req, res, next) => {
         const url = new URL(req.url || '/', 'http://localhost')
         const loadHandler = handlers[url.pathname]
+          || (url.pathname.startsWith('/api/movie-night/') ? () => import('./api/[...path].js') : null)
         if (!loadHandler) return next()
 
         try {
