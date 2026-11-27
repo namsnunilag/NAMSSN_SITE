@@ -7,21 +7,20 @@ import ticketQr from '../lib/movie-night-api/ticket-qr.js'
 import { sendJson } from '../lib/movieNight.js'
 
 const handlers = {
-  'movie-night/admin': admin,
-  'movie-night/capacity': capacity,
-  'movie-night/orders': orders,
-  'movie-night/receipt-upload': receiptUpload,
-  'movie-night/status': status,
-  'movie-night/ticket-qr': ticketQr,
+  admin,
+  capacity,
+  orders,
+  'receipt-upload': receiptUpload,
+  status,
+  'ticket-qr': ticketQr,
 }
 
 export default function handler(req, res) {
-  const pathname = new URL(req.url || '/', 'http://localhost').pathname
-  const route = pathname.replace(/^\/api\//, '').replace(/\/+$/, '')
+  const route = String(req.query?.handler || '')
   const routeHandler = Object.hasOwn(handlers, route) ? handlers[route] : undefined
 
   if (!routeHandler) {
-    return sendJson(res, 404, { error: 'That API route could not be found.' })
+    return sendJson(res, 404, { error: 'That Movie Night route could not be found.' })
   }
 
   return routeHandler(req, res)

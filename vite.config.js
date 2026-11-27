@@ -12,7 +12,7 @@ function localApi() {
       server.middlewares.use(async (req, res, next) => {
         const url = new URL(req.url || '/', 'http://localhost')
         const loadHandler = handlers[url.pathname]
-          || (url.pathname.startsWith('/api/movie-night/') ? () => import('./api/[...path].js') : null)
+          || (url.pathname.startsWith('/api/movie-night/') ? () => import('./api/movie-night.js') : null)
         if (!loadHandler) return next()
 
         try {
@@ -31,7 +31,10 @@ function localApi() {
 
           const rawBody = Buffer.concat(chunks).toString('utf8')
           req.body = rawBody ? JSON.parse(rawBody) : undefined
-          req.query = Object.fromEntries(url.searchParams)
+          req.query = {
+            ...Object.fromEntries(url.searchParams),
+            handler: url.pathname.slice('/api/movie-night/'.length),
+          }
           const originalSetHeader = res.setHeader.bind(res)
           res.status = status => {
             res.statusCode = status
