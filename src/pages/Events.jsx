@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react'
+import { Calendar, MapPin, Clock, ArrowRight, Ticket } from 'lucide-react'
 import { upcomingEvents, pastEvents, registrationStatusConfig } from '../data/events'
 import usePageTitle from '../hooks/usePageTitle'
 
@@ -78,6 +78,71 @@ function EventCard({ event }) {
   )
 }
 
+function MovieNightCard() {
+  const [availability, setAvailability] = useState(null)
+
+  useEffect(() => {
+    let active = true
+    fetch('/api/movie-night/capacity')
+      .then(response => {
+        if (!response.ok) throw new Error('Ticket availability could not be loaded.')
+        return response.json()
+      })
+      .then(data => { if (active) setAvailability(data) })
+      .catch(() => { if (active) setAvailability({ unavailable: true }) })
+    return () => { active = false }
+  })
+
+  const soldOut = availability?.remaining === 0
+
+  return (
+    <article className="reveal overflow-hidden rounded-2xl border border-blue-900/20 bg-[#07152e] text-white shadow-lg shadow-blue-950/10">
+      <div className="grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div className="flex min-h-[260px] items-center justify-center bg-[#07152e] p-5 sm:p-8">
+          <img
+            src="/images/events/movie-night-flyer.jpeg"
+            alt="NAMSSN Movie Night flyer"
+            className="max-h-[440px] w-full rounded-xl object-contain"
+            loading="lazy"
+          />
+        </div>
+        <div className="flex flex-col justify-center p-6 sm:p-9">
+          <span className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-blue-300/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-200">
+            <Ticket size={13} /> Social Event
+          </span>
+          <h3 className="text-3xl font-black tracking-tight sm:text-4xl">NAMSSN Movie Night</h3>
+          <p className="mt-2 text-lg font-medium text-blue-200">Your ticket to good vibes</p>
+          <div className="mt-6 grid gap-3 text-sm text-blue-50 sm:grid-cols-2">
+            <p className="flex items-center gap-2"><Calendar size={16} className="text-cyan-300" /> Dec 18, 2026</p>
+            <p className="flex items-center gap-2"><Clock size={16} className="text-cyan-300" /> 6:00 PM Prompt</p>
+            <p className="flex items-center gap-2 sm:col-span-2"><MapPin size={16} className="text-cyan-300" /> LT018, University of Lagos</p>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <span className="rounded-xl border border-white/15 bg-white/5 px-4 py-3">
+              <span className="block text-xs text-blue-200">Single Pass</span>
+              <strong className="text-xl">₦2,000</strong>
+            </span>
+            <span className="rounded-xl border border-white/15 bg-white/5 px-4 py-3">
+              <span className="block text-xs text-blue-200">Couples Pass</span>
+              <strong className="text-xl">₦3,500</strong>
+            </span>
+          </div>
+          {availability?.unavailable && (
+            <p className="mt-4 text-sm text-amber-200">Ticket availability will be checked when you register.</p>
+          )}
+          {soldOut ? (
+            <span role="status" className="mt-7 inline-flex w-fit rounded-full bg-white/15 px-6 py-3 font-bold text-white/60">Tickets Sold Out</span>
+          ) : (
+            <Link to="/events/movie-night" className="mt-7 inline-flex w-fit items-center gap-2 rounded-full bg-cyan-300 px-6 py-3 font-bold text-[#06152e] transition hover:bg-cyan-200">
+              Get your ticket <ArrowRight size={17} />
+            </Link>
+          )}
+        </div>
+      </div>
+    </article>
+  )
+}
+
 export default function Events() {
   usePageTitle('Events', 'Upcoming NAMSSN UNILAG events including DECAGON mathematics competition, Dean\'s Games, and more. Register and stay updated on activities for maths students at UNILAG.')
 
@@ -123,14 +188,15 @@ export default function Events() {
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="reveal text-2xl font-bold text-brand-blueDark dark:text-white mb-2">Upcoming Events</h2>
-          <p className="reveal text-gray-500 dark:text-gray-400 mb-8">Don't miss out — register before spots fill up!</p>
-          {upcomingEvents.length === 0 ? (
-            <p className="text-gray-400 italic">The 2026/2027 event calendar is being prepared. Check back soon.</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
-              {upcomingEvents.map(e => <EventCard key={e.id} event={e} />)}
-            </div>
-          )}
+          <p className="reveal text-gray-500 dark:text-gray-400 mb-8">Don't miss out. Register before spots fill up!</p>
+          <div className="space-y-6">
+            <MovieNightCard />
+            {upcomingEvents.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+                {upcomingEvents.map(e => <EventCard key={e.id} event={e} />)}
+              </div>
+            )}
+          </div>
 
           <details className="mt-12 border-t border-gray-200 dark:border-gray-700 pt-6">
             <summary className="cursor-pointer text-lg font-bold text-brand-blueDark dark:text-white">Past Events</summary>

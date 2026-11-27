@@ -1,0 +1,25 @@
+<div style="background:#f3f6fb;padding:32px 12px;font-family:Arial,sans-serif;color:#10203a">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;overflow:hidden">
+    <div style="padding:28px;background:#07152e;color:#fff;text-align:center">
+      <img src="https://www.namssnunilag.one/logo.png" width="56" alt="NAMSSN UNILAG"
+        style="display:block;margin:0 auto 16px;max-height:56px;object-fit:contain">
+      <img src="{{ticket_qr_url}}" width="172" height="172" alt="Your Movie Night ticket QR code"
+        style="display:block;margin:0 auto 18px;background:#fff;padding:8px;border-radius:12px">
+      <p style="margin:0;color:#a8cdfb;font-size:12px;letter-spacing:2px">NAMSSN UNILAG</p>
+      <h1 style="margin:8px 0 0;font-size:26px">Movie Night E-Ticket</h1>
+    </div>
+    <div style="padding:28px">
+      <p>Hi {{attendee_name}}, your payment is confirmed. Your ticket is ready!</p>
+      <div style="padding:18px;border:1px solid #dce5f2;border-radius:14px">
+        <p><strong>Attendee:</strong> {{attendee_name}}</p>
+        <p><strong>Ticket tier:</strong> {{ticket_tier}}</p>
+        <p><strong>Ticket code:</strong> <span style="font-size:20px;font-weight:bold;color:#075aa5">{{ticket_code}}</span></p>
+        <p><strong>Date:</strong> {{event_date}}</p>
+        <p><strong>Time:</strong> {{event_time}}</p>
+        <p style="margin-bottom:0"><strong>Venue:</strong> {{event_venue}}</p>
+      </div>
+      <p style="margin-top:22px">Show this QR code when you arrive. We can't wait to see you there!</p>
+      <p style="color:#52627a;font-size:12px">Your ticket is for one attendee. Please keep the ticket code ready at the entrance.</p>
+    </div>
+  </div>
+</div>

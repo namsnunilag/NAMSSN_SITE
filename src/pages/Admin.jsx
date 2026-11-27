@@ -3,6 +3,7 @@ import {
   LogOut, RefreshCw, CheckCircle2, XCircle, ExternalLink,
   Search, Users, Clock, CheckCheck, ShieldAlert, BookOpen, Trophy, Trash2, Download, Pencil, Medal, ShoppingBag, Ticket, UserCheck, Gift, Shirt,
 } from 'lucide-react'
+import MovieNightAdminTab from './admin/MovieNightAdminTab'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Config
@@ -45,16 +46,15 @@ async function authFetch(url, options = {}) {
   return response
 }
 
-async function signInAdmin(email, password) {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error('Admin authentication is not configured.')
-  const response = await window.fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+async function signInAdmin(password) {
+  const response = await window.fetch('/api/admin-login', {
     method: 'POST',
-    headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
   })
   const session = await response.json().catch(() => ({}))
   if (!response.ok || session.user?.app_metadata?.role !== 'admin') {
-    throw new Error('Invalid credentials or this account is not an administrator.')
+    throw new Error(session.error || 'That password could not sign in to the admin dashboard.')
   }
   return session
 }
@@ -369,7 +369,6 @@ function ScoreModal({ type, person, onSave, onClose }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function LoginScreen({ onLogin }) {
-  const [email, setEmail] = useState('')
   const [pw, setPw]       = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -379,7 +378,7 @@ function LoginScreen({ onLogin }) {
     setLoading(true)
     setError('')
     try {
-      adminSession = await signInAdmin(email.trim(), pw)
+      adminSession = await signInAdmin(pw)
       onLogin()
     } catch (err) {
       setError(err.message || 'Unable to sign in.')
@@ -396,22 +395,15 @@ function LoginScreen({ onLogin }) {
           <div className="w-12 h-12 rounded-2xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center mx-auto mb-4">
             <ShieldAlert size={22} className="text-cyan-400" />
           </div>
-          <h1 className="text-xl font-black text-white">Decagon Admin</h1>
+          <h1 className="text-xl font-black text-white">NAMSSN Admin</h1>
           <p className="text-sm text-gray-500 mt-1">NAMSSN UNILAG</p>
         </div>
         <form onSubmit={submit} className="space-y-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Admin Email</label>
-            <input
-              type="email" value={email} onChange={e => { setEmail(e.target.value); setError('') }}
-              placeholder="admin@example.com" autoComplete="username" required
-              className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600
-                         focus:outline-none focus:ring-2 focus:ring-cyan-400/40 focus:border-cyan-400/40 transition"
-            />
-            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-2">Password</label>
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Admin Password</label>
             <input
               type="password" value={pw} onChange={e => { setPw(e.target.value); setError('') }}
-              placeholder="Enter admin password" autoComplete="current-password" required
+              placeholder="Enter admin password" autoComplete="current-password" required maxLength={256}
               className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600
                          focus:outline-none focus:ring-2 focus:ring-cyan-400/40 focus:border-cyan-400/40 transition"
             />
@@ -1502,7 +1494,7 @@ function Dashboard({ onLogout }) {
       {/* Header */}
       <div className="border-b border-white/10 px-4 sm:px-8 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-base font-black text-white">Decagon 5.0 — Admin</h1>
+          <h1 className="text-base font-black text-white">NAMSSN Admin</h1>
           <p className="text-xs text-gray-500">NAMSSN UNILAG</p>
         </div>
         <div className="flex items-center gap-3">
@@ -1524,6 +1516,7 @@ function Dashboard({ onLogout }) {
               { key: 'merch',         label: 'Merch',        icon: ShoppingBag },
               { key: 'jersey',        label: 'Jersey',       icon: Shirt       },
               { key: 'attendance',    label: 'Attendance',   icon: Ticket      },
+              { key: 'movie-night',   label: 'Movie Night',  icon: Ticket      },
             ].map(({ key, label, icon: Icon }) => (
               <button key={key} onClick={() => switchTab(key)}
                 className={`flex items-center gap-2 text-xs sm:text-sm font-bold px-3 sm:px-4 py-3 border-b-2 transition -mb-px whitespace-nowrap shrink-0 ${
@@ -1546,6 +1539,7 @@ function Dashboard({ onLogout }) {
         {tab === 'merch'         && <MerchOrdersTab />}
         {tab === 'jersey'        && <JerseyOrdersTab />}
         {tab === 'attendance'    && <AttendanceAdminTab />}
+        {tab === 'movie-night'   && <MovieNightAdminTab request={authFetch} />}
       </div>
     </div>
   )

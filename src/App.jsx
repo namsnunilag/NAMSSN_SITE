@@ -9,6 +9,7 @@ import AnnouncementBanner from './components/AnnouncementBanner'
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const Events = lazy(() => import('./pages/Events'))
+const MovieNight = lazy(() => import('./pages/MovieNight'))
 const EventDetail = lazy(() => import('./pages/EventDetail'))
 const Executives = lazy(() => import('./pages/Executives'))
 const Gallery = lazy(() => import('./pages/Gallery'))
@@ -86,6 +87,7 @@ export default function App() {
                     <Route path="/"             element={<Home />} />
                     <Route path="/about"        element={<About />} />
                     <Route path="/events"       element={<Events />} />
+                    <Route path="/events/movie-night" element={<MovieNight />} />
                     <Route path="/events/:id"   element={<EventDetail />} />
                     <Route path="/executives"   element={<Executives />} />
                     <Route path="/gallery"      element={<Gallery />} />

@@ -2,7 +2,11 @@
   command = "npm run build"
   publish = "dist"
 
-[[headers]]
+  [functions]
+    directory = "netlify/functions"
+    node_bundler = "esbuild"
+
+  [[headers]]
   for = "/*"
   [headers.values]
     Strict-Transport-Security = "max-age=31536000"
@@ -10,6 +14,48 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+[[redirects]]
+  from = "/api/admin-login"
+  to = "/.netlify/functions/admin-login"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/movie-night/capacity"
+  to = "/.netlify/functions/movie-night-capacity"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/movie-night/receipt-upload"
+  to = "/.netlify/functions/movie-night-receipt-upload"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/movie-night/orders"
+  to = "/.netlify/functions/movie-night-orders"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/movie-night/status"
+  to = "/.netlify/functions/movie-night-status"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/movie-night/ticket-qr"
+  to = "/.netlify/functions/movie-night-ticket-qr"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/movie-night/admin"
+  to = "/.netlify/functions/movie-night-admin"
+  status = 200
+  force = true
 
 [[redirects]]
   from = "/*"
