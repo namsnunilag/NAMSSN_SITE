@@ -12,6 +12,12 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/movie-night/admin", "destination": "/api/movie-night-admin" },
+    { "source": "/api/movie-night/capacity", "destination": "/api/movie-night-capacity" },
+    { "source": "/api/movie-night/orders", "destination": "/api/movie-night-orders" },
+    { "source": "/api/movie-night/receipt-upload", "destination": "/api/movie-night-receipt-upload" },
+    { "source": "/api/movie-night/status", "destination": "/api/movie-night-status" },
+    { "source": "/api/movie-night/ticket-qr", "destination": "/api/movie-night-ticket-qr" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
